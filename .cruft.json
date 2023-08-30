@@ -1,0 +1,23 @@
+{
+  "template": "https://github.com/MartinBernstorff/swift-python-cookiecutter",
+  "commit": "7fdb02999e8596c525377c208ca902645d134f97",
+  "checkout": null,
+  "context": {
+    "cookiecutter": {
+      "project_name": "gpt2anki",
+      "package_name": "gpt2anki",
+      "friendly_name": "Gpt2Anki",
+      "author": "Jonathan Rystrøm & Martin Bernstorff",
+      "email": "jhvithamar@gmail.com",
+      "github_user": "rysias",
+      "version": "0.0.0",
+      "copyright_year": "2023",
+      "license": "MIT",
+      "_copy_without_render": [
+        "*.github"
+      ],
+      "_template": "https://github.com/MartinBernstorff/swift-python-cookiecutter"
+    }
+  },
+  "directory": null
+}
