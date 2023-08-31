@@ -6,8 +6,8 @@ from langchain.chat_models import ChatOpenAI
 from langchain.schema import HumanMessage, SystemMessage
 from langchain.schema.output import LLMResult
 
-import src.gpt2anki.fileio as fileio
-from src.gpt2anki.sources.hypothesis import Highlight
+import gpt2anki.fileio as fileio
+from gpt2anki.sources.hypothesis import Highlight
 
 load_dotenv()
 print(Path(__file__))
