@@ -20,3 +20,4 @@ async def test_model_response(model: magi.ChatOpenAI) -> None:
     # check that outpuis a dictionary with keys "answer" and "question"
     assert "answer" in output
     assert "question" in output
+    assert len(output) == 2
