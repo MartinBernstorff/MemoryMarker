@@ -1,7 +1,6 @@
 import datetime as dt
 import json
 import re
-from typing import List
 
 import pytz
 import requests
@@ -58,7 +57,7 @@ class HypothesisHighlightGetter(HighlightSource):
         # Convert the response content to a Python dictionary
         response_dict = json.loads(content)
 
-        highlights: List[OrphanHighlight] = []
+        highlights: list[OrphanHighlight] = []
         for row in response_dict["rows"]:
             try:
                 highlights.append(
