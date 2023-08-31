@@ -22,7 +22,9 @@ def highlight_to_prompt(highlight: Highlight) -> str:
     )
 
 
-async def prompt_gpt(model: ChatOpenAI, highlight: Highlight) -> T.Coroutine[T.Any, T.Any, LLMResult]:
+async def prompt_gpt(
+    model: ChatOpenAI, highlight: Highlight,
+) -> T.Coroutine[T.Any, T.Any, LLMResult]:
     prompt = highlight_to_prompt(highlight)
     messages = [SystemMessage(content=SYSTEM_PROMPT), HumanMessage(content=prompt)]
     output = model.agenerate(messages=[messages])
