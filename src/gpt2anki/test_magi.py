@@ -12,7 +12,8 @@ def model() -> magi.ChatOpenAI:
 
 async def test_model_response(model: magi.ChatOpenAI) -> None:
     higlight = Highlight(
-        context="Mitochondria is the powerhouse of the cell", highlight="Mitochondria",
+        context="Mitochondria is the powerhouse of the cell",
+        highlight="Mitochondria",
     )
     output = await magi.prompt_gpt(model, higlight)
     # check that outpuis a dictionary with keys "answer" and "question"
