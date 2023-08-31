@@ -1,18 +1,23 @@
-import typing as T
+import ast
 from pathlib import Path
 
+from dotenv import load_dotenv
 from langchain.chat_models import ChatOpenAI
 from langchain.schema import HumanMessage, SystemMessage
 from langchain.schema.output import LLMResult
 
-import src.gpt2anki.fileio as fileio
-from src.gpt2anki.sources.hypothesis import Highlight
+import gpt2anki.fileio as fileio
+from gpt2anki.sources.hypothesis import Highlight
 
-SYSTEM_PROMPT = fileio.read_txt(Path("../prompts/martin_prompt.txt"))
+load_dotenv()
+print(Path(__file__))
+PROMPT_DIR = Path(__file__).parent.parent.parent / "prompts"
+assert PROMPT_DIR.exists(), "Prompts directory does not exist"
+SYSTEM_PROMPT = fileio.read_txt(PROMPT_DIR / "martin_prompt.txt")
 
 
-def initialize_model() -> ChatOpenAI:
-    return ChatOpenAI(model="gpt-4")
+def initialize_model(model_name: str = "gpt-4") -> ChatOpenAI:
+    return ChatOpenAI(model=model_name)
 
 
 def highlight_to_prompt(highlight: Highlight) -> str:
@@ -22,11 +27,19 @@ def highlight_to_prompt(highlight: Highlight) -> str:
     )
 
 
+def parse_output(output: LLMResult) -> dict[str, str]:
+    text_output = output.generations[0][0].text
+    # extract dictionary from string
+    start = text_output.find("{")
+    end = text_output.rfind("}") + 1
+    return ast.literal_eval(text_output[start:end])
+
+
 async def prompt_gpt(
     model: ChatOpenAI,
     highlight: Highlight,
-) -> T.Coroutine[T.Any, T.Any, LLMResult]:
+) -> dict[str, str]:
     prompt = highlight_to_prompt(highlight)
     messages = [SystemMessage(content=SYSTEM_PROMPT), HumanMessage(content=prompt)]
-    output = model.agenerate(messages=[messages])
-    return output
+    output = await model.agenerate(messages=[messages])
+    return parse_output(output)
