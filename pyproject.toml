@@ -16,8 +16,6 @@ classifiers = [
   "Operating System :: MacOS :: MacOS X",
   "Operating System :: Microsoft :: Windows",
   "Programming Language :: Python :: 3.9",
-  "Programming Language :: Python :: 3.10",
-  "Programming Language :: Python :: 3.11",
 ]
 requires-python = ">=3.9"
 dependencies = ["pydantic"]
@@ -153,7 +151,7 @@ include-package-data = true
 [tool.tox]
 legacy_tox_ini = """
 [tox]
-envlist = py{39,310}
+envlist = py{39}
 
 [testenv]
 description: run unit tests
