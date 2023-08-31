@@ -1,7 +1,7 @@
 import pytest
 
-import src.gpt2anki.magi as magi
-from src.gpt2anki.sources.hypothesis import Highlight
+import gpt2anki.magi as magi
+from gpt2anki.sources.hypothesis import Highlight
 
 
 # create a pytest fixture for the model
