@@ -10,11 +10,14 @@ import src.gpt2anki.fileio as fileio
 from src.gpt2anki.sources.hypothesis import Highlight
 
 load_dotenv()
-SYSTEM_PROMPT = fileio.read_txt(Path("../prompts/martin_prompt.txt"))
+print(Path(__file__))
+PROMPT_DIR = Path(__file__).parent.parent.parent / "prompts"
+assert PROMPT_DIR.exists(), "Prompts directory does not exist"
+SYSTEM_PROMPT = fileio.read_txt(PROMPT_DIR / "martin_prompt.txt")
 
 
-def initialize_model() -> ChatOpenAI:
-    return ChatOpenAI(model="gpt-4")
+def initialize_model(model_name: str="gpt-4") -> ChatOpenAI:
+    return ChatOpenAI(model=model_name)
 
 
 def highlight_to_prompt(highlight: Highlight) -> str:

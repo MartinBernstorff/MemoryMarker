@@ -7,9 +7,10 @@ from src.gpt2anki.sources.hypothesis import Highlight
 # create a pytest fixture for the model
 @pytest.fixture(scope="session")
 def model() -> magi.ChatOpenAI:
-    return magi.initialize_model()
+    return magi.initialize_model(model_name="gpt-3.5-turbo")
 
 
+@pytest.mark.asyncio()
 async def test_model_response(model: magi.ChatOpenAI) -> None:
     higlight = Highlight(
         context="Mitochondria is the powerhouse of the cell",
