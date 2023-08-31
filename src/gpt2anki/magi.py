@@ -1,10 +1,10 @@
 import ast
 from pathlib import Path
 
+from dotenv import load_dotenv
 from langchain.chat_models import ChatOpenAI
 from langchain.schema import HumanMessage, SystemMessage
 from langchain.schema.output import LLMResult
-from dotenv import load_dotenv
 
 import src.gpt2anki.fileio as fileio
 from src.gpt2anki.sources.hypothesis import Highlight
