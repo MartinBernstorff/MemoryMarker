@@ -32,7 +32,7 @@ jobs:
 
       - name: Get OpenAI Key
         shell: bash
-        run: echo ${{ secrets.OPENAI_API_KEY }} > .env
+        run: echo "OPENAI_API_KEY = ${{ secrets.OPENAI_API_KEY }}" > .env
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
 
