@@ -1,6 +1,7 @@
 import datetime as dt
 import json
 import re
+from typing import List
 
 import pytz
 import requests
@@ -65,7 +66,7 @@ class HypothesisHighlightGetter(HighlightSource):
                         highlight=row["target"][0]["selector"][2]["exact"],
                         uri=row["uri"],
                         title=row["document"]["title"][0],
-                    )
+                    ),
                 )
             except KeyError:
                 print(f"KeyError for row: {row}")
@@ -78,7 +79,8 @@ if __name__ == "__main__":
 
     api_key = HYPOTHESIS_API_KEY
     response = HypothesisHighlightGetter(
-        api_key=api_key, username="ryqiem"
+        api_key=api_key,
+        username="ryqiem",
     ).get_highlights_since_date(dt.datetime.now(tz=pytz.UTC) - dt.timedelta(days=200))
 
     pass
