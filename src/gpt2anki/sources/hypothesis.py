@@ -4,10 +4,9 @@ import re
 
 import pytz
 import requests
+from gpt2anki.api_keys import HYPOTHESIS_API_KEY
 from gpt2anki.sources.base import HighlightSource, OrphanHighlight
 from pydantic import BaseModel
-
-from api_keys import HYPOTHESIS_API_KEY
 
 
 class SearchRequest(BaseModel):
@@ -58,6 +57,7 @@ class HypothesisHighlightGetter(HighlightSource):
         response_dict = json.loads(content)
 
         highlights: list[OrphanHighlight] = []
+        errors: list[str] = []
         for row in response_dict["rows"]:
             try:
                 highlights.append(
@@ -68,14 +68,15 @@ class HypothesisHighlightGetter(HighlightSource):
                     ),
                 )
             except KeyError:
-                print(f"KeyError for row: {row}")
+                errors.append(row)
+
+        print(f"n Errors: {len(errors)}")
 
         return tuple(highlights)
 
 
 if __name__ == "__main__":
     # Load api-key from .env file
-
     api_key = HYPOTHESIS_API_KEY
     response = HypothesisHighlightGetter(
         api_key=api_key,
