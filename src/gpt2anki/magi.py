@@ -1,3 +1,4 @@
+import ast
 import typing as T
 from pathlib import Path
 
@@ -21,12 +22,18 @@ def highlight_to_prompt(highlight: Highlight) -> str:
         context=highlight.context,
     )
 
+def parse_output(output: LLMResult) -> T.Dict[str, str]:
+    text_output = output.generations[0][0].text
+    # extract dictionary from string
+    start = text_output.find("{")
+    end = text_output.rfind("}") + 1
+    return ast.literal_eval(text_output[start:end])
 
 async def prompt_gpt(
     model: ChatOpenAI,
     highlight: Highlight,
-) -> T.Coroutine[T.Any, T.Any, LLMResult]:
+) -> T.Dict[str, str]:
     prompt = highlight_to_prompt(highlight)
     messages = [SystemMessage(content=SYSTEM_PROMPT), HumanMessage(content=prompt)]
-    output = model.agenerate(messages=[messages])
-    return output
+    output = await model.agenerate(messages=[messages])
+    return parse_output(output)
