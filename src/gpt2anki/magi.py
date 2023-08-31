@@ -16,7 +16,7 @@ assert PROMPT_DIR.exists(), "Prompts directory does not exist"
 SYSTEM_PROMPT = fileio.read_txt(PROMPT_DIR / "martin_prompt.txt")
 
 
-def initialize_model(model_name: str="gpt-4") -> ChatOpenAI:
+def initialize_model(model_name: str = "gpt-4") -> ChatOpenAI:
     return ChatOpenAI(model=model_name)
 
 
