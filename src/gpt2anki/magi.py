@@ -16,7 +16,8 @@ def initialize_model() -> ChatOpenAI:
 
 def highlight_to_prompt(highlight: Highlight) -> str:
     return "<target>{target}</target><context>{context}</context>".format(
-        target=highlight.highlight, context=highlight.context,
+        target=highlight.highlight,
+        context=highlight.context,
     )
 
 
