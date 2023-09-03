@@ -38,7 +38,7 @@ class HypothesisHighlightGetter(HighlightSource):
         self.username: str = username
 
     def get_highlights_since_date(
-        self, date: dt.datetime
+        self, date: dt.datetime,
     ) -> tuple[OrphanHighlight, ...]:
         request_spec = SearchRequest(search_after=date, username=self.username)
 
