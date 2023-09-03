@@ -11,7 +11,7 @@ class OrphanHighlight:
 
 
 @dataclass(frozen=True)
-class ContextlessHighlight:
+class HydratedHighlight:
     title: str
     highlight: str
     context: str
