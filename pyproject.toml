@@ -18,7 +18,15 @@ classifiers = [
   "Programming Language :: Python :: 3.9",
 ]
 requires-python = ">=3.9"
-dependencies = ["pydantic", "langchain", "openai", "python-dotenv", "pytz"]
+dependencies = [
+  "pydantic",
+  "langchain",
+  "openai",
+  "python-dotenv",
+  "pytz",
+  "joblib",
+  "beautifulsoup",
+]
 [project.license]
 file = "LICENSE"
 name = "MIT"

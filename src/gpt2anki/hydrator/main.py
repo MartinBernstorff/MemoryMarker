@@ -28,7 +28,14 @@ class ContextParser:
         n_chars_before: int = 100,
         n_chars_after: int = 100,
     ) -> str:
-        highlight_container = soup.find(text=re.compile(highlight)).parent.parent
+        highlight_selection = soup.find(text=re.compile(highlight))
+
+        if highlight_selection is None:
+            print(f"Could not find highlight {highlight} in {soup.title}")
+            return ""
+
+        highlight_container = highlight_selection.parent.parent
+
         context_strings: list[str] = []
 
         for child in highlight_container.descendants:
