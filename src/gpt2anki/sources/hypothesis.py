@@ -37,7 +37,9 @@ class HypothesisHighlightGetter(HighlightSource):
         self.endpoint: str = "https://api.hypothes.is/api/search"
         self.username: str = username
 
-    def get_highlights_since_date(self, date: dt.datetime) -> tuple[OrphanHighlight]:
+    def get_highlights_since_date(
+        self, date: dt.datetime
+    ) -> tuple[OrphanHighlight, ...]:
         request_spec = SearchRequest(search_after=date, username=self.username)
 
         params = {
