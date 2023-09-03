@@ -1,4 +1,3 @@
-
 import pytest
 
 import gpt2anki.magi as magi
