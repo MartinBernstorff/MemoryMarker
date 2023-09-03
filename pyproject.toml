@@ -18,14 +18,14 @@ classifiers = [
   "Programming Language :: Python :: 3.9",
 ]
 requires-python = ">=3.9"
-dependencies = ["pydantic", "pytz"]
+dependencies = ["pydantic", "langchain", "openai", "python-dotenv"]
 [project.license]
 file = "LICENSE"
 name = "MIT"
 [project.optional-dependencies]
 dev = [
   "cruft>=2.0.0",
-  "pyright==1.1.305",
+  "pyright==1.1.325",
   "pyright-polite>=0.0.1",
   "pre-commit>=2.20.0",
   "ruff>=0.0.254",
@@ -37,6 +37,7 @@ tests = [
   "pytest>=7.1.3",
   "pytest-cov>=3.0.0",
   "pytest-xdist>=3.0.0",
+  "pytest-asyncio",
   "pytest-sugar>=0.9.4",
   "tox>=4.5.0",
 ]
