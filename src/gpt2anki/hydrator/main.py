@@ -3,7 +3,7 @@ from collections.abc import Sequence
 from typing import Callable
 
 import requests
-from bs4 import BeautifulSoup, NavigableString
+from bs4 import BeautifulSoup, NavigableString, Tag
 from gpt2anki.sources.base import HydratedHighlight, OrphanHighlight
 from joblib import Memory
 
@@ -34,7 +34,7 @@ class ContextParser:
             print(f"Could not find highlight {highlight} in {soup.title}")
             return ""
 
-        highlight_container = highlight_selection.parent.parent
+        highlight_container: Tag = highlight_selection.parent.parent  # type: ignore
 
         context_strings: list[str] = []
 
