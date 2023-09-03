@@ -1,5 +1,6 @@
 import re
-from typing import Callable, Sequence
+from collections.abc import Sequence
+from typing import Callable
 
 import requests
 from bs4 import BeautifulSoup, NavigableString
@@ -46,12 +47,12 @@ class ContextParser:
 
     @staticmethod
     def _select_context_slice(
-        highlight: str, n_chars_before: int, n_chars_after: int, context: str
+        highlight: str, n_chars_before: int, n_chars_after: int, context: str,
     ) -> str:
         highlight_index = context.find(highlight)
         context_start_index = max(0, highlight_index - n_chars_before)
         context_end_index = min(
-            len(context), highlight_index + len(highlight) + n_chars_after
+            len(context), highlight_index + len(highlight) + n_chars_after,
         )
 
         return context[context_start_index:context_end_index]
@@ -69,7 +70,7 @@ class HighlightHydrator:
         for highlight in highlights:
             soup = self.soup_downloader(highlight.uri)
             context = ContextParser.get_highlight_context(
-                soup=soup, highlight=highlight.highlight
+                soup=soup, highlight=highlight.highlight,
             )
             hydrated_highlights.append(
                 HydratedHighlight(
@@ -77,7 +78,7 @@ class HighlightHydrator:
                     uri=highlight.uri,
                     title=highlight.title,
                     context=context,
-                )
+                ),
             )
 
         return hydrated_highlights
@@ -85,7 +86,7 @@ class HighlightHydrator:
 
 if __name__ == "__main__":
     result = download_soup_from_url(
-        "https://www.gutenberg.org/files/2701/2701-h/2701-h.htm"
+        "https://www.gutenberg.org/files/2701/2701-h/2701-h.htm",
     )
 
     pass
