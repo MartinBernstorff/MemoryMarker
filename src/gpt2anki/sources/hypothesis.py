@@ -1,12 +1,15 @@
 import datetime as dt
 import json
+import os
 import re
 
 import pytz
 import requests
-from gpt2anki.api_keys import HYPOTHESIS_API_KEY
+from dotenv import load_dotenv
 from gpt2anki.sources.base import HighlightSource, OrphanHighlight
 from pydantic import BaseModel
+
+load_dotenv()
 
 
 class SearchRequest(BaseModel):
@@ -32,7 +35,11 @@ class SearchRequest(BaseModel):
 
 
 class HypothesisHighlightGetter(HighlightSource):
-    def __init__(self, api_key: str, username: str):
+    def __init__(self, username: str):
+        api_key = os.getenv("HYPOTHESIS_API_KEY")
+        if api_key is None:
+            raise ValueError("HYPOTHESIS_API_KEY not found in environment variables")
+
         self.api_key: str = api_key
         self.endpoint: str = "https://api.hypothes.is/api/search"
         self.username: str = username
@@ -80,9 +87,7 @@ class HypothesisHighlightGetter(HighlightSource):
 
 if __name__ == "__main__":
     # Load api-key from .env file
-    api_key = HYPOTHESIS_API_KEY
     response = HypothesisHighlightGetter(
-        api_key=api_key,
         username="ryqiem",
     ).get_highlights_since_date(dt.datetime.now(tz=pytz.UTC) - dt.timedelta(days=200))
 
