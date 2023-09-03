@@ -7,7 +7,7 @@ from langchain.schema import HumanMessage, SystemMessage
 from langchain.schema.output import LLMResult
 
 import gpt2anki.fileio as fileio
-from gpt2anki.sources.hypothesis import Highlight
+from gpt2anki.sources.base import HydratedHighlight
 
 load_dotenv()
 print(Path(__file__))
@@ -20,7 +20,7 @@ def initialize_model(model_name: str = "gpt-4") -> ChatOpenAI:
     return ChatOpenAI(model=model_name)
 
 
-def highlight_to_prompt(highlight: Highlight) -> str:
+def highlight_to_prompt(highlight: HydratedHighlight) -> str:
     return "<target>{target}</target><context>{context}</context>".format(
         target=highlight.highlight,
         context=highlight.context,
@@ -37,7 +37,7 @@ def parse_output(output: LLMResult) -> dict[str, str]:
 
 async def prompt_gpt(
     model: ChatOpenAI,
-    highlight: Highlight,
+    highlight: HydratedHighlight,
 ) -> dict[str, str]:
     prompt = highlight_to_prompt(highlight)
     messages = [SystemMessage(content=SYSTEM_PROMPT), HumanMessage(content=prompt)]

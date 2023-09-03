@@ -1,7 +1,7 @@
 import pytest
 
 import gpt2anki.magi as magi
-from gpt2anki.sources.hypothesis import Highlight
+from gpt2anki.sources.base import HydratedHighlight
 
 
 # create a pytest fixture for the model
@@ -12,9 +12,11 @@ def model() -> magi.ChatOpenAI:
 
 @pytest.mark.asyncio()
 async def test_model_response(model: magi.ChatOpenAI) -> None:
-    higlight = Highlight(
+    higlight = HydratedHighlight(
         context="Mitochondria is the powerhouse of the cell",
         highlight="Mitochondria",
+        uri="https://en.wikipedia.org/wiki/Mitochondrion",
+        title="Mitochondrion - Wikipedia",
     )
     output = await magi.prompt_gpt(model, higlight)
     # check that outpuis a dictionary with keys "answer" and "question"

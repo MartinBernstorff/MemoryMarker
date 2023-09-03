@@ -12,5 +12,4 @@ _build/
 
 # MacOS
 .DS_Store
-api_keys.py
 cache
