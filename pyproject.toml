@@ -25,7 +25,7 @@ dependencies = [
   "python-dotenv",
   "pytz",
   "joblib",
-  "beautifulsoup",
+  "beautifulsoup4",
 ]
 [project.license]
 file = "LICENSE"
