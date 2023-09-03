@@ -1,5 +1,6 @@
 import ast
 from pathlib import Path
+from typing import Union
 
 from dotenv import load_dotenv
 from langchain.chat_models import ChatOpenAI
@@ -45,7 +46,7 @@ def parse_output(output: LLMResult) -> list[dict[str, str]]:
 
 async def prompt_gpt(
     model: ChatOpenAI,
-    highlights: HydratedHighlight | list[HydratedHighlight],
+    highlights: Union[HydratedHighlight, list[HydratedHighlight]],
 ) -> list[dict[str, str]]:
     if isinstance(highlights, HydratedHighlight):
         highlights = [highlights]
