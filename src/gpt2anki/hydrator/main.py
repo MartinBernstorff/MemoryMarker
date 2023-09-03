@@ -3,6 +3,7 @@ from typing import Callable, Sequence
 
 import requests
 from bs4 import BeautifulSoup, NavigableString
+from gpt2anki.sources.base import HydratedHighlight, OrphanHighlight
 from joblib import Memory
 
 memory = Memory("cache", verbose=0)
@@ -59,8 +60,27 @@ class ContextParser:
 class HighlightHydrator:
     def __init__(self, soup_downloader: Callable[[str], BeautifulSoup]) -> None:
         self.soup_downloader = soup_downloader
-    
-    def hydrate_highlights(highlights: Sequence[]) 
+
+    def hydrate_highlights(
+        self,
+        highlights: Sequence[OrphanHighlight],
+    ) -> Sequence[HydratedHighlight]:
+        hydrated_highlights: list[HydratedHighlight] = []
+        for highlight in highlights:
+            soup = self.soup_downloader(highlight.uri)
+            context = ContextParser.get_highlight_context(
+                soup=soup, highlight=highlight.highlight
+            )
+            hydrated_highlights.append(
+                HydratedHighlight(
+                    highlight=highlight.highlight,
+                    uri=highlight.uri,
+                    title=highlight.title,
+                    context=context,
+                )
+            )
+
+        return hydrated_highlights
 
 
 if __name__ == "__main__":
