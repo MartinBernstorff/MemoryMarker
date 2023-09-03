@@ -1,16 +1,16 @@
 import ast
 from pathlib import Path
+from typing import Union
 
 from dotenv import load_dotenv
 from langchain.chat_models import ChatOpenAI
-from langchain.schema import HumanMessage, SystemMessage
+from langchain.schema import BaseMessage, HumanMessage, SystemMessage
 from langchain.schema.output import LLMResult
 
 import gpt2anki.fileio as fileio
 from gpt2anki.sources.base import HydratedHighlight
 
 load_dotenv()
-print(Path(__file__))
 PROMPT_DIR = Path(__file__).parent.parent.parent / "prompts"
 assert PROMPT_DIR.exists(), "Prompts directory does not exist"
 SYSTEM_PROMPT = fileio.read_txt(PROMPT_DIR / "martin_prompt.txt")
@@ -27,19 +27,29 @@ def highlight_to_prompt(highlight: HydratedHighlight) -> str:
     )
 
 
-def parse_output(output: LLMResult) -> dict[str, str]:
-    text_output = output.generations[0][0].text
-    # extract dictionary from string
-    start = text_output.find("{")
-    end = text_output.rfind("}") + 1
-    return ast.literal_eval(text_output[start:end])
+def highlight_to_msg(highlight: HydratedHighlight) -> list[BaseMessage]:
+    return [
+        SystemMessage(content=SYSTEM_PROMPT),
+        HumanMessage(content=highlight_to_prompt(highlight)),
+    ]
+
+
+def dict_from_string(text: str) -> dict[str, str]:
+    start = text.find("{")
+    end = text.rfind("}") + 1
+    return ast.literal_eval(text[start:end])
+
+
+def parse_output(output: LLMResult) -> list[dict[str, str]]:
+    return [dict_from_string(response[0].text) for response in output.generations]
 
 
 async def prompt_gpt(
     model: ChatOpenAI,
-    highlight: HydratedHighlight,
-) -> dict[str, str]:
-    prompt = highlight_to_prompt(highlight)
-    messages = [SystemMessage(content=SYSTEM_PROMPT), HumanMessage(content=prompt)]
-    output = await model.agenerate(messages=[messages])
+    highlights: Union[HydratedHighlight, list[HydratedHighlight]],
+) -> list[dict[str, str]]:
+    if isinstance(highlights, HydratedHighlight):
+        highlights = [highlights]
+    messages = [highlight_to_msg(highlight) for highlight in highlights]
+    output = await model.agenerate(messages=messages)
     return parse_output(output)
