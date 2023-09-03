@@ -23,24 +23,24 @@ async def test_model_response(model: magi.ChatOpenAI) -> None:
     assert "answer" in output[0]
     assert "question" in output[0]
 
+
 @pytest.mark.asyncio()
 async def test_multi_response(model: magi.ChatOpenAI) -> None:
     highlights = [
-     HydratedHighlight(
-        context="Mitochondria is the powerhouse of the cell",
-        highlight="Mitochondria",
-        uri="https://en.wikipedia.org/wiki/Mitochondrion",
-        title="Mitochondrion - Wikipedia",
-    ),
-    HydratedHighlight(
-        context="The first rule of Fight Club is that you don't talk about Fight Club",
-        highlight="Fight Club",
-        uri="https://en.wikipedia.org/wiki/Fight_Club",
-        title="Fight Club - Wikipedia",
-    )
+        HydratedHighlight(
+            context="Mitochondria is the powerhouse of the cell",
+            highlight="Mitochondria",
+            uri="https://en.wikipedia.org/wiki/Mitochondrion",
+            title="Mitochondrion - Wikipedia",
+        ),
+        HydratedHighlight(
+            context="The first rule of Fight Club is that you don't talk about Fight Club",
+            highlight="Fight Club",
+            uri="https://en.wikipedia.org/wiki/Fight_Club",
+            title="Fight Club - Wikipedia",
+        ),
     ]
     output = await magi.prompt_gpt(model, highlights)
     assert len(output) == 2
     assert "answer" in output[0]
     assert "question" in output[1]
-    

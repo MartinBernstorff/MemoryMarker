@@ -3,7 +3,7 @@ from pathlib import Path
 
 from dotenv import load_dotenv
 from langchain.chat_models import ChatOpenAI
-from langchain.schema import HumanMessage, SystemMessage, BaseMessage
+from langchain.schema import BaseMessage, HumanMessage, SystemMessage
 from langchain.schema.output import LLMResult
 
 import gpt2anki.fileio as fileio
@@ -25,13 +25,19 @@ def highlight_to_prompt(highlight: HydratedHighlight) -> str:
         context=highlight.context,
     )
 
+
 def highlight_to_msg(highlight: HydratedHighlight) -> list[BaseMessage]:
-    return [SystemMessage(content=SYSTEM_PROMPT), HumanMessage(content=highlight_to_prompt(highlight))]
+    return [
+        SystemMessage(content=SYSTEM_PROMPT),
+        HumanMessage(content=highlight_to_prompt(highlight)),
+    ]
+
 
 def dict_from_string(text: str) -> dict[str, str]:
     start = text.find("{")
     end = text.rfind("}") + 1
     return ast.literal_eval(text[start:end])
+
 
 def parse_output(output: LLMResult) -> list[dict[str, str]]:
     return [dict_from_string(response[0].text) for response in output.generations]
