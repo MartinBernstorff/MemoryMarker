@@ -2,11 +2,13 @@ import ast
 
 from langchain.schema.output import LLMResult
 
+def lowercase_keys(d: dict[str, str]) -> dict[str, str]:
+    return {k.lower(): v for k, v in d.items()}
 
 def prompts_from_string(text: str) -> dict[str, str]:
     start = text.find("{")
     end = text.rfind("}") + 1
-    return ast.literal_eval(text[start:end])
+    return lowercase_keys(ast.literal_eval(text[start:end]))
 
 
 def llmresult_to_qas(output: LLMResult) -> list[dict[str, str]]:
