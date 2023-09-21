@@ -1,22 +1,25 @@
 import hashlib
 from pathlib import Path
 
+from gpt2anki.domain.highlights_to_questions import QAPrompt
+
 SAVE_DIR = Path("card_cache")
 
-
-def hash_uri(uri: str) -> str:
-    """return an md5 hash of the uri"""
-    return hashlib.md5(uri.encode()).hexdigest()
+import re
 
 
-def q_to_markdown(question: dict[str, str]) -> str:
-    return f"Q: {question['question']}\nA: {question['answer']}\n\n"
+def clean_filename(filename: str) -> str:
+    # This will replace not allowed symbols with an underscore.
+    return re.sub(r"[^A-Za-z]", "_", filename)
+
+def q_to_markdown(prompt: QAPrompt) -> str:
+    return f"Q. {prompt.question}\nA. {prompt.answer}\n\n"
 
 
-def write_md(markdown: str, origin_uri: str, save_dir: Path = SAVE_DIR) -> None:
+def write_md(contents: str, origin_uri: str, save_dir: Path = SAVE_DIR) -> None:
     """Write markdown to file. Append if exists"""
     if not save_dir.exists():
         save_dir.mkdir()
-    uri_filename = f"{hash_uri(origin_uri)}.md"
+    uri_filename = f"{clean_filename(origin_uri)}.md"
     with Path.open(SAVE_DIR / uri_filename, "a") as f:
-        f.write(markdown)
+        f.write(contents)
