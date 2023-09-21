@@ -16,7 +16,7 @@
 
 <!-- start short-description -->
 
-TODO: Add a short description of the project.
+TODO: Figure out github actions and add description
 
 <!-- end short-description -->
 
