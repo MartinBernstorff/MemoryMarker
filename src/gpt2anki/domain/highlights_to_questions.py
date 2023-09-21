@@ -67,7 +67,7 @@ async def prompts_to_questions(
     model_output = await model.agenerate(messages=prompts)
     parsed_outputs = llmresult_to_qas(model_output)
 
-    zipped_outputs = zip(parsed_outputs, hydrated_prompts)
+    zipped_outputs = zip(parsed_outputs, hydrated_prompts, strict=True)
     return list(map(finalise_hydrated_questions, zipped_outputs))
 
 

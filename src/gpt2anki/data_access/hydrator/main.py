@@ -1,6 +1,5 @@
 import re
-from collections.abc import Sequence
-from typing import Callable
+from collections.abc import Callable, Sequence
 
 import requests
 from bs4 import BeautifulSoup, NavigableString, Tag
