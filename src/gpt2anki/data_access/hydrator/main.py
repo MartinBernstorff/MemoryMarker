@@ -4,7 +4,10 @@ from typing import Callable
 
 import requests
 from bs4 import BeautifulSoup, NavigableString, Tag
-from gpt2anki.sources.base import HydratedHighlight, OrphanHighlight
+from gpt2anki.data_access.highlight_sources.base import (
+    HydratedHighlight,
+    OrphanHighlight,
+)
 from joblib import Memory
 
 memory = Memory("cache", verbose=0)

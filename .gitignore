@@ -13,3 +13,5 @@ _build/
 # MacOS
 .DS_Store
 cache
+.clj-kondo/.cache/v1
+.lsp/.cache
