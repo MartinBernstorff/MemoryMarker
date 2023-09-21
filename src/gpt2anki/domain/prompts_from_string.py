@@ -2,8 +2,10 @@ import ast
 
 from langchain.schema.output import LLMResult
 
+
 def lowercase_keys(d: dict[str, str]) -> dict[str, str]:
     return {k.lower(): v for k, v in d.items()}
+
 
 def prompts_from_string(text: str) -> dict[str, str]:
     start = text.find("{")
