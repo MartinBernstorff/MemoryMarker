@@ -77,7 +77,8 @@ async def highlights_to_questions(
     hydrated_prompts = (highlight_to_msg(x) for x in highlights)
 
     questions = await prompts_to_questions(
-        hydrated_prompts=hydrated_prompts, model=model,
+        hydrated_prompts=hydrated_prompts,
+        model=model,
     )
 
     return questions
