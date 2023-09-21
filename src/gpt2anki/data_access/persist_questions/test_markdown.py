@@ -12,7 +12,7 @@ def question() -> QAPrompt:
     )
 
 
-def test_single_q_to_markdown(question: dict[str, str]) -> None:
+def test_single_q_to_markdown(question: QAPrompt) -> None:
     input_md = markdown.q_to_markdown(question)
     expected = "Q. What is the meaning of life?\nA. 42\n\n"
     assert input_md == expected
