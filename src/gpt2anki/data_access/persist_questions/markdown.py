@@ -1,4 +1,3 @@
-import hashlib
 from pathlib import Path
 
 from gpt2anki.domain.highlights_to_questions import QAPrompt
@@ -11,6 +10,7 @@ import re
 def clean_filename(filename: str) -> str:
     # This will replace not allowed symbols with an underscore.
     return re.sub(r"[^A-Za-z]", "_", filename)
+
 
 def q_to_markdown(prompt: QAPrompt) -> str:
     return f"Q. {prompt.question}\nA. {prompt.answer}\n\n"

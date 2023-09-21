@@ -1,4 +1,3 @@
-import asyncio
 from collections.abc import Iterator
 from dataclasses import dataclass
 from pathlib import Path
@@ -77,6 +76,8 @@ async def highlights_to_questions(
 ) -> list[QAPrompt]:
     hydrated_prompts = (highlight_to_msg(x) for x in highlights)
 
-    questions = await prompts_to_questions(hydrated_prompts=hydrated_prompts, model=model)
+    questions = await prompts_to_questions(
+        hydrated_prompts=hydrated_prompts, model=model,
+    )
 
     return questions
