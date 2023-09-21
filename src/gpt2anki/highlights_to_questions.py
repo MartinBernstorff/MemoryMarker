@@ -1,6 +1,7 @@
+import asyncio
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Generator, Union
+from typing import Generator, Iterator, Union
 
 from dotenv import load_dotenv
 from langchain.chat_models import ChatOpenAI
@@ -19,22 +20,19 @@ SYSTEM_PROMPT = fileio.read_txt(PROMPT_DIR / "martin_prompt.txt")
 def initialize_model(model_name: str = "gpt-4") -> ChatOpenAI:
     return ChatOpenAI(model=model_name)
 
-
-def highlight_to_prompt(highlight: HydratedHighlight) -> str:
-    return "<target>{target}</target><context>{context}</context>".format(
-        target=highlight.highlight,
-        context=highlight.context,
-    )
-
 @dataclass(frozen=True)
-class HydratedPrompt:
+class HydratedOpenAIPrompt:
     system_message: SystemMessage
     human_message: HumanMessage
     highlight: HydratedHighlight
 
 
-def highlight_to_msg(highlight: HydratedHighlight, model: ChatOpenAI) -> list[HydratedPrompt]:
-    prompt = HydratedPrompt(system_message=SystemMessage(content=SYSTEM_PROMPT), human_message=HumanMessage(content=highlight_to_prompt(highlight)), highlight=highlight)
+def highlight_to_msg(highlight: HydratedHighlight) -> HydratedOpenAIPrompt:
+    human_message = "<target>{target}</target><context>{context}</context>".format(
+        target=highlight.highlight,
+        context=highlight.context,
+    )
+    return HydratedOpenAIPrompt(system_message=SystemMessage(content=SYSTEM_PROMPT), human_message=HumanMessage(content=human_message), highlight=highlight)
 
 @dataclass(frozen=True)
 class QAPrompt:
@@ -42,23 +40,27 @@ class QAPrompt:
     answer: str
     title: str
 
-async def prompts_to_questions(hydrated_prompts: Generator[HydratedPrompt, None, None], model: ChatOpenAI) -> Generator[QAPrompt, None, None]:
+def finalise_hydrated_questions(zipped_outputs: tuple[dict[str, str], HydratedOpenAIPrompt]) -> QAPrompt:
+    match zipped_outputs:
+        case (model_outputs, hydrated_prompt):
+            return QAPrompt(question=model_outputs["Question"], answer=model_outputs["Answer"], title=hydrated_prompt.highlight.title)
+
+async def prompts_to_questions(hydrated_prompts: Iterator[HydratedOpenAIPrompt], model: ChatOpenAI) -> list[QAPrompt]:
     prompts = [[x.human_message, x.system_message] for x in hydrated_prompts]
 
     model_output = await model.agenerate(messages=prompts)
     parsed_outputs = llmresult_to_qas(model_output)
 
     zipped_outputs = zip(parsed_outputs, hydrated_prompts)
-
-    return (QAPrompt(question=x[0]["Question"], answer=x[0]["Answer"], title=x[1].highlight.title) for x in zipped_outputs)
+    return list(map(finalise_hydrated_questions, zipped_outputs))
 
 async def highlights_to_questions(
     model: ChatOpenAI,
     highlights: list[HydratedHighlight],
 ) -> list[QAPrompt]:
-    hydrated_prompts = (highlight_to_msg(x, model=model) for x in highlights)
+    hydrated_prompts = (highlight_to_msg(x) for x in highlights)
     
     questions = prompts_to_questions(hydrated_prompts=hydrated_prompts, model=model)
 
-    return list(questios)
+    return asyncio.run(questions)
     
