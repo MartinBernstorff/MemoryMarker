@@ -1,4 +1,4 @@
-import gpt2anki.markdown as markdown
+import gpt2anki.data_access.persist_questions.markdown as markdown
 import pytest
 
 

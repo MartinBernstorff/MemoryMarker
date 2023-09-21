@@ -1,5 +1,5 @@
 from bs4 import BeautifulSoup
-from gpt2anki.hydrator.main import ContextParser
+from gpt2anki.data_access.hydrator.main import ContextParser
 
 
 def test_context_parser():

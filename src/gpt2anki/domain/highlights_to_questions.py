@@ -1,13 +1,14 @@
-import ast
+import asyncio
+from collections.abc import Iterator
 from dataclasses import dataclass
 from pathlib import Path
 
 import gpt2anki.data_access.fileio as fileio
 from dotenv import load_dotenv
 from gpt2anki.data_access.highlight_sources.base import HydratedHighlight
+from gpt2anki.domain.prompts_from_string import llmresult_to_qas
 from langchain.chat_models import ChatOpenAI
 from langchain.schema import HumanMessage, SystemMessage
-from langchain.schema.output import LLMResult
 
 load_dotenv()
 PROMPT_DIR = Path(__file__).parent.parent.parent / "prompts"
@@ -19,56 +20,63 @@ def initialize_model(model_name: str = "gpt-4") -> ChatOpenAI:
     return ChatOpenAI(model=model_name)
 
 
-def highlight_to_prompt(highlight: HydratedHighlight) -> str:
-    return "<target>{target}</target><context>{context}</context>".format(
-        target=highlight.highlight,
-        context=highlight.context,
-    )
-
-
 @dataclass(frozen=True)
-class HydratedPrompt:
+class HydratedOpenAIPrompt:
     system_message: SystemMessage
     human_message: HumanMessage
     highlight: HydratedHighlight
 
 
-def highlight_to_msg(highlight: HydratedHighlight) -> list[HydratedPrompt]:
-    return [
-        HydratedPrompt(
-            system_message=SystemMessage(content=SYSTEM_PROMPT),
-            human_message=HumanMessage(content=highlight_to_prompt(highlight)),
-            highlight=highlight,
-        ),
-    ]
-
-
-@dataclass(frozen=True)
-class QAQuestion:
-    question: str
-    answer: str
-    highlight: HydratedHighlight
-
-
-def prompts_from_string(text: str) -> QAQuestion:
-    start = text.find("{")
-    end = text.rfind("}") + 1
-    parsed_dict = ast.literal_eval(text[start:end])
-    return QAQuestion(
-        question=parsed_dict["question"],
-        answer=parsed_dict["answer"],
+def highlight_to_msg(highlight: HydratedHighlight) -> HydratedOpenAIPrompt:
+    human_message = "<target>{target}</target><context>{context}</context>".format(
+        target=highlight.highlight,
+        context=highlight.context,
+    )
+    return HydratedOpenAIPrompt(
+        system_message=SystemMessage(content=SYSTEM_PROMPT),
+        human_message=HumanMessage(content=human_message),
+        highlight=highlight,
     )
 
 
-def parse_output(output: LLMResult) -> list[QAQuestion]:
-    return [prompts_from_string(response[0].text) for response in output.generations]
+@dataclass(frozen=True)
+class QAPrompt:
+    question: str
+    answer: str
+    title: str
 
 
-async def prompt_gpt(
+def finalise_hydrated_questions(
+    zipped_outputs: tuple[dict[str, str], HydratedOpenAIPrompt],
+) -> QAPrompt:
+    match zipped_outputs:
+        case (model_outputs, hydrated_prompt):
+            return QAPrompt(
+                question=model_outputs["Question"],
+                answer=model_outputs["Answer"],
+                title=hydrated_prompt.highlight.title,
+            )
+
+
+async def prompts_to_questions(
+    hydrated_prompts: Iterator[HydratedOpenAIPrompt],
+    model: ChatOpenAI,
+) -> list[QAPrompt]:
+    prompts = [[x.human_message, x.system_message] for x in hydrated_prompts]
+
+    model_output = await model.agenerate(messages=prompts)
+    parsed_outputs = llmresult_to_qas(model_output)
+
+    zipped_outputs = zip(parsed_outputs, hydrated_prompts)
+    return list(map(finalise_hydrated_questions, zipped_outputs))
+
+
+async def highlights_to_questions(
     model: ChatOpenAI,
     highlights: list[HydratedHighlight],
-) -> list[QAQuestion]:
-    messages = map(highlight_to_msg, highlights)
-    output = await model.agenerate(messages=messages)
+) -> list[QAPrompt]:
+    hydrated_prompts = (highlight_to_msg(x) for x in highlights)
 
-    return parse_output(output)
+    questions = prompts_to_questions(hydrated_prompts=hydrated_prompts, model=model)
+
+    return asyncio.run(questions)
