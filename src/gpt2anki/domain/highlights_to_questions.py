@@ -1,13 +1,12 @@
 import ast
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Union
 
 import gpt2anki.data_access.fileio as fileio
 from dotenv import load_dotenv
 from gpt2anki.data_access.highlight_sources.base import HydratedHighlight
 from langchain.chat_models import ChatOpenAI
-from langchain.schema import BaseMessage, HumanMessage, SystemMessage
+from langchain.schema import HumanMessage, SystemMessage
 from langchain.schema.output import LLMResult
 
 load_dotenv()
@@ -26,16 +25,23 @@ def highlight_to_prompt(highlight: HydratedHighlight) -> str:
         context=highlight.context,
     )
 
+
 @dataclass(frozen=True)
 class HydratedPrompt:
     system_message: SystemMessage
     human_message: HumanMessage
     highlight: HydratedHighlight
 
+
 def highlight_to_msg(highlight: HydratedHighlight) -> list[HydratedPrompt]:
     return [
-       HydratedPrompt(system_message=SystemMessage(content=SYSTEM_PROMPT), human_message=HumanMessage(content=highlight_to_prompt(highlight)), highlight=highlight)
+        HydratedPrompt(
+            system_message=SystemMessage(content=SYSTEM_PROMPT),
+            human_message=HumanMessage(content=highlight_to_prompt(highlight)),
+            highlight=highlight,
+        ),
     ]
+
 
 @dataclass(frozen=True)
 class QAQuestion:
@@ -43,7 +49,8 @@ class QAQuestion:
     answer: str
     highlight: HydratedHighlight
 
-def prompts_from_string(text: str, document_title: str) -> QAQuestion:
+
+def prompts_from_string(text: str) -> QAQuestion:
     start = text.find("{")
     end = text.rfind("}") + 1
     parsed_dict = ast.literal_eval(text[start:end])

@@ -1,6 +1,5 @@
-import pytest
-
 import gpt2anki.markdown as markdown
+import pytest
 
 
 @pytest.fixture(scope="module")
