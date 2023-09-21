@@ -15,3 +15,4 @@ _build/
 cache
 .clj-kondo/.cache/v1
 .lsp/.cache
+build
