@@ -6,7 +6,7 @@ import re
 import pytz
 import requests
 from dotenv import load_dotenv
-from gpt2anki.sources.base import HighlightSource, OrphanHighlight
+from gpt2anki.data_access.highlight_sources.base import HighlightSource, OrphanHighlight
 from pydantic import BaseModel
 
 load_dotenv()

@@ -15,9 +15,9 @@ classifiers = [
   "Operating System :: POSIX :: Linux",
   "Operating System :: MacOS :: MacOS X",
   "Operating System :: Microsoft :: Windows",
-  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
 ]
-requires-python = ">=3.9"
+requires-python = ">=3.10"
 dependencies = [
   "pydantic",
   "langchain",
@@ -134,7 +134,7 @@ exclude = [
 ]
 # Allow unused variables when underscore-prefixed.
 dummy-variable-rgx = "^(_+|(_+[a-zA-Z0-9_]*[a-zA-Z0-9]+?))$"
-target-version = "py39"
+target-version = "py310"
 
 [tool.ruff.flake8-annotations]
 mypy-init-return = true
@@ -160,7 +160,7 @@ include-package-data = true
 [tool.tox]
 legacy_tox_ini = """
 [tox]
-envlist = py{39}
+envlist = py{310}
 
 [testenv]
 description: run unit tests
@@ -172,7 +172,6 @@ commands =
 [testenv:type]
 description: run type checks
 extras = tests, dev
-basepython = py39 # Setting these explicitly avoid recreating env if your shell is set to a different version
 use_develop = true
 commands =
   pyright src/
@@ -180,7 +179,6 @@ commands =
 [testenv:docs]
 description: build docs
 extras = docs
-basepython = py39 # Setting these explicitly avoid recreating env if your shell is set to a different version
 use_develop = true
 commands =
   sphinx-build -b html docs docs/_build/html

@@ -1,10 +1,12 @@
 import re
-from collections.abc import Sequence
-from typing import Callable
+from collections.abc import Callable, Sequence
 
 import requests
 from bs4 import BeautifulSoup, NavigableString, Tag
-from gpt2anki.sources.base import HydratedHighlight, OrphanHighlight
+from gpt2anki.data_access.highlight_sources.base import (
+    HydratedHighlight,
+    OrphanHighlight,
+)
 from joblib import Memory
 
 memory = Memory("cache", verbose=0)

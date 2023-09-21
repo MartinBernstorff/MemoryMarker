@@ -20,7 +20,7 @@ import platform
 import re
 import shutil
 from pathlib import Path
-from typing import List, Optional
+from typing import List
 
 from invoke import Context, Result, task
 
@@ -100,7 +100,7 @@ def git_init(c: Context, branch: str = "main"):
 def setup_venv(
     c: Context,
     python_path: str,
-    venv_name: Optional[str] = None,
+    venv_name: str | None = None,
 ) -> str:
     """Create a virtual environment if it does not exist yet.
 
@@ -123,7 +123,7 @@ def setup_venv(
     return venv_name
 
 
-def _add_commit(c: Context, msg: Optional[str] = None):
+def _add_commit(c: Context, msg: str | None = None):
     print(f"{msg_type.DOING} Adding and committing changes")
     c.run("git add .")
 
@@ -145,7 +145,7 @@ def is_uncommitted_changes(c: Context) -> bool:
     return uncommitted_changes
 
 
-def add_and_commit(c: Context, msg: Optional[str] = None):
+def add_and_commit(c: Context, msg: str | None = None):
     """Add and commit all changes."""
     if is_uncommitted_changes(c):
         uncommitted_changes_descr = c.run(
@@ -263,7 +263,7 @@ def install(
     c: Context,
     pip_args: str = "",
     msg: bool = True,
-    venv_path: Optional[str] = None,
+    venv_path: str | None = None,
 ):
     """Install the project in editable mode using pip install"""
     if msg:
@@ -280,7 +280,7 @@ def install(
     c.run(install_cmd)
 
 
-def get_python_path(preferred_version: str) -> Optional[str]:
+def get_python_path(preferred_version: str) -> str | None:
     """Get path to python executable."""
     preferred_version_path = shutil.which(f"python{preferred_version}")
 
@@ -294,7 +294,7 @@ def get_python_path(preferred_version: str) -> Optional[str]:
 
 
 @task
-def setup(c: Context, python_path: Optional[str] = None):
+def setup(c: Context, python_path: str | None = None):
     """Confirm that a git repo exists and setup a virtual environment.
 
     Args:
@@ -305,7 +305,7 @@ def setup(c: Context, python_path: Optional[str] = None):
 
     if python_path is None:
         # get path to python executable
-        python_path = get_python_path(preferred_version="3.9")
+        python_path = get_python_path(preferred_version="3.10")
         if not python_path:
             print(f"{msg_type.FAIL} Python executable not found")
             exit(1)
