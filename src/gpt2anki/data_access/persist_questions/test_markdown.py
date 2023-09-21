@@ -1,13 +1,15 @@
 import gpt2anki.data_access.persist_questions.markdown as markdown
 import pytest
+from gpt2anki.domain.highlights_to_questions import QAPrompt
 
 
 @pytest.fixture(scope="module")
-def question() -> dict[str, str]:
-    return {
-        "question": "What is the meaning of life?",
-        "answer": "42",
-    }
+def question() -> QAPrompt:
+    return QAPrompt( 
+        question="What is the meaning of life?",
+        answer= "42",
+        title="The Hitchhiker's Guide to the Galaxy"
+     )
 
 
 def test_single_q_to_markdown(question: dict[str, str]) -> None:
