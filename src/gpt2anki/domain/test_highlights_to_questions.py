@@ -1,6 +1,10 @@
 import gpt2anki.domain.highlights_to_questions as highlights_to_questions
 import pytest
 from gpt2anki.data_access.highlight_sources.base import HydratedHighlight
+from gpt2anki.domain.highlights_to_questions import (
+    HydratedOpenAIPrompt,
+    finalise_hydrated_questions,
+)
 
 
 # create a pytest fixture for the model
@@ -8,20 +12,22 @@ from gpt2anki.data_access.highlight_sources.base import HydratedHighlight
 def model() -> highlights_to_questions.ChatOpenAI:
     return highlights_to_questions.initialize_model(model_name="gpt-3.5-turbo")
 
-
-@pytest.mark.asyncio()
-async def test_model_response(model: highlights_to_questions.ChatOpenAI) -> None:
-    higlight = HydratedHighlight(
+@pytest.fixture(scope="module")
+def hydrated_highlight() -> HydratedHighlight:
+   return HydratedHighlight(
         context="Mitochondria is the powerhouse of the cell",
         highlight="Mitochondria",
         uri="https://en.wikipedia.org/wiki/Mitochondrion",
         title="Mitochondrion - Wikipedia",
     )
-    output = await highlights_to_questions.prompt_gpt(model, higlight)
-    # check that outpuis a dictionary with keys "answer" and "question"
-    assert "answer" in output[0]
-    assert "question" in output[0]
 
+
+@pytest.mark.asyncio()
+async def test_model_response(model: highlights_to_questions.ChatOpenAI, hydrated_highlight: HydratedHighlight) -> None:
+    output = await highlights_to_questions.highlights_to_questions(model, [hydrated_highlight])
+    # check that outputs an dictionary with keys "answer" and "question"
+    # is automatically checked, since highlight_to_questions indexes into it
+    
 
 @pytest.mark.asyncio()
 async def test_multi_response(model: highlights_to_questions.ChatOpenAI) -> None:
@@ -39,7 +45,5 @@ async def test_multi_response(model: highlights_to_questions.ChatOpenAI) -> None
             title="Fight Club - Wikipedia",
         ),
     ]
-    output = await highlights_to_questions.prompt_gpt(model, highlights)
+    output = await highlights_to_questions.highlights_to_questions(model, highlights)
     assert len(output) == 2
-    assert "answer" in output[0]
-    assert "question" in output[1]

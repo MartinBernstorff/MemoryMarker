@@ -11,8 +11,8 @@ from langchain.chat_models import ChatOpenAI
 from langchain.schema import HumanMessage, SystemMessage
 
 load_dotenv()
-PROMPT_DIR = Path(__file__).parent.parent.parent / "prompts"
-assert PROMPT_DIR.exists(), "Prompts directory does not exist"
+PROMPT_DIR = Path(__file__).parent.parent.parent.parent / "prompts"
+assert PROMPT_DIR.exists(), f"Prompts directory does not exist at {PROMPT_DIR}"
 SYSTEM_PROMPT = fileio.read_txt(PROMPT_DIR / "martin_prompt.txt")
 
 
