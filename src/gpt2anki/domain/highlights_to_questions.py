@@ -77,6 +77,6 @@ async def highlights_to_questions(
 ) -> list[QAPrompt]:
     hydrated_prompts = (highlight_to_msg(x) for x in highlights)
 
-    questions = prompts_to_questions(hydrated_prompts=hydrated_prompts, model=model)
+    questions = await prompts_to_questions(hydrated_prompts=hydrated_prompts, model=model)
 
-    return asyncio.run(questions)
+    return questions
