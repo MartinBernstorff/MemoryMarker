@@ -60,7 +60,8 @@ def finalise_hydrated_questions(
 
 
 async def prompts_to_questions(
-    hydrated_prompts: Iterator[HydratedOpenAIPrompt], model: ChatOpenAI,
+    hydrated_prompts: Iterator[HydratedOpenAIPrompt],
+    model: ChatOpenAI,
 ) -> list[QAPrompt]:
     prompts = [[x.human_message, x.system_message] for x in hydrated_prompts]
 
