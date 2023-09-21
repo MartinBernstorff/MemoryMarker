@@ -1,4 +1,3 @@
-from collections.abc import Iterator
 from dataclasses import dataclass
 from pathlib import Path
 
@@ -58,7 +57,7 @@ def finalise_hydrated_questions(
 
 
 async def prompts_to_questions(
-    hydrated_prompts: Iterator[HydratedOpenAIPrompt],
+    hydrated_prompts: list[HydratedOpenAIPrompt],
     model: ChatOpenAI,
 ) -> list[QAPrompt]:
     prompts = [[x.human_message, x.system_message] for x in hydrated_prompts]
