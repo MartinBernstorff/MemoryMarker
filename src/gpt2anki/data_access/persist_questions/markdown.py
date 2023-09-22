@@ -24,6 +24,7 @@ def write_md(contents: str, file_title: str, save_dir: Path = SAVE_DIR) -> None:
     with Path.open(SAVE_DIR / filename, "a") as f:
         f.write(contents)
 
+
 def write_qa_prompt_to_md(prompt: QAPrompt, save_dir: Path = SAVE_DIR) -> None:
     """Write markdown to file. Append if exists"""
     contents = q_to_markdown(prompt)

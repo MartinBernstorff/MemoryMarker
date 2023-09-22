@@ -1,7 +1,6 @@
-from collections.abc import Iterator
+from collections.abc import Iterator, Sequence
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Sequence
 
 import gpt2anki.data_access.fileio as fileio
 from dotenv import load_dotenv
