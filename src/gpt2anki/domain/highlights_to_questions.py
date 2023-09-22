@@ -1,6 +1,7 @@
 from collections.abc import Iterator
 from dataclasses import dataclass
 from pathlib import Path
+from typing import Sequence
 
 import gpt2anki.data_access.fileio as fileio
 from dotenv import load_dotenv
@@ -72,7 +73,7 @@ async def prompts_to_questions(
 
 async def highlights_to_questions(
     model: ChatOpenAI,
-    highlights: list[HydratedHighlight],
+    highlights: Sequence[HydratedHighlight],
 ) -> list[QAPrompt]:
     hydrated_prompts = (highlight_to_msg(x) for x in highlights)
 
