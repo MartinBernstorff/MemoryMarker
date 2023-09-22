@@ -51,14 +51,14 @@ def finalise_hydrated_questions(
     match zipped_outputs:
         case (model_outputs, hydrated_prompt):
             return QAPrompt(
-                question=model_outputs["Question"],
-                answer=model_outputs["Answer"],
+                question=model_outputs["question"],
+                answer=model_outputs["answer"],
                 title=hydrated_prompt.highlight.title,
             )
 
 
 async def prompts_to_questions(
-    hydrated_prompts: Iterator[HydratedOpenAIPrompt],
+    hydrated_prompts: list[HydratedOpenAIPrompt],
     model: ChatOpenAI,
 ) -> list[QAPrompt]:
     prompts = [[x.human_message, x.system_message] for x in hydrated_prompts]
@@ -74,7 +74,7 @@ async def highlights_to_questions(
     model: ChatOpenAI,
     highlights: Sequence[HydratedHighlight],
 ) -> list[QAPrompt]:
-    hydrated_prompts = (highlight_to_msg(x) for x in highlights)
+    hydrated_prompts = [highlight_to_msg(x) for x in highlights]
 
     questions = await prompts_to_questions(
         hydrated_prompts=hydrated_prompts,

@@ -1,12 +1,12 @@
-import gpt2anki.domain.highlights_to_questions as highlights_to_questions
+import gpt2anki.domain.highlights_to_questions as h2q
 import pytest
 from gpt2anki.data_access.highlight_sources.base import HydratedHighlight
 
 
 # create a pytest fixture for the model
 @pytest.fixture(scope="session")
-def model() -> highlights_to_questions.ChatOpenAI:
-    return highlights_to_questions.initialize_model(model_name="gpt-3.5-turbo")
+def model() -> h2q.ChatOpenAI:
+    return h2q.initialize_model(model_name="gpt-3.5-turbo")
 
 
 @pytest.fixture(scope="module")
@@ -21,10 +21,10 @@ def hydrated_highlight() -> HydratedHighlight:
 
 @pytest.mark.asyncio()
 async def test_model_response(
-    model: highlights_to_questions.ChatOpenAI,
+    model: h2q.ChatOpenAI,
     hydrated_highlight: HydratedHighlight,
 ) -> None:
-    await highlights_to_questions.highlights_to_questions(
+    await h2q.highlights_to_questions(
         model,
         [hydrated_highlight],
     )
@@ -33,7 +33,7 @@ async def test_model_response(
 
 
 @pytest.mark.asyncio()
-async def test_multi_response(model: highlights_to_questions.ChatOpenAI) -> None:
+async def test_multi_response(model: h2q.ChatOpenAI) -> None:
     highlights = [
         HydratedHighlight(
             context="Mitochondria is the powerhouse of the cell",
@@ -48,5 +48,5 @@ async def test_multi_response(model: highlights_to_questions.ChatOpenAI) -> None
             title="Fight Club - Wikipedia",
         ),
     ]
-    output = await highlights_to_questions.highlights_to_questions(model, highlights)
+    output = await h2q.highlights_to_questions(model, highlights)
     assert len(output) == 2
