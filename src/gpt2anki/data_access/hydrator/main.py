@@ -1,5 +1,6 @@
 import re
 from collections.abc import Callable, Sequence
+from typing import Optional
 from urllib.request import urlopen
 
 import requests
@@ -79,13 +80,16 @@ class HighlightHydrator:
     def hydrate_highlights(
         self,
         highlights: Sequence[OrphanHighlight],
-    ) -> Sequence[HydratedHighlight]:
-        hydrated_highlights: list[HydratedHighlight] = []
+    ) -> Sequence[Optional[HydratedHighlight]]:
+        hydrated_highlights: list[HydratedHighlight | None] = []
         for highlight in highlights:
             try:
                 page = urlopen(highlight.uri)
             except Exception:
                 print(f"Could not open {highlight.uri}")
+                hydrated_highlights.append(None)
+                continue
+
             soup = self.soup_downloader(page)
             context = ContextParser.get_highlight_context(
                 soup=soup,

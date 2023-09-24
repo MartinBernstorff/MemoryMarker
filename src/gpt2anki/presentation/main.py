@@ -22,7 +22,7 @@ if __name__ == "__main__":
     ).hydrate_highlights(highlights=highlights)
 
     hydrated_highlights = filter(
-        lambda highlight: highlight.context != "",
+        lambda highlight: highlight is not None,
         hydrated_highlights,
     )
 
