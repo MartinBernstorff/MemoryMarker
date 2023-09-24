@@ -3,6 +3,7 @@ import datetime as dt
 
 import pytz
 from bs4 import BeautifulSoup
+from gpt2anki.data_access.highlight_sources.base import HydratedHighlight
 from gpt2anki.data_access.highlight_sources.hypothesis import HypothesisHighlightGetter
 from gpt2anki.data_access.hydrator.main import HighlightHydrator
 from gpt2anki.data_access.persist_questions.markdown import write_qa_prompt_to_md
@@ -21,15 +22,12 @@ if __name__ == "__main__":
         soup_downloader=BeautifulSoup,
     ).hydrate_highlights(highlights=highlights)
 
-    hydrated_highlights = filter(
-        lambda highlight: highlight is not None,
-        hydrated_highlights,
-    )
+    highlights_with_context: list[HydratedHighlight] = [h for h in hydrated_highlights if h is not None]
 
     print("Generating QAs")
     model = initialize_model(model_name="gpt-4")
     questions = asyncio.run(
-        highlights_to_questions(model=model, highlights=list(hydrated_highlights)),
+        highlights_to_questions(model=model, highlights=list(highlights_with_context)),
     )
 
     print("Saving to disk")
