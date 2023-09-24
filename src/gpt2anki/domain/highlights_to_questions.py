@@ -1,3 +1,4 @@
+from collections.abc import Sequence
 from dataclasses import dataclass
 from pathlib import Path
 
@@ -71,7 +72,7 @@ async def prompts_to_questions(
 
 async def highlights_to_questions(
     model: ChatOpenAI,
-    highlights: list[HydratedHighlight],
+    highlights: Sequence[HydratedHighlight],
 ) -> list[QAPrompt]:
     hydrated_prompts = [highlight_to_msg(x) for x in highlights]
 

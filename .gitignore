@@ -16,3 +16,4 @@ cache
 .clj-kondo/.cache/v1
 .lsp/.cache
 build
+card_cache
