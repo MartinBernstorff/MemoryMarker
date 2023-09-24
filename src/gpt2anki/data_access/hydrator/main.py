@@ -1,5 +1,6 @@
 import re
 from collections.abc import Callable, Sequence
+from urllib.request import urlopen
 
 import requests
 from bs4 import BeautifulSoup, NavigableString, Tag
@@ -81,7 +82,11 @@ class HighlightHydrator:
     ) -> Sequence[HydratedHighlight]:
         hydrated_highlights: list[HydratedHighlight] = []
         for highlight in highlights:
-            soup = self.soup_downloader(highlight.uri)
+            try:    
+                page = urlopen(highlight.uri)
+            except Exception:
+                print(f"Could not open {highlight.uri}")
+            soup = self.soup_downloader(page)
             context = ContextParser.get_highlight_context(
                 soup=soup,
                 highlight=highlight.highlight,
