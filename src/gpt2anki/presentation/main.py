@@ -22,7 +22,8 @@ if __name__ == "__main__":
     ).hydrate_highlights(highlights=highlights)
 
     hydrated_highlights = filter(
-        lambda highlight: highlight.context != "", hydrated_highlights,
+        lambda highlight: highlight.context != "",
+        hydrated_highlights,
     )
 
     print("Generating QAs")
