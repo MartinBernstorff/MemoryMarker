@@ -1,6 +1,5 @@
 import re
 from collections.abc import Callable, Sequence
-from typing import Optional
 from urllib.request import urlopen
 
 import requests
@@ -80,7 +79,7 @@ class HighlightHydrator:
     def hydrate_highlights(
         self,
         highlights: Sequence[OrphanHighlight],
-    ) -> Sequence[Optional[HydratedHighlight]]:
+    ) -> Sequence[HydratedHighlight | None]:
         hydrated_highlights: list[HydratedHighlight | None] = []
         for highlight in highlights:
             try:
