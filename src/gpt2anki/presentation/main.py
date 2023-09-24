@@ -22,7 +22,9 @@ if __name__ == "__main__":
         soup_downloader=BeautifulSoup,
     ).hydrate_highlights(highlights=highlights)
 
-    highlights_with_context: list[HydratedHighlight] = [h for h in hydrated_highlights if h is not None]
+    highlights_with_context: list[HydratedHighlight] = [
+        h for h in hydrated_highlights if h is not None
+    ]
 
     print("Generating QAs")
     model = initialize_model(model_name="gpt-4")
