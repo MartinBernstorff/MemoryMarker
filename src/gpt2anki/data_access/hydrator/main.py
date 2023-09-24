@@ -82,7 +82,7 @@ class HighlightHydrator:
     ) -> Sequence[HydratedHighlight]:
         hydrated_highlights: list[HydratedHighlight] = []
         for highlight in highlights:
-            try:    
+            try:
                 page = urlopen(highlight.uri)
             except Exception:
                 print(f"Could not open {highlight.uri}")

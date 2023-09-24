@@ -12,7 +12,6 @@ from gpt2anki.domain.highlights_to_questions import (
 )
 
 if __name__ == "__main__":
-
     print("Getting highlights")
     highlights = HypothesisHighlightGetter(username="ryqiem").get_highlights_since_date(
         dt.datetime.now(tz=pytz.UTC) - dt.timedelta(days=200),
@@ -22,13 +21,13 @@ if __name__ == "__main__":
         soup_downloader=BeautifulSoup,
     ).hydrate_highlights(highlights=highlights)
 
-    hydrated_highlights = list(filter(lambda x: x.context!="", hydrated_highlights))
+    hydrated_highlights = filter(lambda highlight: highlight.context!="", hydrated_highlights)
 
     print("Generating QAs")
     model = initialize_model(model_name="gpt-4")
     questions = asyncio.run(
-        highlights_to_questions(model=model, highlights=hydrated_highlights[0:2]),
+        highlights_to_questions(model=model, highlights=list(hydrated_highlights)),
     )
 
     print("Saving to disk")
-    list(map(write_qa_prompt_to_md, questions))
+    [write_qa_prompt_to_md(q) for q in questions]
