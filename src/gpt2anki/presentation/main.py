@@ -21,7 +21,9 @@ if __name__ == "__main__":
         soup_downloader=BeautifulSoup,
     ).hydrate_highlights(highlights=highlights)
 
-    hydrated_highlights = filter(lambda highlight: highlight.context!="", hydrated_highlights)
+    hydrated_highlights = filter(
+        lambda highlight: highlight.context != "", hydrated_highlights,
+    )
 
     print("Generating QAs")
     model = initialize_model(model_name="gpt-4")
