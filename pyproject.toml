@@ -31,10 +31,11 @@ name = "MIT"
 [project.optional-dependencies]
 dev = [
   "cruft>=2.0.0",
+  "lumberman",
   "pyright==1.1.325",
   "pyright-polite>=0.0.1",
   "pre-commit>=2.20.0",
-  "ruff>=0.0.254",
+  "ruff>=0.1.14",
   "invoke==2.2.0",
 ]
 tests = [
