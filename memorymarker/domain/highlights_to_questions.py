@@ -1,13 +1,14 @@
-from collections.abc import Sequence
 from dataclasses import dataclass
 from pathlib import Path
+from typing import Mapping, Sequence
 
-import memorymarker.data_access.fileio as fileio
 from dotenv import load_dotenv
-from memorymarker.data_access.highlight_sources.base import HydratedHighlight
-from memorymarker.domain.prompts_from_string import llmresult_to_qas
 from langchain.chat_models import ChatOpenAI
 from langchain.schema import HumanMessage, SystemMessage
+
+import memorymarker.data_access.fileio as fileio
+from memorymarker.data_access.highlight_sources.base import HydratedHighlight
+from memorymarker.domain.prompts_from_string import llmresult_to_qas
 
 load_dotenv()
 PROMPT_DIR = Path(__file__).parent.parent.parent.parent / "prompts"

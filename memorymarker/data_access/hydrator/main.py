@@ -1,14 +1,16 @@
 import re
-from collections.abc import Callable, Sequence
+from dataclasses import dataclass
+from typing import Callable, Mapping, Sequence
 from urllib.request import urlopen
 
 import requests
 from bs4 import BeautifulSoup, NavigableString, Tag
+from joblib import Memory
+
 from memorymarker.data_access.highlight_sources.base import (
     HydratedHighlight,
     OrphanHighlight,
 )
-from joblib import Memory
 
 memory = Memory("cache", verbose=0)
 
@@ -110,5 +112,3 @@ if __name__ == "__main__":
     result = download_soup_from_url(
         "https://www.gutenberg.org/files/2701/2701-h/2701-h.htm",
     )
-
-    pass

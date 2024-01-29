@@ -15,7 +15,7 @@ classifiers = [
   "Operating System :: Microsoft :: Windows",
   "Programming Language :: Python :: 3.10",
 ]
-requires-python = ">=3.10"
+requires-python = ">=3.9"
 dependencies = [
   "pydantic",
   "langchain",
@@ -89,7 +89,7 @@ select = [
   "SIM",
   "W",
 ]
-ignore = ["ANN101", "ANN401", "E402", "E501", "F401", "F841", "RET504"]
+ignore = ["ANN101", "ANN401", "E402", "E501", "F401", "F841", "RET504", "UP035"]
 ignore-init-module-imports = true
 # Allow autofix for all enabled rules (when `--fix`) is provided.
 unfixable = ["ERA"]
@@ -127,6 +127,10 @@ suppress-none-returning = true
 
 [tool.ruff.isort]
 known-third-party = ["wandb"]
+required-imports = [
+  "from typing import Mapping, Sequence", 
+  "from dataclasses import dataclass"
+]
 
 [tool.ruff.mccabe]
 # Unlike Flake8, default to a complexity level of 10.
@@ -136,35 +140,3 @@ max-complexity = 10
 branch = "main"
 version_toml = ["pyproject.toml:project.version"]
 build_command = "python -m pip install build; python -m build"
-
-
-[tool.setuptools]
-include-package-data = true
-
-
-[tool.tox]
-legacy_tox_ini = """
-[tox]
-envlist = py{310}
-
-[testenv]
-description: run unit tests
-extras = tests
-use_develop = true
-commands =
-  pytest -n auto {posargs:test}
-
-[testenv:type]
-description: run type checks
-extras = tests, dev
-use_develop = true
-commands =
-  pyright src/
-
-[testenv:docs]
-description: build docs
-extras = docs
-use_develop = true
-commands =
-  sphinx-build -b html docs docs/_build/html
-"""

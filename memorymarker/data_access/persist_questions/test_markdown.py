@@ -1,5 +1,9 @@
-import memorymarker.data_access.persist_questions.markdown as markdown
+from dataclasses import dataclass
+from typing import Mapping, Sequence
+
 import pytest
+
+import memorymarker.data_access.persist_questions.markdown as markdown
 from memorymarker.domain.highlights_to_questions import QAPrompt
 
 

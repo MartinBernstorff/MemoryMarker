@@ -2,12 +2,18 @@ import datetime as dt
 import json
 import os
 import re
+from dataclasses import dataclass
+from typing import Mapping, Sequence
 
 import pytz
 import requests
 from dotenv import load_dotenv
-from memorymarker.data_access.highlight_sources.base import HighlightSource, OrphanHighlight
 from pydantic import BaseModel
+
+from memorymarker.data_access.highlight_sources.base import (
+    HighlightSource,
+    OrphanHighlight,
+)
 
 load_dotenv()
 
@@ -90,5 +96,3 @@ if __name__ == "__main__":
     response = HypothesisHighlightGetter(
         username="ryqiem",
     ).get_highlights_since_date(dt.datetime.now(tz=pytz.UTC) - dt.timedelta(days=200))
-
-    pass

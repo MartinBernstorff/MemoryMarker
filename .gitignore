@@ -17,3 +17,4 @@ cache
 .lsp/.cache
 build
 card_cache
+*.egg-info

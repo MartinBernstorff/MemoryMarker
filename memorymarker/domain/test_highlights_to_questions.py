@@ -1,5 +1,9 @@
-import memorymarker.domain.highlights_to_questions as h2q
+from dataclasses import dataclass
+from typing import Mapping, Sequence
+
 import pytest
+
+import memorymarker.domain.highlights_to_questions as h2q
 from memorymarker.data_access.highlight_sources.base import HydratedHighlight
 
 

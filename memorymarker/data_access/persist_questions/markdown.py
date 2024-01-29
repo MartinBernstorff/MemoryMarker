@@ -1,4 +1,6 @@
+from dataclasses import dataclass
 from pathlib import Path
+from typing import Mapping, Sequence
 
 from memorymarker.domain.highlights_to_questions import QAPrompt
 

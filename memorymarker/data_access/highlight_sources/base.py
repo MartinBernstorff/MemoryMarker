@@ -1,6 +1,7 @@
 import datetime as dt
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
+from typing import Mapping, Sequence
 
 
 @dataclass(frozen=True)
