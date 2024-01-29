@@ -1,10 +1,8 @@
 import datetime as dt
-from abc import ABC, abstractmethod
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Mapping, Protocol, Sequence
+from typing import Protocol, Sequence
 
-from iterpy._iter import Iter
 from pydantic import BaseModel
 
 

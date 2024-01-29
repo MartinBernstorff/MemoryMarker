@@ -3,11 +3,12 @@ MAKEFLAGS = --no-print-directory
 
 # Dependency management
 install:
-	pip install --upgrade -e .[dev]
+	rm -rf cache
+	pip install --upgrade -e .[dev,test]
 
 # Tasks
 generate_coverage:
-	@pytest --cov=$(SRC_PATH) $(SRC_PATH) --cov-report xml:.coverage.xml --cov-report lcov:.coverage.lcov
+	@pytest 
 
 test: ## Run tests
 	@echo "––– Testing –––"

@@ -7,7 +7,6 @@ from iterpy._iter import Iter
 from omnivoreql import OmnivoreQL
 from pydantic import BaseModel
 
-from memorymarker.data_access.highlight_sources.base import OrphanHighlight
 
 from .base import HighlightSource, HydratedHighlight
 

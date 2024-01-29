@@ -2,8 +2,6 @@ import datetime as dt
 import json
 import os
 import re
-from dataclasses import dataclass
-from typing import Mapping, Sequence
 
 import pytz
 import requests
@@ -11,7 +9,6 @@ from dotenv import load_dotenv
 from pydantic import BaseModel
 
 from memorymarker.data_access.highlight_sources.base import (
-    HighlightSource,
     OrphanHighlight,
 )
 

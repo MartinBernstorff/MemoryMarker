@@ -1,6 +1,3 @@
-from dataclasses import dataclass
-from typing import Mapping, Sequence
-
 import pytest
 
 import memorymarker.data_access.persist_questions.markdown as markdown

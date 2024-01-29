@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Mapping, Sequence
+from typing import Sequence
 
 from dotenv import load_dotenv
 from langchain.chat_models import ChatOpenAI

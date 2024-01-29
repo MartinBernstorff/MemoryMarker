@@ -1,6 +1,4 @@
-from dataclasses import dataclass
 from pathlib import Path
-from typing import Mapping, Sequence
 
 
 def read_txt(filepath: Path) -> str:
