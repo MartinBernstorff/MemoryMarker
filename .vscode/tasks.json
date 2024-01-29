@@ -1,0 +1,76 @@
+// TODO: https://github.com/MartinBernstorff/personal-mnemonic-medium/issues/223 dev: prompt if wanting to enable automerge in tasks
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "PR",
+            "type": "shell",
+            "command": "",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "dependsOn": [
+                "Lint",
+                "Test",
+                "Static type check",
+                "Squash-submit"
+            ],
+            "presentation": {
+                "reveal": "always",
+                "clear": false,
+                "showReuseMessage": false,
+                "group": "pr"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Squash-submit",
+            "type": "shell",
+            "command": "memorymarker sync --automerge --squash",
+            "presentation": {
+                "reveal": "always",
+                "clear": true,
+                "showReuseMessage": false,
+                "group": "pr"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Lint",
+            "type": "shell",
+            "command": "make lint",
+            "presentation": {
+                "reveal": "always",
+                "clear": true,
+                "showReuseMessage": false,
+                "group": "pr"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Test",
+            "type": "shell",
+            "command": "make test",
+            "presentation": {
+                "reveal": "always",
+                "clear": true,
+                "showReuseMessage": false,
+                "group": "pr"
+            }
+        },
+        {
+            "label": "Static type check",
+            "type": "shell",
+            "command": "make types",
+            "presentation": {
+                "reveal": "always",
+                "clear": true,
+                "showReuseMessage": false,
+                "group": "pr"
+            }
+        }
+    ]
+}

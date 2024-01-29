@@ -7,7 +7,7 @@
         "context": "..",
         // Update the 'dockerFile' property if you aren't using the standard 'Dockerfile' filename.
         "dockerfile": "../Dockerfile",
-        "cacheFrom": "ghcr.io/martinbernstorff/lumberman-devcontainer:latest"
+        "cacheFrom": "ghcr.io/martinbernstorff/memorymarker-devcontainer:latest"
     },
     "customizations": {
         "vscode": {
