@@ -12,9 +12,9 @@ Here is a list of important resources for contributors:
 - [Code of Conduct]
 
 [mit license]: https://opensource.org/licenses/MIT
-[source code]: https://github.com/rysias/memorymarker
+[source code]: https://github.com/martinbernstorff/memorymarker
 [documentation]: https://memorymarker.readthedocs.io/
-[issue tracker]: https://github.com/rysias/memorymarker/issues
+[issue tracker]: https://github.com/martinbernstorff/memorymarker/issues
 
 ## How to report a bug
 
@@ -77,7 +77,7 @@ $ nox --session=pre-commit -- install
 It is recommended to open an issue before starting work on anything.
 This will allow a chance to talk it over with the owners and validate your approach.
 
-[pull request]: https://github.com/rysias/memorymarker/pulls
+[pull request]: https://github.com/martinbernstorff/memorymarker/pulls
 
 <!-- github-only -->
 

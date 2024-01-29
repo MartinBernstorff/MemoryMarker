@@ -3,12 +3,10 @@ requires = ["setuptools>=61.0.0", "wheel", "setuptools_scm"]
 build-backend = "setuptools.build_meta"
 
 [project]
-
-
 name = "memorymarker"
-version = "0.0.0"
+version = "0.0.1"
 authors = [
-  { name = "Jonathan Rystrøm & Martin Bernstorff", email = "jhvithamar@gmail.com" },
+  { name = "Martin Bernstorff & Jonathan Hvithamar", email = "martinbernstorff@gmail.com" },
 ]
 description = "memorymarker"
 classifiers = [
@@ -37,8 +35,6 @@ dev = [
   "pyright-polite>=0.0.1",
   "pre-commit>=2.20.0",
   "ruff>=0.0.254",
-  "black[jupyter]>=22.8.0",
-  "pandas-stubs>=0.0.0",    # type stubs for pandas
   "invoke==2.2.0",
 ]
 tests = [
@@ -49,26 +45,15 @@ tests = [
   "pytest-sugar>=0.9.4",
   "tox>=4.5.0",
 ]
-# docs = [
-#   "sphinx>=5.3.0",
-#   "furo>=2022.12.7",            # theme
-#   "sphinx-copybutton>=0.5.1",
-#   "sphinxext-opengraph>=0.7.3",
-#   "sphinx_design>=0.3.0",
-#   "sphinx_togglebutton>=0.2.3",
-#   "myst-nb>=0.6.0",             # for rendering notebooks
-#   "jupyter>=1.0.0",             # for tutorials
-# ]
-
 
 [project.readme]
 file = "README.md"
 content-type = "text/markdown"
 
 [project.urls]
-homepage = "https://github.com/rysias/memorymarker"
-repository = "https://github.com/rysias/memorymarker"
-documentation = "https://rysias.github.io/memorymarker/"
+homepage = "https://github.com/martinbernstorff/memorymarker"
+repository = "https://github.com/martinbernstorff/memorymarker"
+documentation = "https://martinbernstorff.github.io/memorymarker/"
 
 [tool.pyright]
 exclude = [".*venv*", ".tox"]
