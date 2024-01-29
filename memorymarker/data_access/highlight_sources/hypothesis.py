@@ -40,7 +40,7 @@ class SearchRequest(BaseModel):
         return user_id
 
 
-class HypothesisHighlightGetter(HighlightSource):
+class HypothesisHighlightGetter:
     def __init__(self, username: str):
         api_key = os.getenv("HYPOTHESIS_API_KEY")
         if api_key is None:

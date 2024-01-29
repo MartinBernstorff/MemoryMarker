@@ -17,6 +17,7 @@ classifiers = [
 ]
 requires-python = ">=3.9"
 dependencies = [
+  "omnivoreql",
   "pydantic",
   "langchain",
   "openai",
@@ -62,45 +63,7 @@ pythonPlatform = "Darwin"
 
 [tool.ruff]
 # Enable pycodestyle (`E`) and Pyflakes (`F`) codes by default.
-select = [
-  "A",
-  "ANN",
-  "ARG",
-  "B",
-  "C4",
-  "COM",
-  "D417",
-  "E",
-  "ERA",
-  "F",
-  "I",
-  "ICN",
-  "NPY001",
-  "PD002",
-  "PIE",
-  "PLE",
-  "PLW",
-  "PT",
-  "UP",
-  "Q",
-  "PTH",
-  "RSE",
-  "RET",
-  "RUF",
-  "SIM",
-  "W",
-]
-ignore = [
-  "ANN101",
-  "ANN401",
-  "I001",
-  "E402",
-  "E501",
-  "F401",
-  "F841",
-  "RET504",
-  "UP035",
-]
+ignore = ["ANN101", "ANN401", "E402", "E501", "F401", "F841", "RET504", "UP035"]
 ignore-init-module-imports = true
 # Allow autofix for all enabled rules (when `--fix`) is provided.
 unfixable = ["ERA"]
@@ -141,6 +104,7 @@ known-third-party = ["wandb"]
 required-imports = [
   "from typing import Mapping, Sequence",
   "from dataclasses import dataclass",
+  "from iterpy._iter import Iter",
 ]
 
 [tool.ruff.mccabe]
@@ -151,3 +115,31 @@ max-complexity = 10
 branch = "main"
 version_toml = ["pyproject.toml:project.version"]
 build_command = "python -m pip install build; python -m build"
+select = [
+  "A",
+  "ANN",
+  "ARG",
+  "B",
+  "C4",
+  "COM",
+  "D417",
+  "E",
+  "ERA",
+  "F",
+  "I",
+  "ICN",
+  "NPY001",
+  "PD002",
+  "PIE",
+  "PLE",
+  "PLW",
+  "PT",
+  "UP",
+  "Q",
+  "PTH",
+  "RSE",
+  "RET",
+  "RUF",
+  "SIM",
+  "W",
+]
