@@ -1,9 +1,6 @@
-from dataclasses import dataclass
 from datetime import datetime
-from typing import Mapping, Sequence
 
 import pytest
-from iterpy._iter import Iter
 
 import memorymarker.domain.highlights_to_questions as h2q
 from memorymarker.data_access.highlight_sources.base import HydratedHighlight
