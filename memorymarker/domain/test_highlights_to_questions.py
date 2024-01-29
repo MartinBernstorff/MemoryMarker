@@ -47,12 +47,14 @@ async def test_multi_response(model: h2q.ChatOpenAI) -> None:
             highlight="Mitochondria",
             uri="https://en.wikipedia.org/wiki/Mitochondrion",
             title="Mitochondrion - Wikipedia",
+            updated_at=datetime.now(),
         ),
         HydratedHighlight(
             context="The first rule of Fight Club is that you don't talk about Fight Club",
             highlight="Fight Club",
             uri="https://en.wikipedia.org/wiki/Fight_Club",
             title="Fight Club - Wikipedia",
+            updated_at=datetime.now(),
         ),
     ]
     output = await h2q.highlights_to_questions(model, highlights)
