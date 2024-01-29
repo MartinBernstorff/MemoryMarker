@@ -1,6 +1,6 @@
-import gpt2anki.data_access.persist_questions.markdown as markdown
+import memorymarker.data_access.persist_questions.markdown as markdown
 import pytest
-from gpt2anki.domain.highlights_to_questions import QAPrompt
+from memorymarker.domain.highlights_to_questions import QAPrompt
 
 
 @pytest.fixture(scope="module")

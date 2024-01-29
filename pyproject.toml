@@ -5,12 +5,12 @@ build-backend = "setuptools.build_meta"
 [project]
 
 
-name = "gpt2anki"
+name = "memorymarker"
 version = "0.0.0"
 authors = [
   { name = "Jonathan Rystrøm & Martin Bernstorff", email = "jhvithamar@gmail.com" },
 ]
-description = "Gpt2Anki"
+description = "memorymarker"
 classifiers = [
   "Operating System :: POSIX :: Linux",
   "Operating System :: MacOS :: MacOS X",
@@ -66,9 +66,9 @@ file = "README.md"
 content-type = "text/markdown"
 
 [project.urls]
-homepage = "https://github.com/rysias/gpt2anki"
-repository = "https://github.com/rysias/gpt2anki"
-documentation = "https://rysias.github.io/gpt2anki/"
+homepage = "https://github.com/rysias/memorymarker"
+repository = "https://github.com/rysias/memorymarker"
+documentation = "https://rysias.github.io/memorymarker/"
 
 [tool.pyright]
 exclude = [".*venv*", ".tox"]

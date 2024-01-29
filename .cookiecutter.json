@@ -6,10 +6,10 @@
     "author": "Jonathan Rystr\u00f8m & Martin Bernstorff",
     "copyright_year": "2023",
     "email": "jhvithamar@gmail.com",
-    "friendly_name": "Gpt2Anki",
+    "friendly_name": "memorymarker",
     "github_user": "rysias",
     "license": "MIT",
-    "package_name": "gpt2anki",
-    "project_name": "gpt2anki",
+    "package_name": "memorymarker",
+    "project_name": "memorymarker",
     "version": "0.0.0"
 }

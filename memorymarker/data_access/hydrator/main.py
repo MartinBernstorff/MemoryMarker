@@ -4,7 +4,7 @@ from urllib.request import urlopen
 
 import requests
 from bs4 import BeautifulSoup, NavigableString, Tag
-from gpt2anki.data_access.highlight_sources.base import (
+from memorymarker.data_access.highlight_sources.base import (
     HydratedHighlight,
     OrphanHighlight,
 )

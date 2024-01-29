@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from gpt2anki.domain.highlights_to_questions import QAPrompt
+from memorymarker.domain.highlights_to_questions import QAPrompt
 
 SAVE_DIR = Path("card_cache")
 

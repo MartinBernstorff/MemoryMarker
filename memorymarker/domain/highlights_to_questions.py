@@ -2,10 +2,10 @@ from collections.abc import Sequence
 from dataclasses import dataclass
 from pathlib import Path
 
-import gpt2anki.data_access.fileio as fileio
+import memorymarker.data_access.fileio as fileio
 from dotenv import load_dotenv
-from gpt2anki.data_access.highlight_sources.base import HydratedHighlight
-from gpt2anki.domain.prompts_from_string import llmresult_to_qas
+from memorymarker.data_access.highlight_sources.base import HydratedHighlight
+from memorymarker.domain.prompts_from_string import llmresult_to_qas
 from langchain.chat_models import ChatOpenAI
 from langchain.schema import HumanMessage, SystemMessage
 

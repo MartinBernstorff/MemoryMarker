@@ -4,10 +4,10 @@
   "checkout": null,
   "context": {
     "cookiecutter": {
-      "project_name": "gpt2anki",
-      "package_name": "gpt2anki",
-      "friendly_name": "Gpt2Anki",
-      "author": "Jonathan Rystrøm & Martin Bernstorff",
+      "project_name": "memorymarker",
+      "package_name": "memorymarker",
+      "friendly_name": "memorymarker",
+      "author": "Jonathan Rystrï¿½m & Martin Bernstorff",
       "email": "jhvithamar@gmail.com",
       "github_user": "rysias",
       "version": "0.0.0",

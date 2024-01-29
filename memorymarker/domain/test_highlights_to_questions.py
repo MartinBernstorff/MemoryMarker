@@ -1,6 +1,6 @@
-import gpt2anki.domain.highlights_to_questions as h2q
+import memorymarker.domain.highlights_to_questions as h2q
 import pytest
-from gpt2anki.data_access.highlight_sources.base import HydratedHighlight
+from memorymarker.data_access.highlight_sources.base import HydratedHighlight
 
 
 # create a pytest fixture for the model
