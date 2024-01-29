@@ -20,7 +20,8 @@
                 "ms-vscode.makefile-tools",
                 "github.vscode-github-actions",
                 "SeeLog.python-init-generator",
-                "MichaelCurrin.auto-commit-msg"
+                "MichaelCurrin.auto-commit-msg",
+                "tamasfe.even-better-toml"
             ]
         }
     },

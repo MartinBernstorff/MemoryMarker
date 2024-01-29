@@ -89,7 +89,17 @@ select = [
   "SIM",
   "W",
 ]
-ignore = ["ANN101", "ANN401", "E402", "E501", "F401", "F841", "RET504", "UP035"]
+ignore = [
+  "ANN101",
+  "ANN401",
+  "I001",
+  "E402",
+  "E501",
+  "F401",
+  "F841",
+  "RET504",
+  "UP035",
+]
 ignore-init-module-imports = true
 # Allow autofix for all enabled rules (when `--fix`) is provided.
 unfixable = ["ERA"]
@@ -128,8 +138,8 @@ suppress-none-returning = true
 [tool.ruff.isort]
 known-third-party = ["wandb"]
 required-imports = [
-  "from typing import Mapping, Sequence", 
-  "from dataclasses import dataclass"
+  "from typing import Mapping, Sequence",
+  "from dataclasses import dataclass",
 ]
 
 [tool.ruff.mccabe]
