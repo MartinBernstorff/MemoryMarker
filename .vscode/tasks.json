@@ -29,7 +29,7 @@
         {
             "label": "Squash-submit",
             "type": "shell",
-            "command": "memorymarker sync --automerge --squash",
+            "command": "lumberman sync --automerge --squash",
             "presentation": {
                 "reveal": "always",
                 "clear": true,
