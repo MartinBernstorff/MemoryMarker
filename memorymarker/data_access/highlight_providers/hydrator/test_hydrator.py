@@ -1,4 +1,3 @@
-
 from bs4 import BeautifulSoup
 
 from memorymarker.data_access.highlight_providers.hydrator.main import ContextParser
