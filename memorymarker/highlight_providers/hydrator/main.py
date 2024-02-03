@@ -6,7 +6,7 @@ import requests
 from bs4 import BeautifulSoup, NavigableString, Tag
 from joblib import Memory
 
-from memorymarker.data_access.highlight_providers.base import (
+from memorymarker.highlight_providers.base import (
     HydratedHighlight,
     OrphanHighlight,
 )

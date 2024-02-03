@@ -8,7 +8,7 @@ import requests
 from dotenv import load_dotenv
 from pydantic import BaseModel
 
-from memorymarker.data_access.highlight_providers.base import (
+from memorymarker.highlight_providers.base import (
     OrphanHighlight,
 )
 

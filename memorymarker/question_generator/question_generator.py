@@ -6,14 +6,13 @@ from dotenv import load_dotenv
 from langchain.chat_models import ChatOpenAI
 from langchain.schema import HumanMessage, SystemMessage
 
-import memorymarker.data_access.fileio as fileio
-from memorymarker.data_access.highlight_providers.base import HydratedHighlight
-from memorymarker.domain.prompts_from_string import llmresult_to_qas
+from memorymarker.highlight_providers.base import HydratedHighlight
+from memorymarker.question_generator.prompts_from_string import llmresult_to_qas
 
 load_dotenv()
 PROMPT_DIR = Path(__file__).parent.parent / "prompts"
 assert PROMPT_DIR.exists(), f"Prompts directory does not exist at {PROMPT_DIR}"
-SYSTEM_PROMPT = fileio.read_txt(PROMPT_DIR / "martin_prompt.txt")
+SYSTEM_PROMPT = (PROMPT_DIR / "martin_prompt.txt").read_text()
 
 
 def initialize_model(model_name: str = "gpt-4") -> ChatOpenAI:
