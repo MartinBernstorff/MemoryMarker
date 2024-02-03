@@ -8,7 +8,7 @@ from bs4 import BeautifulSoup, NavigableString, Tag
 from iterpy._iter import Iter
 from joblib import Memory
 
-from memorymarker.data_access.highlight_sources.base import (
+from memorymarker.data_access.highlight_providers.base import (
     HydratedHighlight,
     OrphanHighlight,
 )
