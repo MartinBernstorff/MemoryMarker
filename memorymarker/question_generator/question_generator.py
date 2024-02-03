@@ -26,9 +26,9 @@ class HydratedOpenAIPrompt:
     highlight: HydratedHighlight
 
 
-def highlight_to_msg(highlight: HydratedHighlight) -> HydratedOpenAIPrompt:
+def _highlight_to_msg(highlight: HydratedHighlight) -> HydratedOpenAIPrompt:
     human_message = "<target>{target}</target><context>{context}</context>".format(
-        target=highlight.highlight,
+        target=highlight.highlighted_text,
         context=highlight.context,
     )
     return HydratedOpenAIPrompt(
@@ -40,12 +40,13 @@ def highlight_to_msg(highlight: HydratedHighlight) -> HydratedOpenAIPrompt:
 
 @dataclass(frozen=True)
 class QAPrompt:
+    hydrated_highlight: HydratedHighlight
     question: str
     answer: str
     title: str
 
 
-def finalise_hydrated_questions(
+def _finalise_hydrated_questions(
     zipped_outputs: tuple[dict[str, str], HydratedOpenAIPrompt],
 ) -> QAPrompt:
     match zipped_outputs:
@@ -53,11 +54,12 @@ def finalise_hydrated_questions(
             return QAPrompt(
                 question=model_outputs["question"],
                 answer=model_outputs["answer"],
-                title=hydrated_prompt.highlight.title,
+                title=hydrated_prompt.highlight.source_doc_title,
+                hydrated_highlight=hydrated_prompt.highlight,
             )
 
 
-async def prompts_to_questions(
+async def _prompts_to_questions(
     hydrated_prompts: list[HydratedOpenAIPrompt],
     model: ChatOpenAI,
 ) -> list[QAPrompt]:
@@ -67,16 +69,16 @@ async def prompts_to_questions(
     parsed_outputs = llmresult_to_qas(model_output)
 
     zipped_outputs = zip(parsed_outputs, hydrated_prompts, strict=True)
-    return list(map(finalise_hydrated_questions, zipped_outputs))
+    return list(map(_finalise_hydrated_questions, zipped_outputs))
 
 
 async def highlights_to_questions(
     model: ChatOpenAI,
     highlights: Sequence[HydratedHighlight],
-) -> list[QAPrompt]:
-    hydrated_prompts = [highlight_to_msg(x) for x in highlights]
+) -> Sequence[QAPrompt]:
+    hydrated_prompts = [_highlight_to_msg(x) for x in highlights]
 
-    questions = await prompts_to_questions(
+    questions = await _prompts_to_questions(
         hydrated_prompts=hydrated_prompts,
         model=model,
     )

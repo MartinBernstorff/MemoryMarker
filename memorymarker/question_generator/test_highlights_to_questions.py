@@ -16,9 +16,9 @@ def model() -> h2q.ChatOpenAI:
 def hydrated_highlight() -> HydratedHighlight:
     return HydratedHighlight(
         context="Mitochondria is the powerhouse of the cell",
-        highlight="Mitochondria",
-        uri="https://en.wikipedia.org/wiki/Mitochondrion",
-        title="Mitochondrion - Wikipedia",
+        highlighted_text="Mitochondria",
+        source_doc_uri="https://en.wikipedia.org/wiki/Mitochondrion",
+        source_doc_title="Mitochondrion - Wikipedia",
         updated_at=datetime.now(),
     )
 
@@ -41,16 +41,16 @@ async def test_multi_response(model: h2q.ChatOpenAI) -> None:
     highlights = [
         HydratedHighlight(
             context="Mitochondria is the powerhouse of the cell",
-            highlight="Mitochondria",
-            uri="https://en.wikipedia.org/wiki/Mitochondrion",
-            title="Mitochondrion - Wikipedia",
+            highlighted_text="Mitochondria",
+            source_doc_uri="https://en.wikipedia.org/wiki/Mitochondrion",
+            source_doc_title="Mitochondrion - Wikipedia",
             updated_at=datetime.now(),
         ),
         HydratedHighlight(
             context="The first rule of Fight Club is that you don't talk about Fight Club",
-            highlight="Fight Club",
-            uri="https://en.wikipedia.org/wiki/Fight_Club",
-            title="Fight Club - Wikipedia",
+            highlighted_text="Fight Club",
+            source_doc_uri="https://en.wikipedia.org/wiki/Fight_Club",
+            source_doc_title="Fight Club - Wikipedia",
             updated_at=datetime.now(),
         ),
     ]
