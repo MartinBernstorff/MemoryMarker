@@ -1,8 +1,5 @@
-from dataclasses import dataclass
-from typing import Mapping, Sequence
 
 from bs4 import BeautifulSoup
-from iterpy._iter import Iter
 
 from memorymarker.data_access.highlight_providers.hydrator.main import ContextParser
 
