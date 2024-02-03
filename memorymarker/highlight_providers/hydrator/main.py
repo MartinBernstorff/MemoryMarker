@@ -97,9 +97,9 @@ class HighlightHydrator:
             )
             hydrated_highlights.append(
                 HydratedHighlight(
-                    highlight=highlight.highlight,
-                    uri=highlight.uri,
-                    title=highlight.title,
+                    highlighted_text=highlight.highlight,
+                    source_doc_uri=highlight.uri,
+                    source_doc_title=highlight.title,
                     context=context,
                 ),  # type: ignore
             )

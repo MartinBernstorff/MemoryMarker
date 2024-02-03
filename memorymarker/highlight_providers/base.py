@@ -14,15 +14,16 @@ class OrphanHighlight:
 
 
 class HydratedHighlight(BaseModel):
-    title: str
-    highlight: str
+    source_doc_title: str
+    source_doc_uri: str
+    highlighted_text: str
     context: str
-    uri: str
+    source_highlight_uri: str | None = None
     updated_at: dt.datetime
 
 
 class HighlightSource(Protocol):
-    def get_highlights_since_date(self, date: dt.datetime) -> tuple[OrphanHighlight]:
+    def get_highlights(self) -> tuple[OrphanHighlight]:
         ...
 
 

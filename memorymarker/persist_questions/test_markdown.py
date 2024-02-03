@@ -1,7 +1,22 @@
+import datetime as dt
+
 import pytest
 
 import memorymarker.persist_questions.markdown as markdown
 from memorymarker.question_generator.question_generator import QAPrompt
+
+from ..highlight_providers.base import HydratedHighlight
+
+
+class FakeHydratedHighlight(HydratedHighlight):
+    source_doc_title: str = "The Hitchhiker's Guide to the Galaxy"
+    source_doc_uri: str = (
+        "https://en.wikipedia.org/wiki/The_Hitchhiker%27s_Guide_to_the_Galaxy"
+    )
+    highlighted_text: str = "42"
+    context: str = "The meaning of life is 42"
+    source_highlight_uri: str = "https://en.wikipedia.org/wiki/The_Hitchhiker%27s_Guide_to_the_Galaxy#meaning_of_life"
+    updated_at: dt.datetime = dt.datetime.now()
 
 
 @pytest.fixture(scope="module")
@@ -10,13 +25,13 @@ def question() -> QAPrompt:
         question="What is the meaning of life?",
         answer="42",
         title="The Hitchhiker's Guide to the Galaxy",
+        hydrated_highlight=FakeHydratedHighlight(),
     )
 
 
-def test_single_q_to_markdown(question: QAPrompt) -> None:
+def test_single_q_to_markdown(question: QAPrompt, snapshot) -> None:
     input_md = markdown.q_to_markdown(question)
-    expected = "Q. What is the meaning of life?\nA. 42\n\n"
-    assert input_md == expected
+    assert snapshot == input_md
 
 
 def test_clean_filename():

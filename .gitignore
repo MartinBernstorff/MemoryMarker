@@ -19,3 +19,4 @@ build
 card_cache
 *.egg-info
 .testmondata*
+questions
