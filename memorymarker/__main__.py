@@ -1,6 +1,7 @@
 import asyncio
 import datetime as dt
 import os
+from dataclasses import dataclass
 from pathlib import Path
 
 import pytz
@@ -13,11 +14,22 @@ from memorymarker.question_generator.question_generator import (
     initialize_model,
 )
 
-app = typer.Typer()
+app = typer.Typer(no_args_is_help=True)
 
 
 def get_api_key_from_env(env_var: str) -> str | None:
     return os.getenv(env_var, None)
+
+
+@dataclass(frozen=True)
+class TimestampHandler:
+    filepath: Path
+
+    def update_timestamp(self) -> None:
+        self.filepath.write_text(dt.datetime.now(pytz.UTC).isoformat())
+
+    def get_timestamp(self) -> dt.datetime:
+        return dt.datetime.fromisoformat(self.filepath.read_text())
 
 
 @app.command()
@@ -28,13 +40,28 @@ def typer_cli(
     max_n: int = typer.Argument(
         1, help="Maximum number of questions to generate from highlights"
     ),
-    since_date: dt.datetime = typer.Option(
-        dt.datetime.now(pytz.timezone("UTC")) - dt.timedelta(days=7),
-        help="Date to start gathering highlights from",
+    only_new: bool = typer.Option(
+        True, help="Only generate questions from highlights since last run"
     ),
 ) -> None:
-    typer.echo("Getting highlights from Omnivore...")
-    highlights = Omnivore().get_highlights().filter(lambda h: h.updated_at > since_date)
+    last_run_timestamper = TimestampHandler(output_dir / ".memorymarker")
+    typer.echo(
+        f"Last run at UTC {last_run_timestamper.get_timestamp().strftime('%Y-%m-%d %H:%M:%S')}"
+    )
+    typer.echo("Fetching new highlights...")
+    highlights = Omnivore().get_highlights()
+
+    if only_new:
+        highlights = highlights.filter(
+            lambda _: _.updated_at > last_run_timestamper.get_timestamp()
+        )
+        last_run_timestamper.update_timestamp()
+
+        if highlights.count() == 0:
+            typer.echo("No new highlights since last run")
+            return
+
+        typer.echo(f"Received {highlights.count()} new highlights")
 
     typer.echo("Generating questions from highlights...")
     questions = asyncio.run(
