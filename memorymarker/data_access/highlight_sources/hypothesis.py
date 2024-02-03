@@ -2,8 +2,6 @@ import datetime as dt
 import json
 import os
 import re
-from dataclasses import dataclass
-from typing import Mapping, Sequence
 
 import pytz
 import requests
@@ -11,7 +9,6 @@ from dotenv import load_dotenv
 from pydantic import BaseModel
 
 from memorymarker.data_access.highlight_sources.base import (
-    HighlightSource,
     OrphanHighlight,
 )
 
@@ -40,7 +37,7 @@ class SearchRequest(BaseModel):
         return user_id
 
 
-class HypothesisHighlightGetter(HighlightSource):
+class HypothesisHighlightGetter:
     def __init__(self, username: str):
         api_key = os.getenv("HYPOTHESIS_API_KEY")
         if api_key is None:

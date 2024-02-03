@@ -1,6 +1,5 @@
 import re
-from dataclasses import dataclass
-from typing import Callable, Mapping, Sequence
+from typing import Callable, Sequence
 from urllib.request import urlopen
 
 import requests

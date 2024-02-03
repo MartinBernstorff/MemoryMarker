@@ -1,7 +1,5 @@
 import asyncio
 import datetime as dt
-from dataclasses import dataclass
-from typing import Mapping, Sequence
 
 import pytz
 from bs4 import BeautifulSoup

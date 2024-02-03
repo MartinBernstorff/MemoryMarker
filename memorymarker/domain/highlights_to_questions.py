@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Mapping, Sequence
+from typing import Sequence
 
 from dotenv import load_dotenv
 from langchain.chat_models import ChatOpenAI
@@ -11,7 +11,7 @@ from memorymarker.data_access.highlight_sources.base import HydratedHighlight
 from memorymarker.domain.prompts_from_string import llmresult_to_qas
 
 load_dotenv()
-PROMPT_DIR = Path(__file__).parent.parent.parent.parent / "prompts"
+PROMPT_DIR = Path(__file__).parent.parent / "prompts"
 assert PROMPT_DIR.exists(), f"Prompts directory does not exist at {PROMPT_DIR}"
 SYSTEM_PROMPT = fileio.read_txt(PROMPT_DIR / "martin_prompt.txt")
 

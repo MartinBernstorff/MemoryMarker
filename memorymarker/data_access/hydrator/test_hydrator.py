@@ -1,6 +1,3 @@
-from dataclasses import dataclass
-from typing import Mapping, Sequence
-
 from bs4 import BeautifulSoup
 
 from memorymarker.data_access.hydrator.main import ContextParser
