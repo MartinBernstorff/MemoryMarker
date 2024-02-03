@@ -7,13 +7,9 @@ install:
 	pip install --upgrade -e .[dev,test]
 
 # Tasks
-generate_coverage:
-	@pytest 
-
 test: ## Run tests
 	@echo "––– Testing –––"
-	@make generate_coverage
-	@diff-cover .coverage.xml
+	@pytest --testmon
 	@echo "✅✅✅ Tests passed ✅✅✅"
 
 lint: ## Format code
@@ -40,4 +36,4 @@ validate_ci: ## Run all checks
 	@make lint
 	@make types
 ## CI doesn't support local coverage report, so skipping full tests
-	@make generate_coverage 
+	@make test

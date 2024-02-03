@@ -46,7 +46,7 @@ tests = [
   "pytest-xdist>=3.0.0",
   "pytest-asyncio",
   "pytest-sugar>=0.9.4",
-  "tox>=4.5.0",
+  "pytest-testmon==2.1.0",
 ]
 
 [project.readme]
