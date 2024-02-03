@@ -19,7 +19,7 @@ requires-python = ">=3.9"
 dependencies = [
   "omnivoreql",
   "pydantic",
-  "langchain",
+  "langchain==0.0.300",
   "openai",
   "python-dotenv",
   "pytz",
