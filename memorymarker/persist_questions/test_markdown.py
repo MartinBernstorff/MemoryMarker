@@ -1,7 +1,7 @@
 import pytest
 
-import memorymarker.data_access.persist_questions.markdown as markdown
-from memorymarker.domain.highlights_to_questions import QAPrompt
+import memorymarker.persist_questions.markdown as markdown
+from memorymarker.question_generator.question_generator import QAPrompt
 
 
 @pytest.fixture(scope="module")

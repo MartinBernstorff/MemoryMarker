@@ -1,6 +1,6 @@
 from bs4 import BeautifulSoup
 
-from memorymarker.data_access.highlight_providers.hydrator.main import ContextParser
+from memorymarker.highlight_providers.hydrator.main import ContextParser
 
 
 def test_context_parser():
