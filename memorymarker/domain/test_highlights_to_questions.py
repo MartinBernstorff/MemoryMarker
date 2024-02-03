@@ -3,7 +3,7 @@ from datetime import datetime
 import pytest
 
 import memorymarker.domain.highlights_to_questions as h2q
-from memorymarker.data_access.highlight_sources.base import HydratedHighlight
+from memorymarker.data_access.highlight_providers.base import HydratedHighlight
 
 
 # create a pytest fixture for the model

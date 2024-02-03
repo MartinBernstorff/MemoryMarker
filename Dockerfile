@@ -29,4 +29,4 @@ RUN --mount=type=cache,target=/root/.cache/pip make install
 
 COPY . /app
 RUN rm -rf cache
-RUN pip install -e .
+RUN pip install .[tests]

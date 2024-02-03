@@ -1,6 +1,10 @@
-from bs4 import BeautifulSoup
+from dataclasses import dataclass
+from typing import Mapping, Sequence
 
-from memorymarker.data_access.hydrator.main import ContextParser
+from bs4 import BeautifulSoup
+from iterpy._iter import Iter
+
+from memorymarker.data_access.highlight_providers.hydrator.main import ContextParser
 
 
 def test_context_parser():

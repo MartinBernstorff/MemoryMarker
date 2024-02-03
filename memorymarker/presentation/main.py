@@ -4,11 +4,11 @@ import datetime as dt
 import pytz
 from bs4 import BeautifulSoup
 
-from memorymarker.data_access.highlight_sources.base import HydratedHighlight
-from memorymarker.data_access.highlight_sources.hypothesis import (
+from memorymarker.data_access.highlight_providers.base import HydratedHighlight
+from memorymarker.data_access.highlight_providers.hydrator.main import HighlightHydrator
+from memorymarker.data_access.highlight_providers.hypothesis import (
     HypothesisHighlightGetter,
 )
-from memorymarker.data_access.hydrator.main import HighlightHydrator
 from memorymarker.data_access.persist_questions.markdown import write_qa_prompt_to_md
 from memorymarker.domain.highlights_to_questions import (
     highlights_to_questions,

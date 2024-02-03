@@ -25,6 +25,7 @@ dependencies = [
   "pytz",
   "joblib",
   "beautifulsoup4",
+  "iterpy",
 ]
 [project.license]
 file = "LICENSE"
