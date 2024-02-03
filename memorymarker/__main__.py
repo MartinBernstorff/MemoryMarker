@@ -26,16 +26,26 @@ class TimestampHandler:
     filepath: Path
 
     def update_timestamp(self) -> None:
+        if not self.filepath.exists():
+            self.filepath.touch()
+
         self.filepath.write_text(dt.datetime.now(pytz.UTC).isoformat())
 
-    def get_timestamp(self) -> dt.datetime:
-        return dt.datetime.fromisoformat(self.filepath.read_text())
+    def get_timestamp(self) -> dt.datetime | None:
+        try:
+            dt.datetime.fromisoformat(self.filepath.read_text())
+        except FileNotFoundError:
+            return None
 
 
 @app.command()
 def typer_cli(
     output_dir: Path = typer.Argument(
-        Path("questions"), help="Directory to save the generated questions to"
+        Path("questions"),
+        help="Directory to save the generated questions to",
+        file_okay=False,
+        dir_okay=True,
+        writable=True,
     ),
     max_n: int = typer.Argument(
         1, help="Maximum number of questions to generate from highlights"
@@ -44,17 +54,22 @@ def typer_cli(
         True, help="Only generate questions from highlights since last run"
     ),
 ) -> None:
+    output_dir.mkdir(exist_ok=True, parents=True)
     last_run_timestamper = TimestampHandler(output_dir / ".memorymarker")
-    typer.echo(
-        f"Last run at UTC {last_run_timestamper.get_timestamp().strftime('%Y-%m-%d %H:%M:%S')}"
-    )
+    last_run_timestamp = last_run_timestamper.get_timestamp()
+
     typer.echo("Fetching new highlights...")
     highlights = Omnivore().get_highlights()
 
     if only_new:
-        highlights = highlights.filter(
-            lambda _: _.updated_at > last_run_timestamper.get_timestamp()
+        if not last_run_timestamp:
+            typer.echo("No last run timestamp found, exiting")
+            return
+
+        typer.echo(
+            f"Last run at UTC {last_run_timestamp.strftime('%Y-%m-%d %H:%M:%S')}"
         )
+        highlights = highlights.filter(lambda _: _.updated_at > last_run_timestamp)
         last_run_timestamper.update_timestamp()
 
         if highlights.count() == 0:

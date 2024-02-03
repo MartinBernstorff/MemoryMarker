@@ -17,6 +17,8 @@ class FakeHydratedHighlight(HydratedHighlight):
     context: str = "The meaning of life is 42"
     source_highlight_uri: str = "https://en.wikipedia.org/wiki/The_Hitchhiker%27s_Guide_to_the_Galaxy#meaning_of_life"
     updated_at: dt.datetime = dt.datetime.now()
+    prefix: str = ""
+    suffix: str = ""
 
 
 @pytest.fixture(scope="module")

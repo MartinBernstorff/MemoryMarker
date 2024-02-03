@@ -1,7 +1,6 @@
 import re
 from pathlib import Path
 
-
 from memorymarker.question_generator.question_generator import QAPrompt
 
 
@@ -11,15 +10,18 @@ def clean_filename(filename: str) -> str:
 
 
 def q_to_markdown(prompt: QAPrompt) -> str:
+    highlight = prompt.hydrated_highlight
     return f"""Q. {prompt.question}
 A. {prompt.answer}
-[Highlight]({prompt.hydrated_highlight.source_highlight_uri})
+
+> [!NOTE]- Highlight
+> {highlight.prefix or ""}=={highlight.highlighted_text}=={highlight.suffix.strip() if highlight.suffix is not None else ""}
+> [Link]({highlight.source_highlight_uri})
 \n"""
 
 
 def write_md(contents: str, file_title: str, save_dir: Path) -> None:
     """Write markdown to file. Append if exists"""
-    save_dir.mkdir(exist_ok=True, parents=True)
     with (save_dir / f"{clean_filename(file_title)}.md").open(mode="a") as f:
         f.write(contents + "\n")
 

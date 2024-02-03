@@ -20,7 +20,8 @@ class Article(BaseModel):
             source_doc_title=self.title,
             source_doc_uri=self.uri,
             highlighted_text=highlight["quote"],
-            context=f"{highlight['prefix']} {highlight['quote']} {highlight['suffix']}",
+            prefix=highlight["prefix"],
+            suffix=highlight["suffix"],
             updated_at=highlight["updatedAt"],  # type: ignore
             source_highlight_uri=f"https://omnivore.app/me/{self.slug}#{highlight["id"]}",
         )

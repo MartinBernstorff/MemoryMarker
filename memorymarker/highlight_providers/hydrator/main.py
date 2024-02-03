@@ -100,7 +100,8 @@ class HighlightHydrator:
                     highlighted_text=highlight.highlight,
                     source_doc_uri=highlight.uri,
                     source_doc_title=highlight.title,
-                    context=context,
+                    prefix=context[:100],
+                    suffix=context[-100:],
                 ),  # type: ignore
             )
 
