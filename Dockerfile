@@ -28,5 +28,5 @@ COPY pyproject.toml ./
 RUN --mount=type=cache,target=/root/.cache/pip make install
 
 COPY . /app
-RUN pip install -e .
-RUN rm -rf build
+RUN rm -rf cache
+RUN pip install .[tests]

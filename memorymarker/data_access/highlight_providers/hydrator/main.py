@@ -1,11 +1,9 @@
 import re
-from dataclasses import dataclass
-from typing import Callable, Mapping, Sequence
+from typing import Callable, Sequence
 from urllib.request import urlopen
 
 import requests
 from bs4 import BeautifulSoup, NavigableString, Tag
-from iterpy._iter import Iter
 from joblib import Memory
 
 from memorymarker.data_access.highlight_providers.base import (
@@ -103,7 +101,7 @@ class HighlightHydrator:
                     uri=highlight.uri,
                     title=highlight.title,
                     context=context,
-                ),
+                ),  # type: ignore
             )
 
         return hydrated_highlights

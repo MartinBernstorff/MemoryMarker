@@ -17,7 +17,6 @@
                 "ms-python.python",
                 "ms-python.vscode-pylance",
                 "GitHub.vscode-pull-request-github",
-                "ms-vscode.makefile-tools",
                 "github.vscode-github-actions",
                 "SeeLog.python-init-generator",
                 "MichaelCurrin.auto-commit-msg",
@@ -31,7 +30,7 @@
     "features": {
         "ghcr.io/devcontainers/features/github-cli:1": {}
     },
-    "postStartCommand": "make install && gt user pager --disable"
+    "postStartCommand": "gt user pager --disable"
     // Features to add to the dev container. More info: https://containers.dev/features.
     // "features": {},
     // Use 'forwardPorts' to make a list of ports inside the container available locally.
