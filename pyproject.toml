@@ -20,7 +20,7 @@ dependencies = [
   "omnivoreql",
   "pydantic",
   "langchain==0.0.300",
-  "openai",
+  "openai==0.28.0",
   "python-dotenv",
   "pytz",
   "joblib",
