@@ -5,9 +5,11 @@ from urllib.request import urlopen
 import requests
 from bs4 import BeautifulSoup, NavigableString, Tag
 from joblib import Memory
+from memorymarker.document_providers.ContextualizedHighlight import (
+    ContextualizedHighlight,
+)
 
-from memorymarker.highlight_providers.base import (
-    HydratedHighlight,
+from memorymarker.document_providers.base import (
     OrphanHighlight,
 )
 
@@ -80,8 +82,8 @@ class HighlightHydrator:
     def hydrate_highlights(
         self,
         highlights: Sequence[OrphanHighlight],
-    ) -> Sequence[HydratedHighlight | None]:
-        hydrated_highlights: list[HydratedHighlight | None] = []
+    ) -> Sequence[ContextualizedHighlight | None]:
+        hydrated_highlights: list[ContextualizedHighlight | None] = []
         for highlight in highlights:
             try:
                 page = urlopen(highlight.uri)
@@ -96,7 +98,7 @@ class HighlightHydrator:
                 highlight=highlight.highlight,
             )
             hydrated_highlights.append(
-                HydratedHighlight(
+                ContextualizedHighlight(
                     highlighted_text=highlight.highlight,
                     source_doc_uri=highlight.uri,
                     source_doc_title=highlight.title,
