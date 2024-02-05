@@ -6,7 +6,9 @@ from dotenv import load_dotenv
 from langchain.chat_models import ChatOpenAI
 from langchain.schema import HumanMessage, SystemMessage
 
-from memorymarker.highlight_providers.base import HydratedHighlight
+from memorymarker.document_providers.ContextualizedHighlight import (
+    ContextualizedHighlight,
+)
 from memorymarker.question_generator.prompts_from_string import llmresult_to_qas
 
 load_dotenv()
@@ -23,10 +25,10 @@ def initialize_model(model_name: str = "gpt-4") -> ChatOpenAI:
 class HydratedOpenAIPrompt:
     system_message: SystemMessage
     human_message: HumanMessage
-    highlight: HydratedHighlight
+    highlight: ContextualizedHighlight
 
 
-def _highlight_to_msg(highlight: HydratedHighlight) -> HydratedOpenAIPrompt:
+def _highlight_to_msg(highlight: ContextualizedHighlight) -> HydratedOpenAIPrompt:
     human_message = "<target>{target}</target><context>{context}</context>".format(
         target=highlight.highlighted_text,
         context=highlight.context,
@@ -40,7 +42,7 @@ def _highlight_to_msg(highlight: HydratedHighlight) -> HydratedOpenAIPrompt:
 
 @dataclass(frozen=True)
 class QAPrompt:
-    hydrated_highlight: HydratedHighlight
+    hydrated_highlight: ContextualizedHighlight
     question: str
     answer: str
     title: str
@@ -74,7 +76,7 @@ async def _prompts_to_questions(
 
 async def highlights_to_questions(
     model: ChatOpenAI,
-    highlights: Sequence[HydratedHighlight],
+    highlights: Sequence[ContextualizedHighlight],
 ) -> Sequence[QAPrompt]:
     hydrated_prompts = [_highlight_to_msg(x) for x in highlights]
 

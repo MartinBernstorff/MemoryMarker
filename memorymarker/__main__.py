@@ -7,7 +7,8 @@ from pathlib import Path
 import pytz
 import typer
 
-from memorymarker.highlight_providers.omnivore import Omnivore
+from memorymarker.cli.document_selector import select_documents
+from memorymarker.document_providers.omnivore import Omnivore
 from memorymarker.persist_questions.markdown import write_qa_prompt_to_md
 from memorymarker.question_generator.question_generator import (
     highlights_to_questions,
@@ -33,7 +34,7 @@ class TimestampHandler:
 
     def get_timestamp(self) -> dt.datetime | None:
         try:
-            dt.datetime.fromisoformat(self.filepath.read_text())
+            return dt.datetime.fromisoformat(self.filepath.read_text())
         except FileNotFoundError:
             return None
 
@@ -53,17 +54,27 @@ def typer_cli(
     only_new: bool = typer.Option(
         True, help="Only generate questions from highlights since last run"
     ),
+    select: bool = typer.Option(
+        False, help="Prompt to select which documents to generate questions from"
+    ),
 ) -> None:
     output_dir.mkdir(exist_ok=True, parents=True)
     last_run_timestamper = TimestampHandler(output_dir / ".memorymarker")
     last_run_timestamp = last_run_timestamper.get_timestamp()
 
-    typer.echo("Fetching new highlights...")
-    highlights = Omnivore().get_highlights()
+    typer.echo("Fetching documents")
+    documents = Omnivore().get_documents().filter(lambda _: len(_.highlights) > 0)
+
+    if select:
+        documents = select_documents(documents)
+
+    typer.echo("Processing to highlights")
+    highlights = documents.map(lambda _: _.get_highlights()).flatten()
 
     if only_new:
         if not last_run_timestamp:
             typer.echo("No last run timestamp found, exiting")
+            last_run_timestamper.update_timestamp()
             return
 
         typer.echo(
@@ -88,6 +99,7 @@ def typer_cli(
 
     typer.echo("Writing questions to markdown...")
     for question in questions:
+        typer.echo(f"Writing question to {question.title}")
         write_qa_prompt_to_md(save_dir=output_dir, prompt=question)
 
 

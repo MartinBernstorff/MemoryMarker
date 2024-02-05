@@ -3,7 +3,9 @@ from datetime import datetime
 import pytest
 
 import memorymarker.question_generator.question_generator as h2q
-from memorymarker.highlight_providers.base import HydratedHighlight
+from memorymarker.document_providers.ContextualizedHighlight import (
+    ContextualizedHighlight,
+)
 
 
 # create a pytest fixture for the model
@@ -13,8 +15,8 @@ def model() -> h2q.ChatOpenAI:
 
 
 @pytest.fixture(scope="module")
-def hydrated_highlight() -> HydratedHighlight:
-    return HydratedHighlight(
+def hydrated_highlight() -> ContextualizedHighlight:
+    return ContextualizedHighlight(
         prefix="",
         suffix=" is the powerhouse of the cell",
         highlighted_text="Mitochondria",
@@ -27,7 +29,7 @@ def hydrated_highlight() -> HydratedHighlight:
 @pytest.mark.asyncio()
 async def test_model_response(
     model: h2q.ChatOpenAI,
-    hydrated_highlight: HydratedHighlight,
+    hydrated_highlight: ContextualizedHighlight,
 ) -> None:
     await h2q.highlights_to_questions(
         model,
@@ -40,7 +42,7 @@ async def test_model_response(
 @pytest.mark.asyncio()
 async def test_multi_response(model: h2q.ChatOpenAI) -> None:
     highlights = [
-        HydratedHighlight(
+        ContextualizedHighlight(
             prefix="",
             suffix=" is the powerhouse of the cell",
             highlighted_text="Mitochondria",
@@ -48,7 +50,7 @@ async def test_multi_response(model: h2q.ChatOpenAI) -> None:
             source_doc_title="Mitochondrion - Wikipedia",
             updated_at=datetime.now(),
         ),
-        HydratedHighlight(
+        ContextualizedHighlight(
             prefix="The first rule of ",
             suffix=" is that you don't talk about Fight Club",
             highlighted_text="Fight Club",

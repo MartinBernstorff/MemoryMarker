@@ -6,5 +6,5 @@ load_dotenv()
 
 
 def test_omnivore():
-    highlights = Omnivore().get_highlights()
+    highlights = Omnivore().get_documents()
     assert highlights.count() > 0
