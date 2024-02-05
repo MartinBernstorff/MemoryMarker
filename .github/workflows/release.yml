@@ -8,7 +8,7 @@
 name: Release
 on:
   workflow_run:
-    workflows: ["Tests"]
+    workflows: ["build-and-test"]
     types:
       - completed
   # Manual trigger
