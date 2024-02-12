@@ -47,7 +47,7 @@ tests = [
   "pytest-asyncio",
   "pytest-sugar>=0.9.4",
   "pytest-testmon==2.1.0",
-  "syrupy==4.6.0",
+  "syrupy==4.6.1",
 ]
 
 [project.readme]
