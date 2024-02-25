@@ -44,11 +44,11 @@ validate_ci: ## Run all checks
 docker_ci: ## Run all checks in docker
 	@echo "––– Running all checks in docker –––"
 	@docker rm -f memorymarker || true
-	@docker build -t memorymarker:latest -f Dockerfile .
+	@docker build -t memorymarker:latest -f .github/Dockerfile.dev .
 	@docker run memorymarker make validate_ci
 
 pr: ## Submit a PR
-	@lm sync --squash --automerge
+	@lumberman sync --squash --automerge
 
 #########################
 # End template makefile #
