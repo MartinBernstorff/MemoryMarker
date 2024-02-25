@@ -4,6 +4,18 @@
     "version": "2.0.0",
     "tasks": [
         {
+            "label": "Install lefthook",
+            "type": "shell",
+            "command": "lefthook install",
+            "group": "none",
+            "presentation": {
+                "reveal": "silent",
+            },
+            "runOptions": {
+                "runOn": "folderOpen",
+            }
+        },
+        {
             "label": "PR",
             "type": "shell",
             "command": "make pr",

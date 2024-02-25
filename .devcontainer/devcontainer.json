@@ -3,7 +3,7 @@
     "name": "Existing Dockerfile",
     "build": {
         "context": "..",
-        "dockerfile": "../Dockerfile"
+        "dockerfile": "../.github/Dockerfile.dev"
     },
     "postCreateCommand": ".devcontainer/post_create.sh",
     "customizations": {

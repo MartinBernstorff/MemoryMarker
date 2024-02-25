@@ -1,3 +1,7 @@
+###########################
+# Start template makefile #
+###########################
+
 SRC_PATH = memorymarker
 MAKEFLAGS = --no-print-directory
 
@@ -9,7 +13,7 @@ quicksync:
 	rye sync --no-lock
 
 test:
-	@rye run pytest --cov=$(SRC_PATH) $(SRC_PATH) --cov-report xml:.coverage.xml --cov-report lcov:.coverage.lcov
+	@rye run pytest --cov=$(SRC_PATH) $(SRC_PATH) --cov-report xml:.coverage.xml --cov-report lcov:.coverage.lcov --testmon
 
 test-with-coverage: 
 	@echo "––– Testing –––"
@@ -40,8 +44,12 @@ validate_ci: ## Run all checks
 docker_ci: ## Run all checks in docker
 	@echo "––– Running all checks in docker –––"
 	@docker rm -f memorymarker_ci || true
-	@docker build -t memorymarker_ci:latest -f Dockerfile .
+	@docker build -t memorymarker_ci:latest -f .github/Dockerfile.dev .
 	@docker run memorymarker_ci make validate_ci
 
 pr: ## Submit a PR
-	@rye run lm sync --squash --automerge
+	@lumberman sync --squash --automerge
+
+#########################
+# End template makefile #
+#########################
