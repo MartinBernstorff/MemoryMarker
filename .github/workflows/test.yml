@@ -43,8 +43,7 @@ jobs:
       
       - name: Check environment variables
         run: |
-          echo $OMNIVORE_API_KEY
-          echo $OPENAI_API_KEY
+          cat .env
 
       - name: Run CI container
         env:
