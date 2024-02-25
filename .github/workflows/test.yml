@@ -32,6 +32,7 @@ jobs:
           context: .
           file: .github/Dockerfile.dev
           push: true
+          load: true # Also build for the docker daemon
           tags: "ghcr.io/martinbernstorff/memorymarker_ci:latest"
           cache-from: type=gha
           cache-to: type=gha,mode=max
