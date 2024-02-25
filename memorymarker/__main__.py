@@ -39,18 +39,16 @@ class TimestampHandler:
             return None
 
 
-@app.command()
+@app.command()  # type: ignore
 def typer_cli(
-    output_dir: Path = typer.Argument(
+    output_dir: Path = typer.Argument(  # noqa: B008 # type: ignore
         Path("questions"),
         help="Directory to save the generated questions to",
         file_okay=False,
         dir_okay=True,
         writable=True,
     ),
-    max_n: int = typer.Argument(
-        1, help="Maximum number of questions to generate from highlights"
-    ),
+    max_n: int = typer.Argument(1, help="Maximum number of questions to generate from highlights"),
     only_new: bool = typer.Option(
         True, help="Only generate questions from highlights since last run"
     ),
@@ -77,9 +75,7 @@ def typer_cli(
             last_run_timestamper.update_timestamp()
             return
 
-        typer.echo(
-            f"Last run at UTC {last_run_timestamp.strftime('%Y-%m-%d %H:%M:%S')}"
-        )
+        typer.echo(f"Last run at UTC {last_run_timestamp.strftime('%Y-%m-%d %H:%M:%S')}")
         highlights = highlights.filter(lambda _: _.updated_at > last_run_timestamp)
         last_run_timestamper.update_timestamp()
 
@@ -92,8 +88,7 @@ def typer_cli(
     typer.echo("Generating questions from highlights...")
     questions = asyncio.run(
         highlights_to_questions(
-            model=initialize_model("gpt-3.5-turbo"),
-            highlights=highlights.to_list()[0:max_n],
+            model=initialize_model("gpt-3.5-turbo"), highlights=highlights.to_list()[0:max_n]
         )
     )
 

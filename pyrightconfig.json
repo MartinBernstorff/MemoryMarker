@@ -1,0 +1,11 @@
+{
+    "exclude": [
+        ".*venv*"
+    ],
+    "pythonPlatform": "Darwin",
+    "reportMissingTypeStubs": false,
+    "reportUntypedFunctionDecorator": false,
+    "reportMissingParameterType": false, // Covered by ruff ANN
+    "reportUnknownParameterType": false, // Covered by ruff ANN
+    "typeCheckingMode": "strict"
+}

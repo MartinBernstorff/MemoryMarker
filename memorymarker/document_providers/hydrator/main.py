@@ -1,22 +1,20 @@
 import re
-from typing import Callable, Sequence
+from typing import TYPE_CHECKING, Callable, Sequence
 from urllib.request import urlopen
 
 import requests
 from bs4 import BeautifulSoup, NavigableString, Tag
 from joblib import Memory
-from memorymarker.document_providers.ContextualizedHighlight import (
-    ContextualizedHighlight,
-)
 
-from memorymarker.document_providers.base import (
-    OrphanHighlight,
-)
+from memorymarker.document_providers.ContextualizedHighlight import ContextualizedHighlight
 
-memory = Memory("cache", verbose=0)
+if TYPE_CHECKING:
+    from memorymarker.document_providers.base import OrphanHighlight
+
+memory = Memory(".soup_download_cache", verbose=0)
 
 
-@memory.cache()
+@memory.cache()  # type: ignore
 def download_soup_from_url(url: str) -> BeautifulSoup:
     # Send HTTP request to URL and save the response from server in a response object called r
     r = requests.get(url)
@@ -29,10 +27,7 @@ def download_soup_from_url(url: str) -> BeautifulSoup:
 class ContextParser:
     @staticmethod
     def get_highlight_context(
-        soup: BeautifulSoup,
-        highlight: str,
-        n_chars_before: int = 100,
-        n_chars_after: int = 100,
+        soup: BeautifulSoup, highlight: str, n_chars_before: int = 100, n_chars_after: int = 100
     ) -> str:
         highlight_selection = soup.find(text=re.compile(highlight))
 
@@ -60,17 +55,11 @@ class ContextParser:
 
     @staticmethod
     def _select_context_slice(
-        highlight: str,
-        n_chars_before: int,
-        n_chars_after: int,
-        context: str,
+        highlight: str, n_chars_before: int, n_chars_after: int, context: str
     ) -> str:
         highlight_index = context.find(highlight)
         context_start_index = max(0, highlight_index - n_chars_before)
-        context_end_index = min(
-            len(context),
-            highlight_index + len(highlight) + n_chars_after,
-        )
+        context_end_index = min(len(context), highlight_index + len(highlight) + n_chars_after)
 
         return context[context_start_index:context_end_index]
 
@@ -80,8 +69,7 @@ class HighlightHydrator:
         self.soup_downloader = soup_downloader
 
     def hydrate_highlights(
-        self,
-        highlights: Sequence[OrphanHighlight],
+        self, highlights: Sequence["OrphanHighlight"]
     ) -> Sequence[ContextualizedHighlight | None]:
         hydrated_highlights: list[ContextualizedHighlight | None] = []
         for highlight in highlights:
@@ -93,10 +81,7 @@ class HighlightHydrator:
                 continue
 
             soup = self.soup_downloader(page)
-            context = ContextParser.get_highlight_context(
-                soup=soup,
-                highlight=highlight.highlight,
-            )
+            context = ContextParser.get_highlight_context(soup=soup, highlight=highlight.highlight)
             hydrated_highlights.append(
                 ContextualizedHighlight(
                     highlighted_text=highlight.highlight,
@@ -104,13 +89,11 @@ class HighlightHydrator:
                     source_doc_title=highlight.title,
                     prefix=context[:100],
                     suffix=context[-100:],
-                ),  # type: ignore
+                )  # type: ignore
             )
 
         return hydrated_highlights
 
 
 if __name__ == "__main__":
-    result = download_soup_from_url(
-        "https://www.gutenberg.org/files/2701/2701-h/2701-h.htm",
-    )
+    result = download_soup_from_url("https://www.gutenberg.org/files/2701/2701-h/2701-h.htm")

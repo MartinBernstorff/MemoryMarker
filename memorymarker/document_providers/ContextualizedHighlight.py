@@ -1,7 +1,6 @@
+import datetime as dt  # noqa: TCH003
+
 from pydantic import BaseModel
-
-
-import datetime as dt
 
 
 class ContextualizedHighlight(BaseModel):

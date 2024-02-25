@@ -8,9 +8,7 @@ import requests
 from dotenv import load_dotenv
 from pydantic import BaseModel
 
-from memorymarker.document_providers.base import (
-    OrphanHighlight,
-)
+from memorymarker.document_providers.base import OrphanHighlight
 
 load_dotenv()
 
@@ -31,9 +29,7 @@ class SearchRequest(BaseModel):
     def hypothesis_user_id(self) -> str:
         user_id = f"acct:{self.username}@hypothes.is"
 
-        assert (
-            len(re.findall(string=user_id, pattern=r"acct:[A-Za-z0-9._]{3,30}@.*")) == 1
-        )
+        assert len(re.findall(string=user_id, pattern=r"acct:[A-Za-z0-9._]{3,30}@.*")) == 1
         return user_id
 
 
@@ -47,10 +43,7 @@ class HypothesisHighlightGetter:
         self.endpoint: str = "https://api.hypothes.is/api/search"
         self.username: str = username
 
-    def get_highlights_since_date(
-        self,
-        date: dt.datetime,
-    ) -> tuple[OrphanHighlight, ...]:
+    def get_highlights_since_date(self, date: dt.datetime) -> tuple[OrphanHighlight, ...]:
         request_spec = SearchRequest(search_after=date, username=self.username)
 
         params = {
@@ -78,7 +71,7 @@ class HypothesisHighlightGetter:
                         highlight=row["target"][0]["selector"][2]["exact"],
                         uri=row["uri"],
                         title=row["document"]["title"][0],
-                    ),
+                    )
                 )
             except KeyError:
                 errors.append(row)
@@ -90,6 +83,6 @@ class HypothesisHighlightGetter:
 
 if __name__ == "__main__":
     # Load api-key from .env file
-    response = HypothesisHighlightGetter(
-        username="ryqiem",
-    ).get_highlights_since_date(dt.datetime.now(tz=pytz.UTC) - dt.timedelta(days=200))
+    response = HypothesisHighlightGetter(username="ryqiem").get_highlights_since_date(
+        dt.datetime.now(tz=pytz.UTC) - dt.timedelta(days=200)
+    )

@@ -2,7 +2,7 @@ import os
 from dataclasses import dataclass
 from typing import Mapping
 
-from iterpy._iter import Iter
+from iterpy.iter import Iter
 from omnivoreql import OmnivoreQL
 
 from memorymarker.document_providers.Document import Document
