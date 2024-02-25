@@ -1,3 +1,7 @@
+###########################
+# Start template makefile #
+###########################
+
 SRC_PATH = memorymarker
 MAKEFLAGS = --no-print-directory
 
@@ -9,7 +13,7 @@ quicksync:
 	rye sync --no-lock
 
 test:
-	@rye run pytest --cov=$(SRC_PATH) $(SRC_PATH) --cov-report xml:.coverage.xml --cov-report lcov:.coverage.lcov
+	@rye run pytest --cov=$(SRC_PATH) $(SRC_PATH) --cov-report xml:.coverage.xml --cov-report lcov:.coverage.lcov --testmon
 
 test-with-coverage: 
 	@echo "––– Testing –––"
@@ -45,3 +49,10 @@ docker_ci: ## Run all checks in docker
 
 pr: ## Submit a PR
 	@rye run lm sync --squash --automerge
+
+#########################
+# End template makefile #
+#########################
+
+update-snapshots:
+	@pytest --snapshot-update
