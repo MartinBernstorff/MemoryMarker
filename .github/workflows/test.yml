@@ -36,11 +36,19 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
+      - name: Set environment variables
+        run: |
+          echo $OMNIVORE_API_KEY >> .env
+          echo $OPENAI_API_KEY >> .env
+      
+      - name: Check environment variables
+        run: |
+          echo $OMNIVORE_API_KEY
+          echo $OPENAI_API_KEY
+
       - name: Run CI container
         env:
           OMNIVORE_API_KEY: ${{ secrets.OMNIVORE_API_KEY }}
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
         run: |
-          echo $OMNIVORE_API_KEY >> .env
-          echo $OPENAI_API_KEY >> .env
           make docker_ci
