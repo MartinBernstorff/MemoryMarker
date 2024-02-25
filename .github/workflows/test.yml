@@ -29,7 +29,7 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v5
         with:
-          context: .
+          context: .github/Dockerfile.dev
           push: true
           tags: "ghcr.io/martinbernstorff/memorymarker_ci:latest"
           cache-from: type=gha
