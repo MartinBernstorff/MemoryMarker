@@ -45,7 +45,7 @@ docker_ci: ## Run all checks in docker
 	@echo "––– Running all checks in docker –––"
 	@docker rm -f memorymarker_ci || true
 	@docker build -t memorymarker_ci:latest -f .github/Dockerfile.dev .
-	@docker run memorymarker_ci make validate_ci
+	@docker run --env-file .env memorymarker_ci make validate_ci
 
 pr: ## Submit a PR
 	@lumberman sync --squash --automerge
