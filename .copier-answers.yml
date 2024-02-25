@@ -1,5 +1,5 @@
 # Changes here will be overwritten by Copier; NEVER EDIT MANUALLY
-_commit: 5ab721c
+_commit: b477d40
 _src_path: https://github.com/MartinBernstorff/nimble-python-template
 email: martinbernstorff@gmail.com
 full_name: Martin Bernstorff
@@ -8,4 +8,5 @@ package_name: memorymarker
 project_name: memorymarker
 project_slug: memorymarker
 python_version: '3.12'
-release_to_pypi: true
+release_docker_image: true
+release_package: true
