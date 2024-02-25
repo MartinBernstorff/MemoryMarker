@@ -18,5 +18,5 @@ jobs:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
         run: |
           echo $OMNIVORE_API_KEY >> .env
-          echo $secrets.OPENAI_API_KEY >> .env
+          echo $OPENAI_API_KEY >> .env
           make docker_ci
