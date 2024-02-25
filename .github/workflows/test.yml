@@ -13,7 +13,10 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Build CI container
+        env:
+          OMNIVORE_API_KEY: ${{ secrets.OMNIVORE_API_KEY }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
         run: |
-          echo ${{ secrets.OMNIVORE_API_KEY }} >> .env
-          echo ${{ secrets.OPENAI_API_KEY }} >> .env
+          echo $OMNIVORE_API_KEY >> .env
+          echo $secrets.OPENAI_API_KEY >> .env
           make docker_ci
