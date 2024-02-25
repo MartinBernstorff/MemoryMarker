@@ -14,4 +14,6 @@ jobs:
 
       - name: Build CI container
         run: |
+          echo ${{ secrets.OMNIVORE_API_KEY }} >> .env
+          echo ${{ secrets.OPENAI_API_KEY }} >> .env
           make docker_ci
