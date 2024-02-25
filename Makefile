@@ -39,9 +39,9 @@ validate_ci: ## Run all checks
 
 docker_ci: ## Run all checks in docker
 	@echo "––– Running all checks in docker –––"
-	@docker rm -f memorymarker || true
-	@docker build -t memorymarker:latest -f Dockerfile .
-	@docker run memorymarker make validate_ci
+	@docker rm -f memorymarker_ci || true
+	@docker build -t memorymarker_ci:latest -f Dockerfile .
+	@docker run memorymarker_ci make validate_ci
 
 pr: ## Submit a PR
 	@rye run lm sync --squash --automerge
