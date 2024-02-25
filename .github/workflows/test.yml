@@ -16,39 +16,11 @@ jobs:
       - name: Checkout (GitHub)
         uses: actions/checkout@v3
 
-      - name: Log in to the Container registry
-        uses: docker/login-action@65b78e6e13532edd9afa3aa52ac7964289d1a9c1
-        with:
-          registry: ${{ env.REGISTRY }}
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
-
-      - name: Build and push
-        uses: docker/build-push-action@v5
-        with:
-          context: .
-          file: .github/Dockerfile.dev
-          push: true
-          load: true # Also build for the docker daemon
-          tags: "ghcr.io/martinbernstorff/memorymarker_ci:latest"
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
-
-      - name: Set environment variables
-        run: |
-          echo $OMNIVORE_API_KEY >> .env
-          echo $OPENAI_API_KEY >> .env
-      
-      - name: Check environment variables
-        run: |
-          cat .env
-
       - name: Run CI container
         env:
           OMNIVORE_API_KEY: ${{ secrets.OMNIVORE_API_KEY }}
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
         run: |
+          printenv > .env
+          bat .env
           make docker_ci
