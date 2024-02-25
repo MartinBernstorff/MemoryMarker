@@ -48,7 +48,7 @@ docker_ci: ## Run all checks in docker
 	@docker run memorymarker make validate_ci
 
 pr: ## Submit a PR
-	@rye run lm sync --squash --automerge
+	@lm sync --squash --automerge
 
 #########################
 # End template makefile #
