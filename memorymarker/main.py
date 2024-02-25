@@ -1,46 +1,20 @@
 import asyncio
-import datetime as dt
-import os
-from dataclasses import dataclass
 from pathlib import Path
 
-import pytz
 import typer
 
-from memorymarker.cli.document_selector import select_documents
 from memorymarker.document_providers.omnivore import Omnivore
+from memorymarker.main_cli import TimestampHandler
 from memorymarker.persist_questions.markdown import write_qa_prompt_to_md
 from memorymarker.question_generator.question_generator import (
     highlights_to_questions,
     initialize_model,
 )
 
-app = typer.Typer(no_args_is_help=True)
+from .cli.document_selector import select_documents
 
 
-def get_api_key_from_env(env_var: str) -> str | None:
-    return os.getenv(env_var, None)
-
-
-@dataclass(frozen=True)
-class TimestampHandler:
-    filepath: Path
-
-    def update_timestamp(self) -> None:
-        if not self.filepath.exists():
-            self.filepath.touch()
-
-        self.filepath.write_text(dt.datetime.now(pytz.UTC).isoformat())
-
-    def get_timestamp(self) -> dt.datetime | None:
-        try:
-            return dt.datetime.fromisoformat(self.filepath.read_text())
-        except FileNotFoundError:
-            return None
-
-
-@app.command()  # type: ignore
-def typer_cli(
+def main(
     output_dir: Path = typer.Argument(  # noqa: B008 # type: ignore
         Path("questions"),
         help="Directory to save the generated questions to",
@@ -88,7 +62,7 @@ def typer_cli(
     typer.echo("Generating questions from highlights...")
     questions = asyncio.run(
         highlights_to_questions(
-            model=initialize_model("gpt-3.5-turbo"), highlights=highlights.to_list()[0:max_n]
+            model=initialize_model("gpt-3.5-turbo"), highlights=highlights.to_list()[-max_n:]
         )
     )
 
@@ -96,7 +70,3 @@ def typer_cli(
     for question in questions:
         typer.echo(f"Writing question to {question.title}")
         write_qa_prompt_to_md(save_dir=output_dir, prompt=question)
-
-
-if __name__ == "__main__":
-    app()

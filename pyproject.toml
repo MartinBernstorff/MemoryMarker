@@ -46,8 +46,9 @@ repository = "https://github.com/MartinBernstorff/memorymarker"
 documentation = "https://MartinBernstorff.github.io/memorymarker/"
 
 [project.scripts]
-memorymarker = "memorymarker.__main__:app"
-mm = "memorymarker.__main__:app"
+memorymarker = "memorymarker.cli:app"
+mm = "memorymarker.cli:app"
+# memorymarker-docker = "memorymarker.docker:app"
 
 [build-system]
 requires = ["setuptools>=61.0.0", "wheel", "setuptools_scm"]
