@@ -2,6 +2,21 @@
 
 
 
+## v0.3.0 (2024-02-26)
+
+### Feature
+
+* feat: update docker publish permissions (#50)
+
+- [ ] I have considered whether this PR needs review, and requested a
+review if necessary.
+
+Fixes issue #
+
+# Notes for reviewers
+Reviewers can skip X, but should pay attention to Y. ([`86c2856`](https://github.com/MartinBernstorff/MemoryMarker/commit/86c2856e27e7cbde722335c0e9ba018201d5055a))
+
+
 ## v0.2.0 (2024-02-26)
 
 ### Feature
