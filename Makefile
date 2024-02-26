@@ -43,7 +43,7 @@ validate_ci: ## Run all checks
 
 docker_ci: ## Run all checks in docker
 	@echo "––– Running all checks in docker –––"
-	@docker build -t memorymarker_ci:latest -f .github/Dockerfile.dev .
+	@docker build --no-cache -t memorymarker_ci:latest -f .github/Dockerfile.dev .
 	@docker run --env-file .env memorymarker_ci:latest make validate_ci
 
 pr: ## Submit a PR

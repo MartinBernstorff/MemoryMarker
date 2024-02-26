@@ -6,7 +6,9 @@ import requests
 from bs4 import BeautifulSoup, NavigableString, Tag
 from joblib import Memory
 
-from memorymarker.document_providers.ContextualizedHighlight import ContextualizedHighlight
+from memorymarker.document_providers.ContextualizedHighlight import (
+    ContextualizedHighlight,
+)
 
 if TYPE_CHECKING:
     from memorymarker.document_providers.base import OrphanHighlight
@@ -27,7 +29,10 @@ def download_soup_from_url(url: str) -> BeautifulSoup:
 class ContextParser:
     @staticmethod
     def get_highlight_context(
-        soup: BeautifulSoup, highlight: str, n_chars_before: int = 100, n_chars_after: int = 100
+        soup: BeautifulSoup,
+        highlight: str,
+        n_chars_before: int = 100,
+        n_chars_after: int = 100,
     ) -> str:
         highlight_selection = soup.find(text=re.compile(highlight))
 
@@ -59,7 +64,9 @@ class ContextParser:
     ) -> str:
         highlight_index = context.find(highlight)
         context_start_index = max(0, highlight_index - n_chars_before)
-        context_end_index = min(len(context), highlight_index + len(highlight) + n_chars_after)
+        context_end_index = min(
+            len(context), highlight_index + len(highlight) + n_chars_after
+        )
 
         return context[context_start_index:context_end_index]
 
@@ -81,7 +88,9 @@ class HighlightHydrator:
                 continue
 
             soup = self.soup_downloader(page)
-            context = ContextParser.get_highlight_context(soup=soup, highlight=highlight.highlight)
+            context = ContextParser.get_highlight_context(
+                soup=soup, highlight=highlight.highlight
+            )
             hydrated_highlights.append(
                 ContextualizedHighlight(
                     highlighted_text=highlight.highlight,
@@ -96,4 +105,6 @@ class HighlightHydrator:
 
 
 if __name__ == "__main__":
-    result = download_soup_from_url("https://www.gutenberg.org/files/2701/2701-h/2701-h.htm")
+    result = download_soup_from_url(
+        "https://www.gutenberg.org/files/2701/2701-h/2701-h.htm"
+    )

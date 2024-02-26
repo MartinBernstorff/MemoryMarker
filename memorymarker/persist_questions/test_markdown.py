@@ -10,10 +10,10 @@ from ..document_providers.ContextualizedHighlight import ContextualizedHighlight
 
 class FakeHydratedHighlight(ContextualizedHighlight):
     source_doc_title: str = "The Hitchhiker's Guide to the Galaxy"
-    source_doc_uri: str = "https://en.wikipedia.org/wiki/The_Hitchhiker%27s_Guide_to_the_Galaxy"
-    source_highlight_uri: str | None = (
-        "https://en.wikipedia.org/wiki/The_Hitchhiker%27s_Guide_to_the_Galaxy#meaning_of_life"
+    source_doc_uri: str = (
+        "https://en.wikipedia.org/wiki/The_Hitchhiker%27s_Guide_to_the_Galaxy"
     )
+    source_highlight_uri: str | None = "https://en.wikipedia.org/wiki/The_Hitchhiker%27s_Guide_to_the_Galaxy#meaning_of_life"
     updated_at: dt.datetime = dt.datetime.now()
 
     prefix: str | None = ""

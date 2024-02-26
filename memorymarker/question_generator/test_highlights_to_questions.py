@@ -3,7 +3,9 @@ from datetime import datetime
 import pytest
 
 import memorymarker.question_generator.question_generator as h2q
-from memorymarker.document_providers.ContextualizedHighlight import ContextualizedHighlight
+from memorymarker.document_providers.ContextualizedHighlight import (
+    ContextualizedHighlight,
+)
 
 
 # create a pytest fixture for the model

@@ -29,7 +29,9 @@ class SearchRequest(BaseModel):
     def hypothesis_user_id(self) -> str:
         user_id = f"acct:{self.username}@hypothes.is"
 
-        assert len(re.findall(string=user_id, pattern=r"acct:[A-Za-z0-9._]{3,30}@.*")) == 1
+        assert (
+            len(re.findall(string=user_id, pattern=r"acct:[A-Za-z0-9._]{3,30}@.*")) == 1
+        )
         return user_id
 
 
@@ -43,7 +45,9 @@ class HypothesisHighlightGetter:
         self.endpoint: str = "https://api.hypothes.is/api/search"
         self.username: str = username
 
-    def get_highlights_since_date(self, date: dt.datetime) -> tuple[OrphanHighlight, ...]:
+    def get_highlights_since_date(
+        self, date: dt.datetime
+    ) -> tuple[OrphanHighlight, ...]:
         request_spec = SearchRequest(search_after=date, username=self.username)
 
         params = {
