@@ -43,15 +43,25 @@ validate_ci: ## Run all checks
 
 docker_ci: ## Run all checks in docker
 	@echo "––– Running all checks in docker –––"
+<<<<<<< before updating
 	docker build -t memorymarker_ci -f .github/Dockerfile.dev .
 	docker run --env-file .env memorymarker_ci make validate_ci
+=======
+	@docker rm -f memorymarker_ci || true
+	@docker build -t memorymarker_ci:latest -f .github/Dockerfile.dev .
+	@docker run memorymarker_ci make validate_ci
+>>>>>>> after updating
 
 pr: ## Submit a PR
 	@lumberman sync --squash --automerge
 
 #########################
 # End template makefile #
+<<<<<<< before updating
 #########################
 
 update-snapshots:
 	@rye run pytest --snapshot-update
+=======
+#########################
+>>>>>>> after updating
