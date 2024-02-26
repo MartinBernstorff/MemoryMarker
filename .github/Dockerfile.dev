@@ -4,10 +4,8 @@ FROM python:3.12
 WORKDIR /app
 
 ENV RYE_HOME="/opt/rye"
-ENV SHIMS_PATH="$RYE_HOME/shims"
-ENV PATH="${SHIMS_PATH}:$PATH"
-
-RUN echo "export PATH=${SHIMS_PATH}:${PATH}" >> /root/.bashrc
+ENV SHIMS_PATH="$RYE_HOME/shims:$PATH"
+RUN echo "export PATH=$SHIMS_PATH" >> /root/.bashrc
 ENV RYE_INSTALL_OPTION="--yes"
 ENV RYE_TOOLCHAIN="/usr/local/bin/python"
 ENV RYE_VERSION=0.26.0
