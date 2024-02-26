@@ -5,10 +5,16 @@ on:
       - 'v*'
   workflow_dispatch:
 
+
 jobs:
   release:
     runs-on: ubuntu-latest
     concurrency: docker-publish
+
+    permissions:
+      contents: read
+      packages: write
+
     steps:
       - uses: actions/checkout@v4
 
