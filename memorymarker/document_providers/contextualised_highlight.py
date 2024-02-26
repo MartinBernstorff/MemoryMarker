@@ -3,7 +3,7 @@ import datetime as dt  # noqa: TCH003
 from pydantic import BaseModel
 
 
-class ContextualizedHighlight(BaseModel):
+class ContextualisedHighlight(BaseModel):
     source_doc_title: str
     source_doc_uri: str
 

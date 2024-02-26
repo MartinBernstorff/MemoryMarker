@@ -8,8 +8,8 @@ from langchain.schema import HumanMessage, SystemMessage
 from memorymarker.question_generator.prompts_from_string import llmresult_to_qas
 
 if TYPE_CHECKING:
-    from memorymarker.document_providers.ContextualizedHighlight import (
-        ContextualizedHighlight,
+    from memorymarker.document_providers.contextualised_highlight import (
+        ContextualisedHighlight,
     )
 
 PROMPT_DIR = Path(__file__).parent.parent / "prompts"
@@ -25,10 +25,10 @@ def initialize_model(model_name: str = "gpt-4") -> ChatOpenAI:
 class HydratedOpenAIPrompt:
     system_message: SystemMessage
     human_message: HumanMessage
-    highlight: "ContextualizedHighlight"
+    highlight: "ContextualisedHighlight"
 
 
-def _highlight_to_msg(highlight: "ContextualizedHighlight") -> HydratedOpenAIPrompt:
+def _highlight_to_msg(highlight: "ContextualisedHighlight") -> HydratedOpenAIPrompt:
     human_message = "<target>{target}</target><context>{context}</context>".format(
         target=highlight.highlighted_text, context=highlight.context
     )
@@ -41,7 +41,7 @@ def _highlight_to_msg(highlight: "ContextualizedHighlight") -> HydratedOpenAIPro
 
 @dataclass(frozen=True)
 class QAPrompt:
-    hydrated_highlight: "ContextualizedHighlight"
+    hydrated_highlight: "ContextualisedHighlight"
     question: str
     answer: str
     title: str
@@ -73,7 +73,7 @@ async def _prompts_to_questions(
 
 
 async def highlights_to_questions(
-    model: ChatOpenAI, highlights: Sequence["ContextualizedHighlight"]
+    model: ChatOpenAI, highlights: Sequence["ContextualisedHighlight"]
 ) -> Sequence[QAPrompt]:
     hydrated_prompts = [_highlight_to_msg(x) for x in highlights]
 
