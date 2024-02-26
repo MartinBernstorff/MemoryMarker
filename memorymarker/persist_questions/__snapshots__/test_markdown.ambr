@@ -1,8 +1,8 @@
 # serializer version: 1
 # name: test_single_q_to_markdown
   '''
-  Q. What is the meaning of life?
-  A. 42
+  Q) What is the meaning of life?
+  A) 42
   
   > [!NOTE]- Highlight
   > ==42==

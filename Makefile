@@ -52,3 +52,6 @@ pr: ## Submit a PR
 #########################
 # End template makefile #
 #########################
+
+update-snapshots:
+	@pytest --snapshot-update
