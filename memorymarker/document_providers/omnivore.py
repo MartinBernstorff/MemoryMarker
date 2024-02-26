@@ -1,4 +1,3 @@
-import os
 from dataclasses import dataclass
 from typing import Mapping
 
@@ -12,11 +11,10 @@ from .base import DocumentProvider
 
 @dataclass
 class Omnivore(DocumentProvider):
+    api_key: str
+
     def __post_init__(self):
-        omnivore_api_key = os.getenv("OMNIVORE_API_KEY")
-        if not omnivore_api_key:
-            raise ValueError("OMNIVORE_API_KEY environment variable not set")
-        self.client = OmnivoreQL(omnivore_api_key)
+        self.client = OmnivoreQL(self.api_key)
 
     def _parse_doc(self, document: Mapping[str, str]) -> Document:
         return Document(

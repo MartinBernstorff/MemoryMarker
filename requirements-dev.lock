@@ -107,17 +107,20 @@ pyright==1.1.350
 pytest==7.4.4
     # via pytest-asyncio
     # via pytest-cov
+    # via pytest-dotenv
     # via pytest-sugar
     # via pytest-testmon
     # via pytest-xdist
     # via syrupy
 pytest-asyncio==0.23.5
 pytest-cov==4.1.0
+pytest-dotenv==0.5.2
 pytest-sugar==1.0.0
 pytest-testmon==2.1.0
 pytest-xdist==3.5.0
 python-dotenv==1.0.1
     # via memorymarker
+    # via pytest-dotenv
 pytz==2024.1
     # via memorymarker
 pyyaml==6.0.1

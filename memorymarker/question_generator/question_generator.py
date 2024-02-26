@@ -2,16 +2,16 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import TYPE_CHECKING, Sequence
 
-from dotenv import load_dotenv
 from langchain.chat_models import ChatOpenAI
 from langchain.schema import HumanMessage, SystemMessage
 
 from memorymarker.question_generator.prompts_from_string import llmresult_to_qas
 
 if TYPE_CHECKING:
-    from memorymarker.document_providers.ContextualizedHighlight import ContextualizedHighlight
+    from memorymarker.document_providers.ContextualizedHighlight import (
+        ContextualizedHighlight,
+    )
 
-load_dotenv()
 PROMPT_DIR = Path(__file__).parent.parent / "prompts"
 assert PROMPT_DIR.exists(), f"Prompts directory does not exist at {PROMPT_DIR}"
 SYSTEM_PROMPT = (PROMPT_DIR / "martin_prompt.txt").read_text()
@@ -77,6 +77,8 @@ async def highlights_to_questions(
 ) -> Sequence[QAPrompt]:
     hydrated_prompts = [_highlight_to_msg(x) for x in highlights]
 
-    questions = await _prompts_to_questions(hydrated_prompts=hydrated_prompts, model=model)
+    questions = await _prompts_to_questions(
+        hydrated_prompts=hydrated_prompts, model=model
+    )
 
     return questions
