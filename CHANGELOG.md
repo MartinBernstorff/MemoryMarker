@@ -2,6 +2,41 @@
 
 
 
+## v0.4.0 (2024-02-26)
+
+### Feature
+
+* feat: run every n seconds (#56)
+
+- [ ] I have considered whether this PR needs review, and requested a
+review if necessary.
+
+Fixes issue #
+
+# Notes for reviewers
+Reviewers can skip X, but should pay attention to Y. ([`e1f07b8`](https://github.com/MartinBernstorff/MemoryMarker/commit/e1f07b8a82c6c922eddbe42c03eb2befa485ba1a))
+
+### Unknown
+
+* update markdown.py update markdown.py update markdown.py update markdown.py update markdown.py, requirements-dev.lock and requirements.lock (#54)
+
+- [ ] I have considered whether this PR needs review, and requested a review if necessary.
+
+Fixes issue #
+
+# Notes for reviewers
+Reviewers can skip X, but should pay attention to Y. ([`e7b2712`](https://github.com/MartinBernstorff/MemoryMarker/commit/e7b27120c531f55c9e152b246da96f8219081112))
+
+* dev: update sample env name (#51)
+
+- [ ] I have considered whether this PR needs review, and requested a review if necessary.
+
+Fixes issue #
+
+# Notes for reviewers
+Reviewers can skip X, but should pay attention to Y. ([`c6bbece`](https://github.com/MartinBernstorff/MemoryMarker/commit/c6bbece21ecc842ad75a8e789f1d5e284a4c76ab))
+
+
 ## v0.3.0 (2024-02-26)
 
 ### Feature
