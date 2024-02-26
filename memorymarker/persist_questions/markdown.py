@@ -15,7 +15,6 @@ def clean_filename(filename: str) -> str:
 def q_to_markdown(prompt: "QAPrompt") -> str:
     highlight = prompt.hydrated_highlight
     return f"""Q) {prompt.question}
-A) {prompt.answer}
 
 > [!NOTE]- Highlight
 > {highlight.prefix or ""}=={highlight.highlighted_text}=={highlight.suffix.strip() if highlight.suffix is not None else ""}

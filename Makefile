@@ -54,4 +54,4 @@ pr: ## Submit a PR
 #########################
 
 update-snapshots:
-	@pytest --snapshot-update
+	@rye run pytest --snapshot-update

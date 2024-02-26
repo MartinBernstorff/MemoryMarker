@@ -5,11 +5,11 @@ pre-commit:
   commands:
     format:
       glob: "*.{py}"
-      run: ruff format {staged_files}
+      run: rye run ruff format {staged_files}
       stage_fixed: true
     lint:
       glob: "*.{py}"
-      run: ruff --fix --extend-select F401 --extend-select F841 --extend-select B007 {staged_files}
+      run: rye run ruff --fix --extend-select F401 --extend-select F841 --extend-select B007 {staged_files}
       stage_fixed: true
 
 post-checkout:
