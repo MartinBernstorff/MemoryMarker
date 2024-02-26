@@ -4,6 +4,7 @@ import os
 import time
 from dataclasses import dataclass
 from pathlib import Path
+from typing import Callable
 
 import pytz
 import typer
@@ -39,6 +40,11 @@ class TimestampHandler:
             return dt.datetime.fromisoformat(self.filepath.read_text())
         except FileNotFoundError:
             return None
+
+
+def sleep_and_run(sleep_time: int, run_func: Callable[[], None]) -> None:
+    time.sleep(sleep_time)
+    run_func()
 
 
 @app.command()  # type: ignore
@@ -97,9 +103,10 @@ def typer_cli(
 
         if highlights.count() == 0:
             typer.echo("No new highlights since last run")
-            return
+            if not run_every:
+                return
 
-        typer.echo(f"Received {highlights.count()} new highlights")
+    typer.echo(f"Received {highlights.count()} new highlights")
 
     typer.echo("Generating questions from highlights...")
     questions = asyncio.run(
