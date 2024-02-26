@@ -2,6 +2,25 @@
 
 
 
+## v0.2.0 (2024-02-26)
+
+### Feature
+
+* feat: bump version ([`23a829e`](https://github.com/MartinBernstorff/MemoryMarker/commit/23a829ea2719d445a8f87b875ae5885a1b584ab8))
+
+### Unknown
+
+* dev: add docker smoketest (#49)
+
+- [ ] I have considered whether this PR needs review, and requested a
+review if necessary.
+
+Fixes issue #
+
+# Notes for reviewers
+Reviewers can skip X, but should pay attention to Y. ([`9940dda`](https://github.com/MartinBernstorff/MemoryMarker/commit/9940ddaeccacc423860f9545f733e0b926ed3166))
+
+
 ## v0.1.0 (2024-02-26)
 
 ### Build
