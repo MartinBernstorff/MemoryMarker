@@ -2,6 +2,20 @@
 
 
 
+## v0.4.1 (2024-02-26)
+
+### Fix
+
+* fix: do not quit if no new highlights since last run (#57)
+
+- [ ] I have considered whether this PR needs review, and requested a review if necessary.
+
+Fixes issue #
+
+# Notes for reviewers
+Reviewers can skip X, but should pay attention to Y. ([`f135cfc`](https://github.com/MartinBernstorff/MemoryMarker/commit/f135cfc289c438d048d8b757ee011bf4c3882444))
+
+
 ## v0.4.0 (2024-02-26)
 
 ### Feature
