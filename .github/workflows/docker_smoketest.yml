@@ -1,4 +1,4 @@
-name: smoketests
+name: docker-smoketest
 on:
   pull_request:
 
