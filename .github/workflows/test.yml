@@ -22,5 +22,6 @@ jobs:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           GHCR_PAT: ${{ secrets.GHCR_PAT }}
         run: |
+          touch .env
           printenv > .env
           make docker_ci
