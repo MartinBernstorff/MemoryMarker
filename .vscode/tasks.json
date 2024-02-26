@@ -1,13 +1,24 @@
-// TODO: https://github.com/MartinBernstorff/personal-mnemonic-medium/issues/223 dev: prompt if wanting to enable automerge in tasks
 {
     // See https://go.microsoft.com/fwlink/?LinkId=733558
     // for the documentation about the tasks.json format
     "version": "2.0.0",
     "tasks": [
         {
+            "label": "Install lefthook",
+            "type": "shell",
+            "command": "lefthook install",
+            "group": "none",
+            "presentation": {
+                "reveal": "silent",
+            },
+            "runOptions": {
+                "runOn": "folderOpen",
+            }
+        },
+        {
             "label": "PR",
             "type": "shell",
-            "command": "",
+            "command": "make pr",
             "group": {
                 "kind": "build",
                 "isDefault": true
@@ -16,20 +27,7 @@
                 "Lint",
                 "Test",
                 "Static type check",
-                "Squash-submit"
             ],
-            "presentation": {
-                "reveal": "always",
-                "clear": false,
-                "showReuseMessage": false,
-                "group": "pr"
-            },
-            "problemMatcher": []
-        },
-        {
-            "label": "Squash-submit",
-            "type": "shell",
-            "command": "lumberman sync --automerge --squash",
             "presentation": {
                 "reveal": "always",
                 "clear": true,
@@ -53,13 +51,13 @@
         {
             "label": "Test",
             "type": "shell",
-            "command": "make test",
+            "command": "make test-with-coverage",
             "presentation": {
                 "reveal": "always",
                 "clear": true,
                 "showReuseMessage": false,
                 "group": "pr"
-            }
+            },
         },
         {
             "label": "Static type check",

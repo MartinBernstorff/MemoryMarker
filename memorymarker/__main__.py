@@ -6,6 +6,7 @@ from pathlib import Path
 
 import pytz
 import typer
+from dotenv import load_dotenv
 
 from memorymarker.cli.document_selector import select_documents
 from memorymarker.document_providers.omnivore import Omnivore
@@ -39,9 +40,12 @@ class TimestampHandler:
             return None
 
 
-@app.command()
+@app.command()  # type: ignore
 def typer_cli(
-    output_dir: Path = typer.Argument(
+    omnivore_api_key: str = typer.Option(
+        None, help="Omnivore API key", envvar="OMNIVORE_API_KEY"
+    ),
+    output_dir: Path = typer.Argument(  # noqa: B008 # type: ignore
         Path("questions"),
         help="Directory to save the generated questions to",
         file_okay=False,
@@ -63,7 +67,11 @@ def typer_cli(
     last_run_timestamp = last_run_timestamper.get_timestamp()
 
     typer.echo("Fetching documents")
-    documents = Omnivore().get_documents().filter(lambda _: len(_.highlights) > 0)
+    documents = (
+        Omnivore(omnivore_api_key)
+        .get_documents()
+        .filter(lambda _: len(_.highlights) > 0)
+    )
 
     if select:
         documents = select_documents(documents)
@@ -104,4 +112,5 @@ def typer_cli(
 
 
 if __name__ == "__main__":
+    load_dotenv()
     app()

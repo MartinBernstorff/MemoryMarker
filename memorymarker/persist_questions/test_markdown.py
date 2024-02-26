@@ -13,12 +13,12 @@ class FakeHydratedHighlight(ContextualizedHighlight):
     source_doc_uri: str = (
         "https://en.wikipedia.org/wiki/The_Hitchhiker%27s_Guide_to_the_Galaxy"
     )
-    highlighted_text: str = "42"
-    context: str = "The meaning of life is 42"
-    source_highlight_uri: str = "https://en.wikipedia.org/wiki/The_Hitchhiker%27s_Guide_to_the_Galaxy#meaning_of_life"
+    source_highlight_uri: str | None = "https://en.wikipedia.org/wiki/The_Hitchhiker%27s_Guide_to_the_Galaxy#meaning_of_life"
     updated_at: dt.datetime = dt.datetime.now()
-    prefix: str = ""
-    suffix: str = ""
+
+    prefix: str | None = ""
+    highlighted_text: str = "42"
+    suffix: str | None = ""
 
 
 @pytest.fixture(scope="module")
@@ -31,7 +31,7 @@ def question() -> QAPrompt:
     )
 
 
-def test_single_q_to_markdown(question: QAPrompt, snapshot) -> None:
+def test_single_q_to_markdown(question: QAPrompt, snapshot) -> None:  # noqa: ANN001
     input_md = markdown.q_to_markdown(question)
     assert snapshot == input_md
 

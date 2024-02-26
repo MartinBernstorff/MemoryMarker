@@ -1,6 +1,6 @@
 from typing import Any, Mapping, Sequence
 
-from iterpy._iter import Iter
+from iterpy.iter import Iter
 from pydantic import BaseModel
 
 from .ContextualizedHighlight import ContextualizedHighlight

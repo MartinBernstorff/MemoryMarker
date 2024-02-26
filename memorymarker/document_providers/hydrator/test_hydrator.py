@@ -27,11 +27,8 @@ def test_context_slicing():
     context = "54321highlight12345"
 
     assert (
-        ContextParser._select_context_slice(
-            highlight=highlight,
-            n_chars_before=1,
-            n_chars_after=1,
-            context=context,
+        ContextParser._select_context_slice(  # type: ignore
+            highlight=highlight, n_chars_before=1, n_chars_after=1, context=context
         )
         == "1highlight1"
     )

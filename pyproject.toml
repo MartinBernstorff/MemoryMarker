@@ -1,147 +1,66 @@
-[build-system]
-requires = ["setuptools>=61.0.0", "wheel", "setuptools_scm"]
-build-backend = "setuptools.build_meta"
-
 [project]
-name = "memorymarker"
 version = "0.0.1"
-authors = [
-  { name = "Martin Bernstorff & Jonathan Hvithamar", email = "martinbernstorff@gmail.com" },
-]
+requires-python = ">=3.12"
+name = "memorymarker"
 description = "memorymarker"
-classifiers = [
-  "Operating System :: POSIX :: Linux",
-  "Operating System :: MacOS :: MacOS X",
-  "Operating System :: Microsoft :: Windows",
-  "Programming Language :: Python :: 3.10",
-]
-requires-python = ">=3.9"
 dependencies = [
-  "omnivoreql",
-  "pydantic",
+  "beautifulsoup4>=4.12.3",
+  "iterpy>=1.6.0",
+  "joblib>=1.3.2",
   "langchain==0.0.300",
+  "omnivoreql>=0.2.1",
   "openai==0.28.0",
-  "python-dotenv",
-  "pytz",
-  "joblib",
-  "beautifulsoup4",
-  "iterpy",
+  "pydantic>=2.6.2",
+  "python-dotenv>=1.0.1",
+  "pytz>=2024.1",
+  "typer>=0.9.0",
+  "questionary>=2.0.1",
 ]
+authors = [{ name = "Martin Bernstorff", email = "martinbernstorff@gmail.com" }]
+classifiers = ["Programming Language :: Python :: 3.12"]
+
 [project.license]
 file = "LICENSE"
-name = "MIT"
-[project.optional-dependencies]
-dev = [
-  "cruft>=2.0.0",
-  "lumberman",
-  "pyright==1.1.325",
-  "pyright-polite>=0.0.1",
-  "pre-commit>=2.20.0",
-  "ruff>=0.1.14",
-  "invoke==2.2.0",
-]
-tests = [
-  "pytest>=7.1.3",
-  "pytest-cov>=3.0.0",
-  "pytest-xdist>=3.0.0",
-  "pytest-asyncio",
-  "pytest-sugar>=0.9.4",
-  "pytest-testmon==2.1.0",
-  "syrupy==4.6.0",
-]
 
 [project.readme]
 file = "README.md"
 content-type = "text/markdown"
 
+[tool]
+rye = { dev-dependencies = [
+    "diff-cover==8.0.3",
+    "pyright==1.1.350",
+    "pytest>=7.4.0",
+    "pytest-cov==4.1.0",
+    "pytest-xdist==3.5.0",
+    "pytest-sugar==1.0.0",
+    "ruff==0.2.2",
+    "pytest-asyncio>=0.23.5",
+    "pytest-testmon>=2.1.0",
+    "syrupy>=4.6.1",
+    "pytest-dotenv>=0.5.2",
+] }
+
 [project.urls]
-homepage = "https://github.com/martinbernstorff/memorymarker"
-repository = "https://github.com/martinbernstorff/memorymarker"
-documentation = "https://martinbernstorff.github.io/memorymarker/"
+homepage = "https://github.com/MartinBernstorff/memorymarker"
+repository = "https://github.com/MartinBernstorff/memorymarker"
+documentation = "https://MartinBernstorff.github.io/memorymarker/"
 
 [project.scripts]
 memorymarker = "memorymarker.__main__:app"
 mm = "memorymarker.__main__:app"
 
-[tool.pyright]
-exclude = [".*venv*", ".tox"]
-pythonPlatform = "Darwin"
+[build-system]
+requires = ["setuptools>=61.0.0", "wheel", "setuptools_scm"]
+build-backend = "setuptools.build_meta"
 
-[tool.ruff]
-target-version = "py310"
-exclude = [
-  ".bzr",
-  ".direnv",
-  ".eggs",
-  ".git",
-  ".hg",
-  ".nox",
-  ".pants.d",
-  ".pytype",
-  ".ruff_cache",
-  ".svn",
-  ".tox",
-  ".venv",
-  "__pypackages__",
-  "_build",
-  "buck-out",
-  "build",
-  "dist",
-  "node_modules",
-  "venv",
-  "__init__.py",
-  "docs/conf.py",
-]
+[tool.setuptools]
+include-package-data = true
 
-[tool.ruff.lint]
-ignore = ["ANN101", "ANN401", "E402", "E501", "F401", "F841", "RET504", "UP035"]
-ignore-init-module-imports = true
-# Allow autofix for all enabled rules (when `--fix`) is provided.
-unfixable = ["ERA"]
-# Exclude a variety of commonly ignored directories.
-# Allow unused variables when underscore-prefixed.
-dummy-variable-rgx = "^(_+|(_+[a-zA-Z0-9_]*[a-zA-Z0-9]+?))$"
-
-[tool.ruff.lint.flake8-annotations]
-mypy-init-return = true
-suppress-none-returning = true
-
-[tool.ruff.lint.isort]
-known-third-party = ["wandb"]
-
-[tool.ruff.lint.mccabe]
-# Unlike Flake8, default to a complexity level of 10.
-max-complexity = 10
+[tool.setuptools.package-data]
+"*" = ["py.typed", "*.pyi"]
 
 [tool.semantic_release]
 branch = "main"
 version_toml = ["pyproject.toml:project.version"]
 build_command = "python -m pip install build; python -m build"
-select = [
-  "A",
-  "ANN",
-  "ARG",
-  "B",
-  "C4",
-  "COM",
-  "D417",
-  "E",
-  "ERA",
-  "F",
-  "I",
-  "ICN",
-  "NPY001",
-  "PD002",
-  "PIE",
-  "PLE",
-  "PLW",
-  "PT",
-  "UP",
-  "Q",
-  "PTH",
-  "RSE",
-  "RET",
-  "RUF",
-  "SIM",
-  "W",
-]

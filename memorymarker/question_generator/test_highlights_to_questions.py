@@ -28,13 +28,9 @@ def hydrated_highlight() -> ContextualizedHighlight:
 
 @pytest.mark.asyncio()
 async def test_model_response(
-    model: h2q.ChatOpenAI,
-    hydrated_highlight: ContextualizedHighlight,
+    model: h2q.ChatOpenAI, hydrated_highlight: ContextualizedHighlight
 ) -> None:
-    await h2q.highlights_to_questions(
-        model,
-        [hydrated_highlight],
-    )
+    await h2q.highlights_to_questions(model, [hydrated_highlight])
     # check that outputs an dictionary with keys "answer" and "question"
     # is automatically checked, since highlight_to_questions indexes into it
 

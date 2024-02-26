@@ -8,9 +8,7 @@ import requests
 from dotenv import load_dotenv
 from pydantic import BaseModel
 
-from memorymarker.document_providers.base import (
-    OrphanHighlight,
-)
+from memorymarker.document_providers.base import OrphanHighlight
 
 load_dotenv()
 
@@ -48,8 +46,7 @@ class HypothesisHighlightGetter:
         self.username: str = username
 
     def get_highlights_since_date(
-        self,
-        date: dt.datetime,
+        self, date: dt.datetime
     ) -> tuple[OrphanHighlight, ...]:
         request_spec = SearchRequest(search_after=date, username=self.username)
 
@@ -78,7 +75,7 @@ class HypothesisHighlightGetter:
                         highlight=row["target"][0]["selector"][2]["exact"],
                         uri=row["uri"],
                         title=row["document"]["title"][0],
-                    ),
+                    )
                 )
             except KeyError:
                 errors.append(row)
@@ -90,6 +87,6 @@ class HypothesisHighlightGetter:
 
 if __name__ == "__main__":
     # Load api-key from .env file
-    response = HypothesisHighlightGetter(
-        username="ryqiem",
-    ).get_highlights_since_date(dt.datetime.now(tz=pytz.UTC) - dt.timedelta(days=200))
+    response = HypothesisHighlightGetter(username="ryqiem").get_highlights_since_date(
+        dt.datetime.now(tz=pytz.UTC) - dt.timedelta(days=200)
+    )

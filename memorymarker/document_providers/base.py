@@ -1,15 +1,17 @@
-import datetime as dt
 from dataclasses import dataclass
-from pathlib import Path
-from typing import Protocol, Sequence
+from typing import TYPE_CHECKING, Protocol, Sequence
 
-from iterpy._iter import Iter
+if TYPE_CHECKING:
+    import datetime as dt
+    from pathlib import Path
 
-from memorymarker.document_providers.ContextualizedHighlight import (
-    ContextualizedHighlight,
-)
+    from iterpy.iter import Iter
 
-from .Document import Document
+    from memorymarker.document_providers.ContextualizedHighlight import (
+        ContextualizedHighlight,
+    )
+
+    from .Document import Document
 
 
 @dataclass(frozen=True)
@@ -20,15 +22,15 @@ class OrphanHighlight:
 
 
 class DocumentProvider(Protocol):
-    def get_documents(self) -> Iter[Document]:
+    def get_documents(self) -> "Iter[Document]":
         ...
 
 
 class HighlightManager(Protocol):
-    timestamp_file: Path
+    timestamp_file: "Path"
     source: DocumentProvider
 
     def get_highlights_since_update(
-        self, date: dt.datetime
-    ) -> Sequence[ContextualizedHighlight]:
+        self, date: "dt.datetime"
+    ) -> Sequence["ContextualizedHighlight"]:
         ...
