@@ -7,7 +7,7 @@ dependencies = [
   "beautifulsoup4>=4.12.3",
   "iterpy>=1.6.0",
   "joblib>=1.3.2",
-  "langchain==0.0.300",
+  "langchain==0.1.9",
   "omnivoreql>=0.2.1",
   "openai==0.28.0",
   "pydantic>=2.6.2",
