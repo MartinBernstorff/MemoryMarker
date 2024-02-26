@@ -1,6 +1,7 @@
 import asyncio
 import datetime as dt
 import os
+import time
 from dataclasses import dataclass
 from pathlib import Path
 
@@ -51,6 +52,9 @@ def typer_cli(
         file_okay=False,
         dir_okay=True,
         writable=True,
+    ),
+    run_every: int = typer.Option(
+        None, help="How often to run the script in seconds", envvar="RUN_EVERY"
     ),
     max_n: int = typer.Argument(
         1, help="Maximum number of questions to generate from highlights"
@@ -109,6 +113,19 @@ def typer_cli(
     for question in questions:
         typer.echo(f"Writing question to {question.title}")
         write_qa_prompt_to_md(save_dir=output_dir, prompt=question)
+
+    if run_every:
+        typer.echo(f"Running every {run_every} seconds")
+        time.sleep(run_every)
+        typer.echo("Running again")
+        typer_cli(
+            omnivore_api_key=omnivore_api_key,
+            output_dir=output_dir,
+            run_every=run_every,
+            max_n=max_n,
+            only_new=only_new,
+            select=select,
+        )
 
 
 if __name__ == "__main__":
