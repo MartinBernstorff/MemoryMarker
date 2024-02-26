@@ -13,4 +13,4 @@ jobs:
       - name: Run integration test
         shell: bash
         run: |
-          docker build -t memorymarker -f Dockerfile.dev .
+          docker build -t memorymarker -f Dockerfile .
