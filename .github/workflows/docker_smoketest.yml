@@ -1,0 +1,16 @@
+name: smoketests
+on:
+  pull_request:
+
+jobs:
+  smoketests:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout (GitHub)
+        uses: actions/checkout@v4
+
+      - name: Run integration test
+        shell: bash
+        run: |
+          docker build -t memorymarker -f Dockerfile.dev .
