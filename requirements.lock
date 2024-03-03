@@ -9,14 +9,14 @@
 
 -e file:.
 aiohttp==3.9.3
-    # via langchain
-    # via openai
+    # via instructor
 aiosignal==1.3.1
     # via aiohttp
 annotated-types==0.6.0
     # via pydantic
 anyio==3.7.1
-    # via langchain
+    # via httpx
+    # via openai
 attrs==23.2.0
     # via aiohttp
 backoff==2.2.1
@@ -24,13 +24,17 @@ backoff==2.2.1
 beautifulsoup4==4.12.3
     # via memorymarker
 certifi==2024.2.2
+    # via httpcore
+    # via httpx
     # via requests
 charset-normalizer==3.3.2
     # via requests
 click==8.1.7
     # via typer
-dataclasses-json==0.6.4
-    # via langchain
+distro==1.9.0
+    # via openai
+docstring-parser==0.15
+    # via instructor
 frozenlist==1.4.1
     # via aiohttp
     # via aiosignal
@@ -38,83 +42,75 @@ gql==3.4.1
     # via omnivoreql
 graphql-core==3.2.3
     # via gql
+h11==0.14.0
+    # via httpcore
+httpcore==1.0.4
+    # via httpx
+httpx==0.27.0
+    # via openai
 idna==3.6
     # via anyio
+    # via httpx
     # via requests
     # via yarl
+instructor==0.6.2
+    # via memorymarker
 iterpy==1.6.0
     # via memorymarker
 joblib==1.3.2
     # via memorymarker
-jsonpatch==1.33
-    # via langchain
-jsonpointer==2.4
-    # via jsonpatch
-langchain==0.0.300
-    # via memorymarker
-langsmith==0.0.92
-    # via langchain
-marshmallow==3.20.2
-    # via dataclasses-json
+markdown-it-py==3.0.0
+    # via rich
+mdurl==0.1.2
+    # via markdown-it-py
 multidict==6.0.5
     # via aiohttp
     # via yarl
-mypy-extensions==1.0.0
-    # via typing-inspect
-numexpr==2.9.0
-    # via langchain
-numpy==1.26.4
-    # via langchain
-    # via numexpr
 omnivoreql==0.2.1
     # via memorymarker
-openai==0.28.0
+openai==1.13.3
+    # via instructor
     # via memorymarker
-packaging==23.2
-    # via marshmallow
 prompt-toolkit==3.0.36
     # via questionary
 pydantic==2.6.2
-    # via langchain
-    # via langsmith
+    # via instructor
     # via memorymarker
+    # via openai
 pydantic-core==2.16.3
     # via pydantic
+pygments==2.17.2
+    # via rich
 python-dotenv==1.0.1
     # via memorymarker
 pytz==2024.1
     # via memorymarker
-pyyaml==6.0.1
-    # via langchain
 questionary==2.0.1
     # via memorymarker
 requests==2.31.0
-    # via langchain
-    # via langsmith
-    # via openai
     # via requests-toolbelt
 requests-toolbelt==1.0.0
     # via omnivoreql
+rich==13.7.1
+    # via instructor
 sniffio==1.3.0
     # via anyio
+    # via httpx
+    # via openai
 soupsieve==2.5
     # via beautifulsoup4
-sqlalchemy==2.0.27
-    # via langchain
 tenacity==8.2.3
-    # via langchain
+    # via instructor
 tqdm==4.66.2
     # via openai
 typer==0.9.0
+    # via instructor
     # via memorymarker
 typing-extensions==4.9.0
+    # via openai
     # via pydantic
     # via pydantic-core
-    # via sqlalchemy
     # via typer
-    # via typing-inspect
-typing-inspect==0.9.0
-    # via dataclasses-json
 urllib3==2.2.1
     # via requests
 wcwidth==0.2.13

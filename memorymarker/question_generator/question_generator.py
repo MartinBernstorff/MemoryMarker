@@ -1,84 +1,107 @@
+import asyncio
 from dataclasses import dataclass
 from pathlib import Path
-from typing import TYPE_CHECKING, Sequence
+from typing import TYPE_CHECKING, Literal, Sequence
 
-from langchain.chat_models import ChatOpenAI
-from langchain.schema import HumanMessage, SystemMessage
+import instructor
+from openai import AsyncOpenAI
+from openai.types.chat.chat_completion_user_message_param import (
+    ChatCompletionUserMessageParam,
+)
 
-from memorymarker.question_generator.prompts_from_string import llmresult_to_qas
+from memorymarker.question_generator.highlight_to_question import HighlightToQuestion
 
 if TYPE_CHECKING:
+
+    from openai.types.chat.chat_completion_message_param import (
+        ChatCompletionMessageParam,
+    )
+
     from memorymarker.document_providers.ContextualizedHighlight import (
         ContextualizedHighlight,
     )
+    from memorymarker.question_generator.qa_prompt import QAPrompt
 
 PROMPT_DIR = Path(__file__).parent.parent / "prompts"
 assert PROMPT_DIR.exists(), f"Prompts directory does not exist at {PROMPT_DIR}"
 SYSTEM_PROMPT = (PROMPT_DIR / "martin_prompt.txt").read_text()
 
 
-def initialize_model(model_name: str = "gpt-4") -> ChatOpenAI:
-    return ChatOpenAI(model=model_name)
+from iterpy.iter import Iter
+
+from memorymarker.question_generator.qa_prompt import QAPromptResponseModel
+
+OPENAI_MODELS = Literal[
+    "gpt-4-0125-preview",
+    "gpt-4-turbo-preview",
+    "gpt-4-1106-preview",
+    "gpt-4-vision-preview",
+    "gpt-4",
+    "gpt-4-0314",
+    "gpt-4-0613",
+    "gpt-4-32k",
+    "gpt-4-32k-0314",
+    "gpt-4-32k-0613",
+    "gpt-3.5-turbo",
+    "gpt-3.5-turbo-16k",
+    "gpt-3.5-turbo-0301",
+    "gpt-3.5-turbo-0613",
+    "gpt-3.5-turbo-1106",
+    "gpt-3.5-turbo-0125",
+    "gpt-3.5-turbo-16k-0613",
+]
 
 
-@dataclass(frozen=True)
-class HydratedOpenAIPrompt:
-    system_message: SystemMessage
-    human_message: HumanMessage
-    highlight: "ContextualizedHighlight"
+@dataclass
+class BaselinePipeline(HighlightToQuestion):
+    openai_api_key: str
+    model: OPENAI_MODELS
+    prompt: str = SYSTEM_PROMPT
 
+    def __post_init__(self):
+        self.client = instructor.patch(  # type: ignore # Incorrectly typed from Instructor library
+            AsyncOpenAI(api_key=self.openai_api_key)
+        )
 
-def _highlight_to_msg(highlight: "ContextualizedHighlight") -> HydratedOpenAIPrompt:
-    human_message = "<target>{target}</target><context>{context}</context>".format(
-        target=highlight.highlighted_text, context=highlight.context
-    )
-    return HydratedOpenAIPrompt(
-        system_message=SystemMessage(content=SYSTEM_PROMPT),
-        human_message=HumanMessage(content=human_message),
-        highlight=highlight,
-    )
+    def _build_message(
+        self, highlight: "ContextualizedHighlight"
+    ) -> "ChatCompletionMessageParam":
+        return ChatCompletionUserMessageParam(
+            role="user",
+            name="Martin",
+            content=f"""{self.prompt}
 
+<target>{highlight.highlighted_text}</target><context>{highlight.context}</context>""",
+        )
 
-@dataclass(frozen=True)
-class QAPrompt:
-    hydrated_highlight: "ContextualizedHighlight"
-    question: str
-    answer: str
-    title: str
+    async def _highlight_to_question(
+        self, highlight: "ContextualizedHighlight"
+    ) -> "QAPromptResponseModel":
+        return await self.client.chat.completions.create(
+            model=self.model,
+            messages=[self._build_message(highlight=highlight)],
+            response_model=QAPromptResponseModel,
+        )  # type: ignore
 
+    async def _gather(
+        self, highlights: Sequence["ContextualizedHighlight"]
+    ) -> Sequence["QAPromptResponseModel"]:
+        questions = [self._highlight_to_question(highlight) for highlight in highlights]
+        response = await asyncio.gather(*questions)
+        return response
 
-def _finalise_hydrated_questions(
-    zipped_outputs: tuple[dict[str, str], HydratedOpenAIPrompt],
-) -> QAPrompt:
-    match zipped_outputs:
-        case (model_outputs, hydrated_prompt):
-            return QAPrompt(
-                question=model_outputs["question"],
-                answer=model_outputs["answer"],
-                title=hydrated_prompt.highlight.source_doc_title,
-                hydrated_highlight=hydrated_prompt.highlight,
+    def __call__(self, highlights: "Iter[ContextualizedHighlight]") -> "Iter[QAPrompt]":
+        response: Sequence[QAPromptResponseModel] = asyncio.run(
+            self._gather(highlights)  # type: ignore
+        )
+
+        hydrated_responses = (
+            Iter(response)
+            .zip(highlights.to_list())  # type: ignore
+            .map(
+                lambda qa_context_pair: qa_context_pair[0].to_qaprompt(  # type: ignore
+                    qa_context_pair[1]  # type: ignore
+                )
             )
-
-
-async def _prompts_to_questions(
-    hydrated_prompts: list[HydratedOpenAIPrompt], model: ChatOpenAI
-) -> list[QAPrompt]:
-    prompts = [[x.human_message, x.system_message] for x in hydrated_prompts]
-
-    model_output = await model.agenerate(messages=prompts)  # type: ignore
-    parsed_outputs = llmresult_to_qas(model_output)
-
-    zipped_outputs = zip(parsed_outputs, hydrated_prompts, strict=True)
-    return list(map(_finalise_hydrated_questions, zipped_outputs))
-
-
-async def highlights_to_questions(
-    model: ChatOpenAI, highlights: Sequence["ContextualizedHighlight"]
-) -> Sequence[QAPrompt]:
-    hydrated_prompts = [_highlight_to_msg(x) for x in highlights]
-
-    questions = await _prompts_to_questions(
-        hydrated_prompts=hydrated_prompts, model=model
-    )
-
-    return questions
+        )
+        return hydrated_responses
