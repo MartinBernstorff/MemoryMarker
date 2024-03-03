@@ -1,4 +1,3 @@
-import asyncio
 import datetime as dt
 import os
 import time
@@ -13,10 +12,7 @@ from dotenv import load_dotenv
 from memorymarker.cli.document_selector import select_documents
 from memorymarker.document_providers.omnivore import Omnivore
 from memorymarker.persist_questions.markdown import write_qa_prompt_to_md
-from memorymarker.question_generator.question_generator import (
-    highlights_to_questions,
-    initialize_model,
-)
+from memorymarker.question_generator.question_generator import BaselinePipeline
 
 app = typer.Typer(no_args_is_help=True)
 
@@ -109,12 +105,12 @@ def typer_cli(
     typer.echo(f"Received {highlights.count()} new highlights")
 
     typer.echo("Generating questions from highlights...")
-    questions = asyncio.run(
-        highlights_to_questions(
-            model=initialize_model("gpt-3.5-turbo"),
-            highlights=highlights.to_list()[0:max_n],
-        )
-    )
+    questions = BaselinePipeline(
+        openai_api_key=os.getenv(
+            "OPENAI_API_KEY", "No OPENAI_API_KEY environment variable set"
+        ),
+        model="gpt-4",
+    )(highlights)
 
     typer.echo("Writing questions to markdown...")
     for question in questions:

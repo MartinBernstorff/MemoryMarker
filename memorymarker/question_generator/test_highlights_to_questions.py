@@ -1,59 +1,50 @@
+import os
 from datetime import datetime
+from typing import TYPE_CHECKING
 
 import pytest
+from iterpy.iter import Iter
 
 import memorymarker.question_generator.question_generator as h2q
 from memorymarker.document_providers.ContextualizedHighlight import (
     ContextualizedHighlight,
 )
 
-
-# create a pytest fixture for the model
-@pytest.fixture(scope="session")
-def model() -> h2q.ChatOpenAI:
-    return h2q.initialize_model(model_name="gpt-3.5-turbo")
-
-
-@pytest.fixture(scope="module")
-def hydrated_highlight() -> ContextualizedHighlight:
-    return ContextualizedHighlight(
-        prefix="",
-        suffix=" is the powerhouse of the cell",
-        highlighted_text="Mitochondria",
-        source_doc_uri="https://en.wikipedia.org/wiki/Mitochondrion",
-        source_doc_title="Mitochondrion - Wikipedia",
-        updated_at=datetime.now(),
+if TYPE_CHECKING:
+    from memorymarker.question_generator.highlight_to_question import (
+        HighlightToQuestion,
     )
 
 
-@pytest.mark.asyncio()
-async def test_model_response(
-    model: h2q.ChatOpenAI, hydrated_highlight: ContextualizedHighlight
-) -> None:
-    await h2q.highlights_to_questions(model, [hydrated_highlight])
-    # check that outputs an dictionary with keys "answer" and "question"
-    # is automatically checked, since highlight_to_questions indexes into it
-
-
-@pytest.mark.asyncio()
-async def test_multi_response(model: h2q.ChatOpenAI) -> None:
-    highlights = [
-        ContextualizedHighlight(
-            prefix="",
-            suffix=" is the powerhouse of the cell",
-            highlighted_text="Mitochondria",
-            source_doc_uri="https://en.wikipedia.org/wiki/Mitochondrion",
-            source_doc_title="Mitochondrion - Wikipedia",
-            updated_at=datetime.now(),
-        ),
-        ContextualizedHighlight(
-            prefix="The first rule of ",
-            suffix=" is that you don't talk about Fight Club",
-            highlighted_text="Fight Club",
-            source_doc_uri="https://en.wikipedia.org/wiki/Fight_Club",
-            source_doc_title="Fight Club - Wikipedia",
-            updated_at=datetime.now(),
-        ),
-    ]
-    output = await h2q.highlights_to_questions(model, highlights)
-    assert len(output) == 2
+@pytest.mark.parametrize(
+    ("pipeline"),
+    [
+        h2q.BaselinePipeline(
+            openai_api_key=os.getenv("OPENAI_API_KEY", "FAILED_TO_FIND_PROMPT_IN_ENV"),
+            model="gpt-3.5-turbo",
+        )
+    ],
+)
+def test_multi_response(pipeline: "HighlightToQuestion") -> None:
+    highlights = Iter(
+        [
+            ContextualizedHighlight(
+                prefix="",
+                suffix=" is the powerhouse of the cell",
+                highlighted_text="Mitochondria",
+                source_doc_uri="https://en.wikipedia.org/wiki/Mitochondrion",
+                source_doc_title="Mitochondrion - Wikipedia",
+                updated_at=datetime.now(),
+            ),
+            ContextualizedHighlight(
+                prefix="The first rule of ",
+                suffix=" is that you don't talk about Fight Club",
+                highlighted_text="Fight Club",
+                source_doc_uri="https://en.wikipedia.org/wiki/Fight_Club",
+                source_doc_title="Fight Club - Wikipedia",
+                updated_at=datetime.now(),
+            ),
+        ]
+    )
+    output = pipeline(highlights)
+    assert output.count() == 2
