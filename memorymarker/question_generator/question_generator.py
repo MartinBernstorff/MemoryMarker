@@ -12,7 +12,6 @@ from openai.types.chat.chat_completion_user_message_param import (
 from memorymarker.question_generator.highlight_to_question import HighlightToQuestion
 
 if TYPE_CHECKING:
-
     from openai.types.chat.chat_completion_message_param import (
         ChatCompletionMessageParam,
     )
