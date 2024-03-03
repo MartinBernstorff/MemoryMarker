@@ -10,5 +10,7 @@ if TYPE_CHECKING:
 
 
 class HighlightToQuestion(Protocol):
+    name: str
+
     def __call__(self, highlights: "Iter[ContextualizedHighlight]") -> "Iter[QAPrompt]":
         ...

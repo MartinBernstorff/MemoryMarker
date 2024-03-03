@@ -53,6 +53,7 @@ OPENAI_MODELS = Literal[
 
 @dataclass
 class BaselinePipeline(HighlightToQuestion):
+    name: str
     openai_api_key: str
     model: OPENAI_MODELS
     prompt: str = SYSTEM_PROMPT
@@ -67,10 +68,12 @@ class BaselinePipeline(HighlightToQuestion):
     ) -> "ChatCompletionMessageParam":
         return ChatCompletionUserMessageParam(
             role="user",
-            name="Martin",
+            name="UserName",
             content=f"""{self.prompt}
 
-<target>{highlight.highlighted_text}</target><context>{highlight.context}</context>""",
+The highlight is from a document titled "{highlight.source_doc_title}".
+
+{highlight.context}""",
         )
 
     async def _highlight_to_question(
