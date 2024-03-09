@@ -1,12 +1,13 @@
 import os
-import pathlib
 from dataclasses import dataclass
 from typing import TYPE_CHECKING, Sequence
 
 from pydantic import BaseModel
 
 from memorymarker.document_providers.omnivore import Omnivore
-from memorymarker.question_generator.baseline_pipeline import BaselinePipeline
+from memorymarker.question_generator.expanded_pipeline import GPT4, ExpandedPipeline
+from memorymarker.question_generator.steps.first_steps import COT
+from memorymarker.question_generator.steps.middle_steps import StudentReflection
 
 if TYPE_CHECKING:
     from memorymarker.document_providers.ContextualizedHighlight import (
@@ -118,19 +119,30 @@ if __name__ == "__main__":
     )
 
     pipelines = [
-        BaselinePipeline(
-            openai_api_key=os.getenv("OPENAI_API_KEY", "No OPENAI_API_KEY set"),
-            model="gpt-4",
-            name="Baseline-GPT-4",
-        ),
-        BaselinePipeline(
-            openai_api_key=os.getenv("OPENAI_API_KEY", "No OPENAI_API_KEY set"),
-            model="gpt-4",
-            name="GPT-4-v1-simplified-with-think-step-by-step",
-            prompt=(
-                pathlib.Path(__file__).parent / "prompts" / "martin_prompt_minimal.txt"
-            ).read_text(),
-        ),
+        ExpandedPipeline(
+            first_step=COT(
+                model=GPT4(os.getenv("OPENAI_API_KEY", "No OPENAI_API_KEY set"))
+            ),
+            steps=[
+                StudentReflection(
+                    model=GPT4(os.getenv("OPENAI_API_KEY", "No OPENAI_API_KEY set"))
+                )
+            ],
+            final_step=[],
+        )
+        # BaselinePipeline(
+        #     openai_api_key=os.getenv("OPENAI_API_KEY", "No OPENAI_API_KEY set"),
+        #     model="gpt-4",
+        #     name="Baseline-GPT-4",
+        # ),
+        # BaselinePipeline(
+        #     openai_api_key=os.getenv("OPENAI_API_KEY", "No OPENAI_API_KEY set"),
+        #     model="gpt-4",
+        #     name="GPT-4-v1-simplified-with-think-step-by-step",
+        #     prompt=(
+        #         pathlib.Path(__file__).parent / "prompts" / "martin_prompt_minimal.txt"
+        #     ).read_text(),
+        # ),
     ]
 
     highlight_pipeline_pairs = [
