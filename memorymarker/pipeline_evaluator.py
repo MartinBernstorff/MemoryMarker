@@ -9,7 +9,6 @@ from memorymarker.document_providers.omnivore import Omnivore
 from memorymarker.question_generator.baseline_pipeline import BaselinePipeline
 
 if TYPE_CHECKING:
-
     from memorymarker.document_providers.ContextualizedHighlight import (
         ContextualizedHighlight,
     )
