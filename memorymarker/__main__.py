@@ -12,7 +12,7 @@ from dotenv import load_dotenv
 from memorymarker.cli.document_selector import select_documents
 from memorymarker.document_providers.omnivore import Omnivore
 from memorymarker.persist_questions.markdown import write_qa_prompt_to_md
-from memorymarker.question_generator.question_generator import BaselinePipeline
+from memorymarker.question_generator.baseline_pipeline import BaselinePipeline
 
 app = typer.Typer(no_args_is_help=True)
 
@@ -110,6 +110,7 @@ def typer_cli(
             "OPENAI_API_KEY", "No OPENAI_API_KEY environment variable set"
         ),
         model="gpt-4",
+        name="gpt-4-basic",
     )(highlights)
 
     typer.echo("Writing questions to markdown...")

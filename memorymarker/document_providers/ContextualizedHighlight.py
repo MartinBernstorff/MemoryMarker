@@ -18,7 +18,7 @@ class ContextualizedHighlight(BaseModel):
     def context(self) -> str:
         context = ""
         context += self.prefix or ""
-        context += self.highlighted_text
+        context += f"{self.highlighted_text}"
         context += self.suffix or ""
 
         return context

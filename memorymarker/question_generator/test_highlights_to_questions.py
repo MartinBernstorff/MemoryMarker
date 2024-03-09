@@ -5,7 +5,7 @@ from typing import TYPE_CHECKING
 import pytest
 from iterpy.iter import Iter
 
-import memorymarker.question_generator.question_generator as h2q
+import memorymarker.question_generator.baseline_pipeline as h2q
 from memorymarker.document_providers.ContextualizedHighlight import (
     ContextualizedHighlight,
 )
@@ -22,6 +22,7 @@ if TYPE_CHECKING:
         h2q.BaselinePipeline(
             openai_api_key=os.getenv("OPENAI_API_KEY", "FAILED_TO_FIND_PROMPT_IN_ENV"),
             model="gpt-3.5-turbo",
+            name="gpt-3.5-testing",
         )
     ],
 )
