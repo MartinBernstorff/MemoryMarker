@@ -5,8 +5,11 @@ from iterpy.iter import Iter
 from memorymarker.document_providers.ContextualizedHighlight import (
     ContextualizedHighlight,
 )
-from memorymarker.pipeline_evaluator import HighlightPipelinePair, PipelineExample
 from memorymarker.question_generator.baseline_pipeline import BaselinePipeline
+from memorymarker.question_generator.pipeline_evaluator import (
+    HighlightPipelinePair,
+    PipelineExample,
+)
 
 
 def test_difference():
@@ -34,7 +37,7 @@ def test_difference():
                 updated_at=dt.datetime.now(),
             ),
             pipeline=BaselinePipeline(
-                name="Baseline-GPT-4", openai_api_key="FAKE", model="gpt-4"
+                _name="Baseline-GPT-4", openai_api_key="FAKE", model="gpt-4"
             ),
         )
     }

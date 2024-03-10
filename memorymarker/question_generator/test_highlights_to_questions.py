@@ -22,7 +22,7 @@ if TYPE_CHECKING:
         h2q.BaselinePipeline(
             openai_api_key=os.getenv("OPENAI_API_KEY", "FAILED_TO_FIND_PROMPT_IN_ENV"),
             model="gpt-3.5-turbo",
-            name="gpt-3.5-testing",
+            _name="gpt-3.5-testing",
         )
     ],
 )

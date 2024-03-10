@@ -53,10 +53,14 @@ OPENAI_MODELS = Literal[
 
 @dataclass
 class BaselinePipeline(HighlightToQuestion):
-    name: str
+    _name: str
     openai_api_key: str
     model: OPENAI_MODELS
     prompt: str = SYSTEM_PROMPT
+
+    @property
+    def name(self) -> str:
+        return self._name
 
     def __post_init__(self):
         self.client = instructor.patch(  # type: ignore # Incorrectly typed from Instructor library

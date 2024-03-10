@@ -6,6 +6,7 @@ from pydantic import BaseModel
 
 from memorymarker.document_providers.omnivore import Omnivore
 from memorymarker.question_generator.expanded_pipeline import GPT4, ExpandedPipeline
+from memorymarker.question_generator.steps.final_steps import QuestionExtractor
 from memorymarker.question_generator.steps.first_steps import COT
 from memorymarker.question_generator.steps.middle_steps import StudentReflection
 
@@ -94,15 +95,15 @@ def _create_examples(
 
 if __name__ == "__main__":
     search_terms = {
-        "gratitude and relatedness",
-        "Registry Schema",
-        "often referred to as fine-tuning",
-        "drenge og mænd ikke har nogen værdi",
-        "Underutilized Data Dependencies",
-        "The quality of a model",
-        "Break down what you want your application",
-        "Dependency injection is not effective if",
-        "The essence of writing code then is to internalize the problem domain",
+        # "gratitude and relatedness",
+        # "Registry Schema",
+        # "often referred to as fine-tuning",
+        # "drenge og mænd ikke har nogen værdi",
+        # "Underutilized Data Dependencies",
+        # "The quality of a model",
+        # "Break down what you want your application",
+        # "Dependency injection is not effective if",
+        "The essence of writing code then is to internalize the problem domain"
     }
 
     highlights = (
@@ -128,21 +129,10 @@ if __name__ == "__main__":
                     model=GPT4(os.getenv("OPENAI_API_KEY", "No OPENAI_API_KEY set"))
                 )
             ],
-            final_step=[],
+            final_step=QuestionExtractor(
+                openai_api_key=os.getenv("OPENAI_API_KEY", "No OPENAI key specified")
+            ),
         )
-        # BaselinePipeline(
-        #     openai_api_key=os.getenv("OPENAI_API_KEY", "No OPENAI_API_KEY set"),
-        #     model="gpt-4",
-        #     name="Baseline-GPT-4",
-        # ),
-        # BaselinePipeline(
-        #     openai_api_key=os.getenv("OPENAI_API_KEY", "No OPENAI_API_KEY set"),
-        #     model="gpt-4",
-        #     name="GPT-4-v1-simplified-with-think-step-by-step",
-        #     prompt=(
-        #         pathlib.Path(__file__).parent / "prompts" / "martin_prompt_minimal.txt"
-        #     ).read_text(),
-        # ),
     ]
 
     highlight_pipeline_pairs = [
@@ -159,7 +149,7 @@ if __name__ == "__main__":
         not in [example.__hash__() for example in existing_examples]
     )
 
-    new_examples = _create_examples(Iter(new_highlights))
+    new_examples = Iter(_create_examples(Iter(new_highlights))).flatten()
 
     for example in new_examples:
         table.create(

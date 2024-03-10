@@ -110,7 +110,7 @@ def typer_cli(
             "OPENAI_API_KEY", "No OPENAI_API_KEY environment variable set"
         ),
         model="gpt-4",
-        name="gpt-4-basic",
+        _name="gpt-4-basic",
     )(highlights)
 
     typer.echo("Writing questions to markdown...")

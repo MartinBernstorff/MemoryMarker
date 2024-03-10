@@ -40,7 +40,6 @@ class GPT4(Model):
         return await self.client.chat.completions.create(
             model=self.name,
             messages=[{"role": "user", "content": message}],
-            response_model="text",
             temperature=0.0,
         )  # type: ignore
 
@@ -74,34 +73,26 @@ class ExpandedPipeline(HighlightToQuestion):
 
     async def _highlight_to_question(
         self, highlight: "ContextualizedHighlight"
-    ) -> "QAPromptResponseModel":
-        result = self.first_step(highlight)
+    ) -> "Iter[QAPromptResponseModel]":
+        result = await self.first_step(highlight)
 
         for step in self.steps:
             result = await step(result)
 
-        return self.final_step(result)
+        return await self.final_step(result)
 
     async def _gather(
         self, highlights: Iter["ContextualizedHighlight"]
-    ) -> Sequence["QAPromptResponseModel"]:
+    ) -> Iter["QAPromptResponseModel"]:
         questions = [self._highlight_to_question(highlight) for highlight in highlights]
         response = await asyncio.gather(*questions)
-        return response
+        return Iter(response).flatten()
 
     def __call__(self, highlights: "Iter[ContextualizedHighlight]") -> "Iter[QAPrompt]":
-        response: Sequence[QAPromptResponseModel] = asyncio.run(
-            self._gather(highlights)
-        )
+        response = asyncio.run(self._gather(highlights))
 
-        hydrated_responses = (
-            Iter(response)
-            .zip(highlights.to_list())  # type: ignore
-            .map(
-                lambda qa_context_pair: qa_context_pair[0].to_qaprompt(  # type: ignore
-                    qa_context_pair[1]  # type: ignore
-                )
-            )
+        hydrated_responses = response.zip(highlights).map(
+            lambda qa_context_pair: qa_context_pair[0].to_qaprompt(qa_context_pair[1])
         )
         return hydrated_responses
 
