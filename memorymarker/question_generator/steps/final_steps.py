@@ -8,7 +8,7 @@ from openai.types.chat.chat_completion_user_message_param import (
     ChatCompletionUserMessageParam,
 )
 
-from memorymarker.question_generator.qa_prompt import QAPromptResponseModel, QAResponses
+from memorymarker.question_generator.qa_prompt import QAResponses
 
 if TYPE_CHECKING:
     from openai.types.chat.chat_completion_message_param import (
@@ -20,7 +20,7 @@ if TYPE_CHECKING:
 class QuestionExtractor:
     openai_api_key: str
     name: str = "question-extractor"
-    model = "gpt-4-0125-preview"
+    model = "gpt-4-turbo-preview"
 
     def __post_init__(self):
         self.client = patch(  # type: ignore # Incorrectly typed from Instructor library
@@ -34,7 +34,7 @@ class QuestionExtractor:
             content=f"""This is a set of questions and answers. Extract them to the following model. {input_str}""",
         )
 
-    async def __call__(self, input_str: str) -> Iter["QAPromptResponseModel"]:
+    async def __call__(self, input_str: str) -> Iter["QAResponses"]:
         return await self.client.chat.completions.create(
             model=self.model,
             messages=[self._build_message(input_str=input_str)],

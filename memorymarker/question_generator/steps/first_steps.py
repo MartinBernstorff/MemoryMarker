@@ -12,23 +12,13 @@ if TYPE_CHECKING:
 @dataclass
 class COT(PipelineFirstStep):
     model: Model
-    base_name: str = "5-whys"
+    variant: str
 
     async def __call__(self, highlight: "ContextualizedHighlight") -> str:
         base_prompt = f"""The following is a highlight from a document called "{highlight.source_doc_title}".
 
-Why is this highlight interesting?
+Why might a student highlight this sentence? Focus on them wanting to learn something, especially if they can apply it in a situation. Think step by step.
 
-Think step by step, with each step being a one-sentece bullet point, written in a concise, to-the point and direct style. Each bullet should be an interesting, different implication from the previous bullet.
-
-Write your response like:
-* [Argument...]. Why?
-* Because [argument 2]. Why?
-
-Do this 5 or more times.
-
-<highlight>
-{highlight.highlighted_text}
-</highlight>
+Highlight: {highlight.highlighted_text}
 """
         return base_prompt

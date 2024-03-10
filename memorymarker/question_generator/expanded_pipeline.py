@@ -7,15 +7,13 @@ from iterpy.iter import Iter
 from openai import AsyncOpenAI
 
 from memorymarker.question_generator.highlight_to_question import HighlightToQuestion
+from memorymarker.question_generator.qa_prompt import QAPrompt
 
 if TYPE_CHECKING:
     from memorymarker.document_providers.ContextualizedHighlight import (
         ContextualizedHighlight,
     )
-    from memorymarker.question_generator.qa_prompt import (
-        QAPrompt,
-        QAPromptResponseModel,
-    )
+    from memorymarker.question_generator.qa_prompt import QAResponses
     from memorymarker.question_generator.steps.final_steps import QuestionExtractor
 
 
@@ -31,7 +29,7 @@ class Model(Protocol):
 @dataclass
 class GPT4(Model):
     api_key: str
-    name: str = "gpt-4-0125-preview"
+    name: str = "gpt-4-turbo-preview"
 
     def __post_init__(self):
         self.client = AsyncOpenAI(api_key=self.api_key)
@@ -73,7 +71,7 @@ class ExpandedPipeline(HighlightToQuestion):
 
     async def _highlight_to_question(
         self, highlight: "ContextualizedHighlight"
-    ) -> "Iter[QAPromptResponseModel]":
+    ) -> "Iter[QAResponses]":
         result = await self.first_step(highlight)
 
         for step in self.steps:
@@ -83,7 +81,7 @@ class ExpandedPipeline(HighlightToQuestion):
 
     async def _gather(
         self, highlights: Iter["ContextualizedHighlight"]
-    ) -> Iter["QAPromptResponseModel"]:
+    ) -> Iter["QAResponses"]:
         questions = [self._highlight_to_question(highlight) for highlight in highlights]
         response = await asyncio.gather(*questions)
         return Iter(response).flatten()
@@ -91,10 +89,21 @@ class ExpandedPipeline(HighlightToQuestion):
     def __call__(self, highlights: "Iter[ContextualizedHighlight]") -> "Iter[QAPrompt]":
         response = asyncio.run(self._gather(highlights))
 
-        hydrated_responses = response.zip(highlights).map(
-            lambda qa_context_pair: qa_context_pair[0].to_qaprompt(qa_context_pair[1])
-        )
-        return hydrated_responses
+        responses_with_highlights = list(zip(response.to_list(), highlights.to_list()))
+
+        hydrated_responses: Sequence[QAPrompt] = []
+        for response_container, highlight in responses_with_highlights:
+            for response in response_container.responses:
+                hydrated_responses.append(
+                    QAPrompt(
+                        hydrated_highlight=highlight,
+                        question=response.question,
+                        answer=response.answer,
+                        title=highlight.source_doc_title,
+                    )
+                )
+
+        return Iter(hydrated_responses)
 
     @property
     def name(self) -> str:

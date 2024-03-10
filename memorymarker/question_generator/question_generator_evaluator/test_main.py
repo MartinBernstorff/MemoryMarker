@@ -6,16 +6,18 @@ from memorymarker.document_providers.ContextualizedHighlight import (
     ContextualizedHighlight,
 )
 from memorymarker.question_generator.baseline_pipeline import BaselinePipeline
-from memorymarker.question_generator.pipeline_evaluator import (
-    HighlightPipelinePair,
-    PipelineExample,
+from memorymarker.question_generator.question_generator_evaluator.example_repo_airtable import (
+    QATableRow,
+)
+from memorymarker.question_generator.question_generator_evaluator.types import (
+    HighlightWithPipeline,
 )
 
 
 def test_difference():
     existing_highlights = Iter(
         [
-            PipelineExample(
+            QATableRow(
                 Highlight="test",
                 Context="test",
                 Question="test",
@@ -27,7 +29,7 @@ def test_difference():
     old_hashes = Iter(existing_highlights).map(lambda _: _.__hash__())
 
     new_highlights = {
-        HighlightPipelinePair(
+        HighlightWithPipeline(
             highlight=ContextualizedHighlight(
                 source_doc_title="Test",
                 source_doc_uri="https://en.wikipedia.org/wiki/Test",
