@@ -6,7 +6,7 @@ import requests
 from bs4 import BeautifulSoup, NavigableString, Tag
 from joblib import Memory
 
-from memorymarker.document_providers.ContextualizedHighlight import (
+from memorymarker.document_providers.contextualized_highlight import (
     ContextualizedHighlight,
 )
 

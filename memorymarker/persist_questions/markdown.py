@@ -4,7 +4,8 @@ from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from pathlib import Path
 
-    from memorymarker.question_generator.qa_prompt import QAPrompt
+    from memorymarker.question_generator_v2.qa_responses import QAPrompt
+    from memorymarker.question_generator_v2.reasoned_highlight import ReasonedHighlight
 
 
 def clean_filename(filename: str) -> str:
@@ -28,7 +29,14 @@ def write_md(contents: str, file_title: str, save_dir: "Path") -> None:
         f.write(contents + "\n")
 
 
-def write_qa_prompt_to_md(prompt: "QAPrompt", save_dir: "Path") -> None:
+def write_qa_prompt_to_md(highlight: "ReasonedHighlight", save_dir: "Path") -> None:
     """Write markdown to file. Append if exists"""
-    contents = q_to_markdown(prompt)
-    write_md(contents=contents, file_title=prompt.title, save_dir=save_dir)
+    contents = "/n".join(
+        [q_to_markdown(prompt) for prompt in highlight.question_answer_pairs]
+    )
+
+    write_md(
+        contents=contents,
+        file_title=highlight.highlight.source_doc_title,
+        save_dir=save_dir,
+    )

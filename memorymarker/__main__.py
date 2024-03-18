@@ -115,8 +115,7 @@ def typer_cli(
 
     typer.echo("Writing questions to markdown...")
     for question in questions:
-        typer.echo(f"Writing question to {question.title}")
-        write_qa_prompt_to_md(save_dir=output_dir, prompt=question)
+        write_qa_prompt_to_md(save_dir=output_dir, highlight=question)
 
     if run_every:
         typer.echo(f"Running every {run_every} seconds")

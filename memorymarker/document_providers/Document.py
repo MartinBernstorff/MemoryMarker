@@ -3,7 +3,7 @@ from typing import Any, Mapping, Sequence
 from iterpy.iter import Iter
 from pydantic import BaseModel
 
-from .ContextualizedHighlight import ContextualizedHighlight
+from .contextualized_highlight import ContextualizedHighlight
 
 
 class Document(BaseModel):
@@ -12,7 +12,12 @@ class Document(BaseModel):
     slug: str
     highlights: Sequence[Mapping[str, Any]]
 
-    def _parse_highlight(self, highlight: Mapping[str, str]) -> ContextualizedHighlight:
+    def _parse_highlight(
+        self, highlight: Mapping[str, str]
+    ) -> ContextualizedHighlight | None:
+        if "quote" not in highlight or highlight["quote"] is None:  # type: ignore
+            return None
+
         return ContextualizedHighlight(
             source_doc_title=self.title,
             source_doc_uri=self.uri,
@@ -24,4 +29,5 @@ class Document(BaseModel):
         )
 
     def get_highlights(self) -> Iter[ContextualizedHighlight]:
-        return Iter(self.highlights).map(self._parse_highlight)
+        highlights = Iter(self.highlights).map(self._parse_highlight)
+        return highlights.filter(lambda _: _ is not None)  # type: ignore

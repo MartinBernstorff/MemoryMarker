@@ -7,7 +7,7 @@ if TYPE_CHECKING:
 
     from iterpy.iter import Iter
 
-    from memorymarker.document_providers.ContextualizedHighlight import (
+    from memorymarker.document_providers.contextualized_highlight import (
         ContextualizedHighlight,
     )
 

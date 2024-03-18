@@ -1,10 +1,14 @@
 from dataclasses import dataclass
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Sequence
 
 from pydantic import BaseModel, Field
 
+from memorymarker.document_providers.contextualized_highlight import (
+    ContextualizedHighlight,
+)
+
 if TYPE_CHECKING:
-    from memorymarker.document_providers.ContextualizedHighlight import (
+    from memorymarker.document_providers.contextualized_highlight import (
         ContextualizedHighlight,
     )
 
@@ -37,3 +41,7 @@ Most questions should start with "When X", e.g. "When working on software", to d
             answer="",
             title=hydrated_highlight.source_doc_title,
         )
+
+
+class QAResponses(BaseModel):
+    items: Sequence[QAPromptResponseModel]
