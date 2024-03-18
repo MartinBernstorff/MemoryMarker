@@ -4,7 +4,7 @@ from typing import TYPE_CHECKING, Sequence
 from pydantic import BaseModel
 
 if TYPE_CHECKING:
-    from memorymarker.document_providers.ContextualizedHighlight import (
+    from memorymarker.document_providers.contextualized_highlight import (
         ContextualizedHighlight,
     )
 

@@ -2,7 +2,7 @@ import datetime as dt
 
 from iterpy.iter import Iter
 
-from memorymarker.document_providers.ContextualizedHighlight import (
+from memorymarker.document_providers.contextualized_highlight import (
     ContextualizedHighlight,
 )
 from memorymarker.question_generator.baseline_pipeline import BaselinePipeline

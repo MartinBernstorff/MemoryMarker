@@ -3,7 +3,7 @@ from typing import Any, Mapping, Sequence
 from iterpy.iter import Iter
 from pydantic import BaseModel
 
-from .ContextualizedHighlight import ContextualizedHighlight
+from .contextualized_highlight import ContextualizedHighlight
 
 
 class Document(BaseModel):

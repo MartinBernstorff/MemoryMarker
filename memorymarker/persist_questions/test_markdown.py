@@ -5,7 +5,7 @@ import pytest
 import memorymarker.persist_questions.markdown as markdown
 from memorymarker.question_generator.qa_prompt import QAPrompt
 
-from ..document_providers.ContextualizedHighlight import ContextualizedHighlight
+from ..document_providers.contextualized_highlight import ContextualizedHighlight
 
 
 class FakeHydratedHighlight(ContextualizedHighlight):

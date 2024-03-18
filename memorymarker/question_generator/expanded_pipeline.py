@@ -11,7 +11,7 @@ from memorymarker.question_generator.qa_prompt import QAPrompt
 from memorymarker.question_generator.steps.final_steps import ResponsesWithLineage
 
 if TYPE_CHECKING:
-    from memorymarker.document_providers.ContextualizedHighlight import (
+    from memorymarker.document_providers.contextualized_highlight import (
         ContextualizedHighlight,
     )
     from memorymarker.question_generator.qa_prompt import QAResponses

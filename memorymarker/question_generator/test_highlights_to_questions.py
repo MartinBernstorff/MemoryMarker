@@ -6,7 +6,7 @@ import pytest
 from iterpy.iter import Iter
 
 import memorymarker.question_generator.baseline_pipeline as h2q
-from memorymarker.document_providers.ContextualizedHighlight import (
+from memorymarker.document_providers.contextualized_highlight import (
     ContextualizedHighlight,
 )
 

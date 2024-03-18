@@ -2,7 +2,7 @@ from dataclasses import dataclass
 from typing import TYPE_CHECKING, Sequence
 
 if TYPE_CHECKING:
-    from memorymarker.document_providers.ContextualizedHighlight import (
+    from memorymarker.document_providers.contextualized_highlight import (
         ContextualizedHighlight,
     )
     from memorymarker.question_generator.highlight_to_question import (

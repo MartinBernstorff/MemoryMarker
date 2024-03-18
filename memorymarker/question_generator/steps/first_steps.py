@@ -4,7 +4,7 @@ from typing import TYPE_CHECKING
 from memorymarker.question_generator.expanded_pipeline import Model, PipelineFirstStep
 
 if TYPE_CHECKING:
-    from memorymarker.document_providers.ContextualizedHighlight import (
+    from memorymarker.document_providers.contextualized_highlight import (
         ContextualizedHighlight,
     )
 
