@@ -5,7 +5,7 @@ if TYPE_CHECKING:
     from memorymarker.document_providers.contextualized_highlight import (
         ContextualizedHighlight,
     )
-    from memorymarker.question_generator.qa_prompt import QAPrompt
+    from memorymarker.question_generator_v2.qa_responses import QAPrompt
 
 
 @dataclass(frozen=True)

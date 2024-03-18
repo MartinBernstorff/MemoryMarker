@@ -1,13 +1,24 @@
+from dataclasses import dataclass
 from typing import TYPE_CHECKING, Sequence
 
 from pydantic import BaseModel
 
-from memorymarker.question_generator.qa_prompt import QAPrompt
+from memorymarker.document_providers.contextualized_highlight import (
+    ContextualizedHighlight,
+)
 
 if TYPE_CHECKING:
     from memorymarker.document_providers.contextualized_highlight import (
         ContextualizedHighlight,
     )
+
+
+@dataclass(frozen=True)
+class QAPrompt:
+    hydrated_highlight: "ContextualizedHighlight"
+    question: str
+    answer: str
+    title: str
 
 
 class QAPromptResponseModel(BaseModel):

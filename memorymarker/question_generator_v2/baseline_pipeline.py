@@ -10,9 +10,9 @@ from openai.types.chat.chat_completion_user_message_param import (
 )
 
 from memorymarker.question_generator_v2.highlight_to_question import HighlightToQuestion
+from memorymarker.question_generator_v2.qa_responses import QAPromptResponseModel
 
 if TYPE_CHECKING:
-
     from memorymarker.document_providers.contextualized_highlight import (
         ContextualizedHighlight,
     )
@@ -24,7 +24,6 @@ SYSTEM_PROMPT = (PROMPT_DIR / "martin_prompt.txt").read_text()
 
 from iterpy.iter import Iter
 
-from memorymarker.question_generator.qa_prompt import QAPromptResponseModel
 from memorymarker.question_generator_v2.reasoned_highlight import ReasonedHighlight
 
 OPENAI_MODELS = Literal["gpt-4-turbo-preview", "gpt-4-1106-preview", "gpt-3.5-turbo"]
@@ -42,8 +41,8 @@ class BaselinePipeline(HighlightToQuestion):
         return self._name
 
     def __post_init__(self):
-        self.client = instructor.patch(  # type: ignore # Incorrectly typed from Instructor library
-            AsyncOpenAI(api_key=self.openai_api_key)
+        self.client = instructor.patch(
+            AsyncOpenAI(api_key=self.openai_api_key)  # type: ignore # Incorrectly typed from Instructor library
         )
 
     async def _highlight_to_qa(

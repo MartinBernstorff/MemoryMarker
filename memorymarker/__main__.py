@@ -12,7 +12,7 @@ from dotenv import load_dotenv
 from memorymarker.cli.document_selector import select_documents
 from memorymarker.document_providers.omnivore import Omnivore
 from memorymarker.persist_questions.markdown import write_qa_prompt_to_md
-from memorymarker.question_generator.baseline_pipeline import BaselinePipeline
+from memorymarker.question_generator_v2.baseline_pipeline import BaselinePipeline
 
 app = typer.Typer(no_args_is_help=True)
 
@@ -109,14 +109,13 @@ def typer_cli(
         openai_api_key=os.getenv(
             "OPENAI_API_KEY", "No OPENAI_API_KEY environment variable set"
         ),
-        model="gpt-4",
+        model="gpt-4-turbo-preview",
         _name="gpt-4-basic",
     )(highlights)
 
     typer.echo("Writing questions to markdown...")
     for question in questions:
-        typer.echo(f"Writing question to {question.title}")
-        write_qa_prompt_to_md(save_dir=output_dir, prompt=question)
+        write_qa_prompt_to_md(save_dir=output_dir, highlight=question)
 
     if run_every:
         typer.echo(f"Running every {run_every} seconds")
