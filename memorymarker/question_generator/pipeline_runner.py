@@ -3,8 +3,8 @@ from typing import TYPE_CHECKING, Sequence
 from iterpy.iter import Iter
 
 if TYPE_CHECKING:
-    from memorymarker.question_generator_v2.main import HighlightWithPipeline
-    from memorymarker.question_generator_v2.reasoned_highlight import ReasonedHighlight
+    from memorymarker.question_generator.main import HighlightWithPipeline
+    from memorymarker.question_generator.reasoned_highlight import ReasonedHighlight
 
 
 def run_pipelines(

@@ -3,7 +3,7 @@ import datetime as dt
 import pytest
 
 import memorymarker.persist_questions.markdown as markdown
-from memorymarker.question_generator_v2.qa_responses import QAPrompt
+from memorymarker.question_generator.qa_responses import QAPrompt
 
 from ..document_providers.contextualized_highlight import ContextualizedHighlight
 

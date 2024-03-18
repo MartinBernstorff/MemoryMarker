@@ -106,11 +106,11 @@ def typer_cli(
 
     typer.echo("Generating questions from highlights...")
     questions = BaselinePipeline(
+        _name="gpt-4-basic",
         openai_api_key=os.getenv(
             "OPENAI_API_KEY", "No OPENAI_API_KEY environment variable set"
         ),
-        model="gpt-4",
-        name="gpt-4-basic",
+        model="gpt-4-turbo-preview",
     )(highlights)
 
     typer.echo("Writing questions to markdown...")

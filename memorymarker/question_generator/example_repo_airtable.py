@@ -8,7 +8,7 @@ from pydantic import BaseModel
 if TYPE_CHECKING:
     from iterpy.iter import Iter
 
-    from memorymarker.question_generator_v2.reasoned_highlight import ReasonedHighlight
+    from memorymarker.question_generator.reasoned_highlight import ReasonedHighlight
 
 
 class PipelineHighlightIdentity:

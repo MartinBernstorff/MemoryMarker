@@ -8,20 +8,20 @@ from memorymarker.document_providers.contextualized_highlight import (
     ContextualizedHighlight,
 )
 from memorymarker.document_providers.omnivore import Omnivore
-from memorymarker.question_generator_v2.baseline_pipeline import BaselinePipeline
-from memorymarker.question_generator_v2.example_repo_airtable import (
+from memorymarker.question_generator.baseline_pipeline import BaselinePipeline
+from memorymarker.question_generator.example_repo_airtable import (
     AirtableExampleRepo,
     PipelineHighlightIdentity,
     update_repository,
 )
-from memorymarker.question_generator_v2.highlight_to_question import HighlightToQuestion
-from memorymarker.question_generator_v2.pipeline_runner import run_pipelines
+from memorymarker.question_generator.highlight_to_question import HighlightToQuestion
+from memorymarker.question_generator.pipeline_runner import run_pipelines
 
 if TYPE_CHECKING:
     from memorymarker.document_providers.contextualized_highlight import (
         ContextualizedHighlight,
     )
-    from memorymarker.question_generator_v2.highlight_to_question import (
+    from memorymarker.question_generator.highlight_to_question import (
         HighlightToQuestion,
     )
 

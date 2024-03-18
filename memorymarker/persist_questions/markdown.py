@@ -4,8 +4,8 @@ from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from pathlib import Path
 
-    from memorymarker.question_generator_v2.qa_responses import QAPrompt
-    from memorymarker.question_generator_v2.reasoned_highlight import ReasonedHighlight
+    from memorymarker.question_generator.qa_responses import QAPrompt
+    from memorymarker.question_generator.reasoned_highlight import ReasonedHighlight
 
 
 def clean_filename(filename: str) -> str:
