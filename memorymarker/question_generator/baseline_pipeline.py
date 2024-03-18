@@ -90,7 +90,8 @@ The highlight is from a document titled "{highlight.source_doc_title}".
             .map(
                 lambda qa_prompts: ReasonedHighlight(
                     highlight=qa_prompts.hydrated_highlight,
-                    reasoning=None,
+                    reasoning="",
+                    reasoning_prompt="",
                     question_answer_pairs=[qa_prompts],
                     pipeline_name=self.name,
                 )

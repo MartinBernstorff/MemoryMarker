@@ -10,7 +10,8 @@ if TYPE_CHECKING:
 
 @dataclass(frozen=True)
 class ReasonedHighlight:
-    highlight: "ContextualizedHighlight"
-    reasoning: str | None
-    question_answer_pairs: Sequence["QAPrompt"]
     pipeline_name: str
+    highlight: "ContextualizedHighlight"
+    reasoning_prompt: str
+    reasoning: str
+    question_answer_pairs: Sequence["QAPrompt"]

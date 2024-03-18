@@ -21,6 +21,8 @@ class QATableRow(BaseModel, PipelineHighlightIdentity):
     Context: str
     Question: str
     Answer: str
+    ReasoningPrompt: str
+    Reasoning: str
     Pipeline: str
 
     def __hash__(self) -> int:
@@ -43,10 +45,17 @@ class AirtableExampleRepo:
 
     def get_existing_examples(self) -> Sequence[QATableRow]:
         rows = self.table.all()
-        for value in rows:
-            for possibly_empty_fields in ["Pipeline"]:
-                if not value[possibly_empty_fields]:
-                    value[possibly_empty_fields] = ""
+        for row in rows:
+            for possibly_missing_field in [
+                "Pipeline",
+                "ReasoningPrompt",
+                "Reasoning",
+                "Answer",
+            ]:
+                try:
+                    print(row[possibly_missing_field])  # type: ignore
+                except KeyError:
+                    row["fields"][possibly_missing_field] = ""
 
         return [QATableRow(**row["fields"]) for row in rows]
 
@@ -63,5 +72,7 @@ def update_repository(
                     Question=qa_pair.question,
                     Answer=qa_pair.answer,
                     Pipeline=example.pipeline_name,
+                    Reasoning=example.reasoning,
+                    ReasoningPrompt=example.reasoning_prompt,
                 )
             )
