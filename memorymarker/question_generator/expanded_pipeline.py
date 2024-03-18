@@ -8,6 +8,7 @@ from openai import AsyncOpenAI
 
 from memorymarker.question_generator.highlight_to_question import HighlightToQuestion
 from memorymarker.question_generator.qa_prompt import QAPrompt
+from memorymarker.question_generator.steps.final_steps import ResponsesWithLineage
 
 if TYPE_CHECKING:
     from memorymarker.document_providers.ContextualizedHighlight import (
@@ -15,6 +16,12 @@ if TYPE_CHECKING:
     )
     from memorymarker.question_generator.qa_prompt import QAResponses
     from memorymarker.question_generator.steps.final_steps import QuestionExtractor
+
+
+@dataclass(frozen=True)
+class PromptWithLineage:
+    prompt: QAPrompt
+    lineage: Sequence[str]
 
 
 @dataclass
@@ -44,11 +51,11 @@ class GPT4(Model):
 
 class PipelineStep(ABC):
     model: Model
-    base_name: str
+    variant: str
 
     @property
     def name(self) -> str:
-        return f"{self.base_name}-{self.model.name}"
+        return f"{self.variant}-{self.model.name}"
 
 
 class PipelineFirstStep(PipelineStep):
@@ -71,35 +78,51 @@ class ExpandedPipeline(HighlightToQuestion):
 
     async def _highlight_to_question(
         self, highlight: "ContextualizedHighlight"
-    ) -> "Iter[QAResponses]":
-        result = await self.first_step(highlight)
+    ) -> tuple["QAResponses", Sequence[str]]:
+        input_lineage: Sequence[str] = []
 
+        result = await self.first_step(highlight)
         for step in self.steps:
+            input_lineage.append(result)
             result = await step(result)
 
-        return await self.final_step(result)
+        input_lineage.append(result)
+        return (await self.final_step(result), input_lineage)
 
     async def _gather(
         self, highlights: Iter["ContextualizedHighlight"]
-    ) -> Iter["QAResponses"]:
+    ) -> Iter["ResponsesWithLineage"]:
         questions = [self._highlight_to_question(highlight) for highlight in highlights]
         response = await asyncio.gather(*questions)
-        return Iter(response).flatten()
+        return (
+            Iter(response)
+            .map(
+                lambda response: ResponsesWithLineage(
+                    responses=response[0], lineage=response[1]
+                )
+            )
+            .flatten()
+        )
 
-    def __call__(self, highlights: "Iter[ContextualizedHighlight]") -> "Iter[QAPrompt]":
+    def __call__(
+        self, highlights: "Iter[ContextualizedHighlight]"
+    ) -> "Iter[PromptWithLineage]":
         response = asyncio.run(self._gather(highlights))
 
         responses_with_highlights = list(zip(response.to_list(), highlights.to_list()))
 
-        hydrated_responses: Sequence[QAPrompt] = []
+        hydrated_responses: Sequence[PromptWithLineage] = []
         for response_container, highlight in responses_with_highlights:
-            for response in response_container.responses:
+            for response in response_container.responses.items:
                 hydrated_responses.append(
-                    QAPrompt(
-                        hydrated_highlight=highlight,
-                        question=response.question,
-                        answer=response.answer,
-                        title=highlight.source_doc_title,
+                    PromptWithLineage(
+                        prompt=QAPrompt(
+                            hydrated_highlight=highlight,
+                            question=response.question,
+                            answer=response.answer,
+                            title=highlight.source_doc_title,
+                        ),
+                        lineage=response_container.lineage,
                     )
                 )
 

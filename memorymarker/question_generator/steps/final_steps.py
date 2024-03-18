@@ -1,8 +1,7 @@
 from dataclasses import dataclass
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Sequence
 
 from instructor import patch
-from iterpy.iter import Iter  # noqa: TCH002
 from openai import AsyncOpenAI
 from openai.types.chat.chat_completion_user_message_param import (
     ChatCompletionUserMessageParam,
@@ -14,6 +13,12 @@ if TYPE_CHECKING:
     from openai.types.chat.chat_completion_message_param import (
         ChatCompletionMessageParam,
     )
+
+
+@dataclass(frozen=True)
+class ResponsesWithLineage:
+    responses: QAResponses
+    lineage: Sequence[str]
 
 
 @dataclass
@@ -34,10 +39,10 @@ class QuestionExtractor:
             content=f"""This is a set of questions and answers. Extract them to the following model. {input_str}""",
         )
 
-    async def __call__(self, input_str: str) -> Iter["QAResponses"]:
-        return await self.client.chat.completions.create(
+    async def __call__(self, input_str: str) -> str:
+        return await self.client.chat.completions.create(  # type: ignore
             model=self.model,
             messages=[self._build_message(input_str=input_str)],
-            response_model=QAResponses,
+            response_model=QAResponses,  # type: ignore
             temperature=0.0,
         )  # type: ignore

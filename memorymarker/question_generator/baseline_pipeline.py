@@ -86,7 +86,7 @@ The highlight is from a document titled "{highlight.source_doc_title}".
         return await self.client.chat.completions.create(
             model=self.model,
             messages=[self._build_message(highlight=highlight)],
-            response_model=QAPromptResponseModel,
+            response_model=QAPromptResponseModel,  # type: ignore
             temperature=0.0,
         )  # type: ignore
 
@@ -97,7 +97,7 @@ The highlight is from a document titled "{highlight.source_doc_title}".
         response = await asyncio.gather(*questions)
         return response
 
-    def __call__(self, highlights: "Iter[ContextualizedHighlight]") -> "Iter[QAPrompt]":
+    def __call__(self, highlights: "Iter[ContextualizedHighlight]") -> "Iter[QAPrompt]":  # type: ignore
         response: Sequence[QAPromptResponseModel] = asyncio.run(
             self._gather(highlights)  # type: ignore
         )

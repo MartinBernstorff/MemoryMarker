@@ -6,11 +6,13 @@ if TYPE_CHECKING:
     from memorymarker.document_providers.ContextualizedHighlight import (
         ContextualizedHighlight,
     )
-    from memorymarker.question_generator.qa_prompt import QAPrompt
+    from memorymarker.question_generator.expanded_pipeline import PromptWithLineage
 
 
 class HighlightToQuestion(Protocol):
-    def __call__(self, highlights: "Iter[ContextualizedHighlight]") -> "Iter[QAPrompt]":
+    def __call__(
+        self, highlights: "Iter[ContextualizedHighlight]"
+    ) -> "Iter[PromptWithLineage]":
         ...
 
     @property

@@ -13,12 +13,6 @@ class StudentReflection(PipelineMiddleStep):
 
 {input_text}
 
-Write one or more questions to get the student to reflect. Questions should be about:
-
-* Comparison to alternatives
-* Pros and cons about the approach
-* Example cases for reflection
-
-Never ask the student to generate their own examples. Keep questions extremely brief, concise, and to the point. Students will not read long questions. Yet focus on reflection and elaboration."""
+Write one or more questions to get the student to reflect. Never ask the student to generate their own examples. Keep questions brief, concise, and to the point. Focus on reflection and learning."""
 
         return await self.model.create_completion(message=prompt)

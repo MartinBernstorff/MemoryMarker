@@ -23,6 +23,7 @@ def test_difference():
                 Question="test",
                 Answer="test",
                 Pipeline="Baseline-GPT-4",
+                Lineage="First response",
             )
         ]
     )

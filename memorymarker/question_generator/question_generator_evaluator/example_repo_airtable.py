@@ -6,7 +6,7 @@ from pyairtable import Api
 from pydantic import BaseModel
 
 from memorymarker.question_generator.question_generator_evaluator.types import (
-    QAPromptWithPipeline,
+    QAPromptWithMetadata,
     SupportsIdentity,
 )
 
@@ -20,6 +20,7 @@ class QATableRow(BaseModel, SupportsIdentity):
     Question: str
     Answer: str
     Pipeline: str
+    Lineage: str
 
     def __hash__(self) -> int:
         return self.identity(self.Pipeline, self.Highlight)
@@ -44,7 +45,7 @@ class AirtableExampleRepo:
 
 
 def update_repository(
-    new_responses: "Iter[QAPromptWithPipeline]", repository: AirtableExampleRepo
+    new_responses: "Iter[QAPromptWithMetadata]", repository: AirtableExampleRepo
 ):
     for example in new_responses:
         print(f"Updating {example.prompt}")
@@ -55,5 +56,6 @@ def update_repository(
                 Question=example.prompt.question,
                 Answer=example.prompt.answer,
                 Pipeline=example.pipeline_name,
+                Lineage="\n--- \n\n".join(example.lineage),
             )
         )

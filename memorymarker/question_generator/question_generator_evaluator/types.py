@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Sequence
 
 if TYPE_CHECKING:
     from memorymarker.document_providers.ContextualizedHighlight import (
@@ -17,8 +17,9 @@ class SupportsIdentity:
 
 
 @dataclass(frozen=True)
-class QAPromptWithPipeline:
+class QAPromptWithMetadata:
     prompt: "QAPrompt"
+    lineage: Sequence[str]
     pipeline_name: str
 
 

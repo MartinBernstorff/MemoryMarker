@@ -4,7 +4,6 @@ from typing import TYPE_CHECKING, Sequence
 from pydantic import BaseModel
 
 if TYPE_CHECKING:
-
     from memorymarker.document_providers.ContextualizedHighlight import (
         ContextualizedHighlight,
     )
@@ -32,4 +31,4 @@ class QAPromptResponseModel(BaseModel):
 
 
 class QAResponses(BaseModel):
-    responses: Sequence[QAPromptResponseModel]
+    items: Sequence[QAPromptResponseModel]
