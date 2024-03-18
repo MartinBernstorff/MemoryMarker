@@ -5,17 +5,18 @@ from typing import TYPE_CHECKING, Sequence
 from pyairtable import Api
 from pydantic import BaseModel
 
-from memorymarker.question_generator.question_generator_evaluator.types import (
-    SupportsIdentity,
-)
-
 if TYPE_CHECKING:
     from iterpy.iter import Iter
 
     from memorymarker.question_generator_v2.reasoned_highlight import ReasonedHighlight
 
 
-class QATableRow(BaseModel, SupportsIdentity):
+class PipelineHighlightIdentity:
+    def pipeline_highlight_id(self, pipeline_id: str, highlight: str) -> int:
+        return f"{pipeline_id}_{highlight}".__hash__()
+
+
+class QATableRow(BaseModel, PipelineHighlightIdentity):
     Highlight: str
     Context: str
     Question: str
@@ -23,7 +24,7 @@ class QATableRow(BaseModel, SupportsIdentity):
     Pipeline: str
 
     def __hash__(self) -> int:
-        return self.identity(self.Pipeline, self.Highlight)
+        return self.pipeline_highlight_id(self.Pipeline, self.Highlight)
 
 
 @dataclass

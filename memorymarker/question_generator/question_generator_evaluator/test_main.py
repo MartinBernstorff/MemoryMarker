@@ -9,9 +9,7 @@ from memorymarker.question_generator.baseline_pipeline import BaselinePipeline
 from memorymarker.question_generator.question_generator_evaluator.example_repo_airtable import (
     QATableRow,
 )
-from memorymarker.question_generator.question_generator_evaluator.types import (
-    HighlightWithPipeline,
-)
+from memorymarker.question_generator_v2.main import HighlightWithPipeline
 
 
 def test_difference():

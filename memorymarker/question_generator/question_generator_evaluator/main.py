@@ -9,15 +9,11 @@ from memorymarker.question_generator.question_generator_evaluator.example_repo_a
     AirtableExampleRepo,
     update_repository,
 )
-from memorymarker.question_generator.question_generator_evaluator.pipeline_runner import (
-    run_pipelines,
-)
-from memorymarker.question_generator.question_generator_evaluator.types import (
-    HighlightWithPipeline,
-)
 from memorymarker.question_generator.steps.final_steps import QuestionExtractor
 from memorymarker.question_generator.steps.first_steps import COT
 from memorymarker.question_generator.steps.middle_steps import StudentReflection
+from memorymarker.question_generator_v2.main import HighlightWithPipeline
+from memorymarker.question_generator_v2.pipeline_runner import run_pipelines
 
 if TYPE_CHECKING:
     from memorymarker.document_providers.contextualized_highlight import (
