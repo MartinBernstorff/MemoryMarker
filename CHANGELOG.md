@@ -2,6 +2,93 @@
 
 
 
+## v0.5.0 (2024-03-18)
+
+### Chore
+
+* chore: delete pipeline_evaluator.py and test_pipeline_evaluator.py ([`839d924`](https://github.com/MartinBernstorff/MemoryMarker/commit/839d9240ff8f6d24200ce1a67d22cbb6299a8885))
+
+### Feature
+
+* feat(#58): add pipeline evaluation (#62)
+
+- [ ] I have considered whether this PR needs review, and requested a
+review if necessary.
+
+Fixes issue #
+
+Reviewers can skip X, but should pay attention to Y. ([`32fb7e8`](https://github.com/MartinBernstorff/MemoryMarker/commit/32fb7e85d81c1880c2e634db76f98c5f155e5970))
+
+* feat: add metadata to pipelines ([`17a44de`](https://github.com/MartinBernstorff/MemoryMarker/commit/17a44de05c28b176cf2417d6922c706745c57bdf))
+
+* feat(#58): add pipeline evaluation (#62)
+
+- [ ] I have considered whether this PR needs review, and requested a
+review if necessary.
+
+Fixes issue #
+
+# Notes for reviewers
+Reviewers can skip X, but should pay attention to Y. ([`cc4a4e7`](https://github.com/MartinBernstorff/MemoryMarker/commit/cc4a4e7916befb9cf390e4a5783b1ae9115c76d6))
+
+* feat(#58): add pipeline evaluation
+
+Fixes #58 ([`efee8ca`](https://github.com/MartinBernstorff/MemoryMarker/commit/efee8cac51294ccbe90b2b803a7405813bd3c51f))
+
+### Refactor
+
+* refactor(#13): migrate away from langchain (perhaps instructor) (#60)
+
+- [ ] I have considered whether this PR needs review, and requested a review if necessary.
+
+Fixes issue #
+
+# Notes for reviewers
+Reviewers can skip X, but should pay attention to Y. ([`9891705`](https://github.com/MartinBernstorff/MemoryMarker/commit/989170542391f8da583706f2d42a7dce0d1c158a))
+
+### Unknown
+
+* update 9 files ([`91e29c5`](https://github.com/MartinBernstorff/MemoryMarker/commit/91e29c5193c6c1a438aa77bc83723879d6f5b63d))
+
+* update 1 file and delete 9 files ([`94aa438`](https://github.com/MartinBernstorff/MemoryMarker/commit/94aa4384368dc795b44697092861325a03914376))
+
+* Merge branch &#39;feat/add_metadata_to_pipelines&#39; ([`baa9f0d`](https://github.com/MartinBernstorff/MemoryMarker/commit/baa9f0d18cf4afc8ee06a206150cd333b22a4bc6))
+
+* update 6 files and delete 14 files ([`5904cac`](https://github.com/MartinBernstorff/MemoryMarker/commit/5904cacb59e75a838aa88b317c93203ec2cafb5a))
+
+* update 6 files and delete 1 file ([`40dc184`](https://github.com/MartinBernstorff/MemoryMarker/commit/40dc1842790d59bed6e9fc67bb2b4df10f530984))
+
+* delete 1 file and update 14 files ([`cba546f`](https://github.com/MartinBernstorff/MemoryMarker/commit/cba546fea8f961d30bdcdca7489cd4fd1eae0643))
+
+* update 12 files ([`27af13b`](https://github.com/MartinBernstorff/MemoryMarker/commit/27af13bd5e697b788a65611a6798ee73536c335c))
+
+* update 5 files and delete 2 files ([`a23307d`](https://github.com/MartinBernstorff/MemoryMarker/commit/a23307dab6aafd179a2df5b2a58f606f5fc4c499))
+
+* update 8 files and move 1 file update 8 files and move 1 file update 9 files and delete 1 file update 2 files and create 4 files update pipeline_evaluator.py and highlight_to_question.py ([`416b043`](https://github.com/MartinBernstorff/MemoryMarker/commit/416b0435505c05f7e7fd3aee52e115057d17c971))
+
+* misc. ([`998c16d`](https://github.com/MartinBernstorff/MemoryMarker/commit/998c16d9ea45d01e8ae2bdbedeb337d65d691f44))
+
+* update pipeline_evaluator.py ([`dc0e786`](https://github.com/MartinBernstorff/MemoryMarker/commit/dc0e786b7b40394fe19de990d52b7cfbaabe60c7))
+
+* dev: temperature to 0 (#61)
+
+- [ ] I have considered whether this PR needs review, and requested a review if necessary.
+
+Fixes issue #
+
+# Notes for reviewers
+Reviewers can skip X, but should pay attention to Y. ([`3c24a7a`](https://github.com/MartinBernstorff/MemoryMarker/commit/3c24a7af78f47a33ce23f5454fe8586332f76311))
+
+* dev: update copier (#59)
+
+- [ ] I have considered whether this PR needs review, and requested a review if necessary.
+
+Fixes issue #
+
+# Notes for reviewers
+Reviewers can skip X, but should pay attention to Y. ([`ae1485a`](https://github.com/MartinBernstorff/MemoryMarker/commit/ae1485a2983bf4d27b9481440a78a105f7f2d58d))
+
+
 ## v0.4.1 (2024-02-26)
 
 ### Fix
