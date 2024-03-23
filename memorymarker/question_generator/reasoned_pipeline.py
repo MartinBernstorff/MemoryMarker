@@ -126,16 +126,9 @@ A. 42
             )
         )
 
-    async def _highlights_to_qa(
-        self, highlights: Iter["ContextualizedHighlight"]
-    ) -> Iter[ReasonedHighlight]:
+    async def __call__(
+        self, highlights: "Iter[ContextualizedHighlight]"
+    ) -> "Iter[ReasonedHighlight]":
         questions = [self._highlight_to_qa(highlight) for highlight in highlights]
         response = await asyncio.gather(*questions)
         return Iter(response).flatten()
-
-    def __call__(
-        self, highlights: "Iter[ContextualizedHighlight]"
-    ) -> "Iter[ReasonedHighlight]":
-        response = asyncio.run(self._highlights_to_qa(highlights))
-
-        return response

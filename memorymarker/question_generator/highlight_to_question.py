@@ -10,7 +10,7 @@ if TYPE_CHECKING:
 
 
 class HighlightToQuestion(Protocol):
-    def __call__(
+    async def __call__(
         self, highlights: "Iter[ContextualizedHighlight]"
     ) -> "Iter[ReasonedHighlight]":
         ...

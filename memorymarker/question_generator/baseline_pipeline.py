@@ -72,7 +72,7 @@ The highlight is from a document titled "{highlight.source_doc_title}".
         response = await asyncio.gather(*questions)
         return response
 
-    def __call__(
+    async def __call__(
         self, highlights: "Iter[ContextualizedHighlight]"
     ) -> "Iter[ReasonedHighlight]":
         response: Sequence[QAPromptResponseModel] = asyncio.run(
