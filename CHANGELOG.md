@@ -2,6 +2,32 @@
 
 
 
+## v0.6.0 (2024-03-23)
+
+### Feature
+
+* feat: move async handling to outer loop (#71)
+
+- [ ] I have considered whether this PR needs review, and requested a
+review if necessary.
+
+Fixes issue #
+
+# Notes for reviewers
+Reviewers can skip X, but should pay attention to Y. ([`31465a9`](https://github.com/MartinBernstorff/MemoryMarker/commit/31465a9a97ca6534a824f4fb82c6a3b4a90ec5b9))
+
+### Unknown
+
+* test_add_new (#70)
+
+- [ ] I have considered whether this PR needs review, and requested a review if necessary.
+
+Fixes issue #
+
+# Notes for reviewers
+Reviewers can skip X, but should pay attention to Y. ([`3784d73`](https://github.com/MartinBernstorff/MemoryMarker/commit/3784d730efb523cf3a49a5337aaee1e03c583e0b))
+
+
 ## v0.5.0 (2024-03-18)
 
 ### Chore
