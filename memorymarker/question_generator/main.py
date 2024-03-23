@@ -16,6 +16,7 @@ from memorymarker.question_generator.example_repo_airtable import (
 )
 from memorymarker.question_generator.highlight_to_question import HighlightToQuestion
 from memorymarker.question_generator.pipeline_runner import run_pipelines
+from memorymarker.question_generator.reasoned_pipeline import ReasonedPipeline
 
 if TYPE_CHECKING:
     from memorymarker.document_providers.contextualized_highlight import (
@@ -92,13 +93,20 @@ if __name__ == "__main__":
     new_highlights = _generate_highlight_pipeline_pairs(
         selected_highlights,
         [
+            ReasonedPipeline(
+                _name="reasoned_pipeline",
+                openai_api_key=os.getenv(
+                    "OPENAI_API_KEY", "No OPENAI_API_KEY environment variable set"
+                ),
+                model="gpt-4-turbo-preview",
+            ),
             BaselinePipeline(
                 openai_api_key=os.getenv(
                     "OPENAI_API_KEY", "No OPENAI_API_KEY environment variable set"
                 ),
                 model="gpt-4-turbo-preview",
                 _name="gpt-4-basic",
-            )
+            ),
         ],
     ).filter(lambda pair: pair.__hash__() not in old_example_hashes)
 
