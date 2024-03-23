@@ -160,3 +160,6 @@ cython_debug/
 
 # Tests
 .testmondata*
+
+# Cache
+omnivore_cache/

@@ -9,48 +9,69 @@ from memorymarker.document_providers.contextualized_highlight import (
     ContextualizedHighlight,
 )
 from memorymarker.document_providers.omnivore import Omnivore
+from memorymarker.question_generator.completers.openai_completer import (
+    OpenAICompleter,
+    OpenAIModelCompleter,
+)
 from memorymarker.question_generator.example_repo_airtable import (
     AirtableExampleRepo,
     PipelineHighlightIdentity,
     update_repository,
 )
-from memorymarker.question_generator.highlight_to_question import HighlightToQuestion
+from memorymarker.question_generator.flows.question_flow import QuestionFlow
 from memorymarker.question_generator.pipeline_runner import run_pipelines
-from memorymarker.question_generator.reasoned_pipeline import ReasonedPipeline
+from memorymarker.question_generator.qa_responses import QAResponses
+from memorymarker.question_generator.steps.qa_extractor import QuestionExtractionStep
+from memorymarker.question_generator.steps.qa_generation import QuestionGenerationStep
+from memorymarker.question_generator.steps.reasoning import ReasoningStep
 
 if TYPE_CHECKING:
     from memorymarker.document_providers.contextualized_highlight import (
         ContextualizedHighlight,
     )
-    from memorymarker.question_generator.highlight_to_question import (
-        HighlightToQuestion,
-    )
+
+from joblib import Memory
+
+from memorymarker.question_generator.reasoned_highlight import ReasonedHighlight
+
+omnivore_cache = Memory(".cache/omnivore")
 
 
 @dataclass(frozen=True)
 class HighlightWithPipeline(PipelineHighlightIdentity):
-    highlight: "ContextualizedHighlight"
-    pipeline: "HighlightToQuestion"
+    highlight: "ReasonedHighlight"
+    pipeline: "QuestionFlow"
 
     def __hash__(self) -> int:
         return self.pipeline_highlight_id(
-            self.pipeline.name, self.highlight.highlighted_text
+            self.pipeline.name, self.highlight.highlight.highlighted_text
         )
 
 
 def _generate_highlight_pipeline_pairs(
     selected_highlights: Iter["ContextualizedHighlight"],
-    pipelines: Sequence["HighlightToQuestion"],
+    pipelines: Sequence["QuestionFlow"],
 ) -> Iter[HighlightWithPipeline]:
     return Iter(
         [
-            HighlightWithPipeline(highlight=highlight, pipeline=pipeline)
+            HighlightWithPipeline(
+                highlight=ReasonedHighlight(
+                    pipeline_name=pipeline.name,
+                    highlight=highlight,
+                    reasoning_prompt="",
+                    reasoning="",
+                    qa_string="",
+                    question_answer_pairs=[],
+                ),
+                pipeline=pipeline,
+            )
             for pipeline in pipelines
             for highlight in selected_highlights.to_list()
         ]
     )
 
 
+@omnivore_cache.cache()  # type: ignore
 def _select_highlights_from_omnivore(
     search_terms: set[str],
 ) -> Iter["ContextualizedHighlight"]:
@@ -71,6 +92,13 @@ def _select_highlights_from_omnivore(
 
 
 async def main():
+    openai_api_key = os.getenv(
+        "OPENAI_API_KEY", "No OPENAI_API_KEY environment variable set"
+    )
+    gpt_4_completer = OpenAICompleter(
+        api_key=openai_api_key, model="gpt-4-turbo-preview"
+    )
+
     repository = AirtableExampleRepo()
     selected_highlights = _select_highlights_from_omnivore(
         search_terms={
@@ -93,20 +121,20 @@ async def main():
     new_highlights = _generate_highlight_pipeline_pairs(
         selected_highlights,
         [
-            ReasonedPipeline(
+            QuestionFlow(
                 _name="reasoned_pipeline",
-                openai_api_key=os.getenv(
-                    "OPENAI_API_KEY", "No OPENAI_API_KEY environment variable set"
-                ),
-                model="gpt-4-turbo-preview",
+                steps=[
+                    ReasoningStep(completer=gpt_4_completer),
+                    QuestionGenerationStep(completer=gpt_4_completer),
+                    QuestionExtractionStep(
+                        completer=OpenAIModelCompleter(
+                            api_key=openai_api_key,
+                            model="gpt-4-turbo-preview",
+                            response_model=QAResponses,  # type: ignore
+                        )
+                    ),
+                ],
             )
-            # BaselinePipeline(
-            #     openai_api_key=os.getenv(
-            #         "OPENAI_API_KEY", "No OPENAI_API_KEY environment variable set"
-            #     ),
-            #     model="gpt-4-turbo-preview",
-            #     _name="gpt-4-basic",
-            # ),
         ],
     ).filter(lambda pair: pair.__hash__() not in old_example_hashes)
 
