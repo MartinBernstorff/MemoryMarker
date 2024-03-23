@@ -3,31 +3,25 @@ from typing import TYPE_CHECKING, Mapping, Sequence
 from iterpy.iter import Iter
 
 if TYPE_CHECKING:
-    from memorymarker.document_providers.contextualized_highlight import (
-        ContextualizedHighlight,
-    )
-    from memorymarker.question_generator.highlight_to_question import (
-        HighlightToQuestion,
-    )
+    from memorymarker.question_generator.flows.question_flow import QuestionFlow
     from memorymarker.question_generator.main import HighlightWithPipeline
     from memorymarker.question_generator.reasoned_highlight import ReasonedHighlight
 
 
 async def run_pipeline(
     pipeline_name: str,
-    pipelinename2pipeline: Mapping[str, "HighlightToQuestion"],
-    highlights: Sequence["ContextualizedHighlight"],
+    pipelinename2pipeline: Mapping[str, "QuestionFlow"],
+    highlights: Sequence["ReasonedHighlight"],
 ) -> Iter["ReasonedHighlight"]:
     pipeline = pipelinename2pipeline[pipeline_name]
-    prompts = pipeline(Iter(highlights))
-    return await prompts
+    prompts = await pipeline(Iter(highlights))
+    return prompts
 
 
 async def run_pipelines(
     pairs: "Iter[HighlightWithPipeline]",
 ) -> Iter["ReasonedHighlight"]:
     pipelinename2pipeline = {pair.pipeline.name: pair.pipeline for pair in pairs}
-
     pipelines_with_highlights = pairs.groupby(lambda _: _.pipeline.name)
 
     examples: Sequence["ReasonedHighlight"] = []

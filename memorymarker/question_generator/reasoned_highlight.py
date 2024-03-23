@@ -14,4 +14,5 @@ class ReasonedHighlight:
     highlight: "ContextualizedHighlight"
     reasoning_prompt: str
     reasoning: str
+    qa_string: str
     question_answer_pairs: Sequence["QAPrompt"]
