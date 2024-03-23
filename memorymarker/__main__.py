@@ -1,3 +1,4 @@
+import asyncio
 import datetime as dt
 import os
 import time
@@ -105,15 +106,18 @@ def typer_cli(
     typer.echo(f"Received {highlights.count()} new highlights")
 
     typer.echo("Generating questions from highlights...")
-    questions = BaselinePipeline(
-        _name="gpt-4-basic",
-        openai_api_key=os.getenv(
-            "OPENAI_API_KEY", "No OPENAI_API_KEY environment variable set"
-        ),
-        model="gpt-4-turbo-preview",
-    )(highlights)
+    questions = asyncio.run(
+        BaselinePipeline(
+            _name="gpt-4-basic",
+            openai_api_key=os.getenv(
+                "OPENAI_API_KEY", "No OPENAI_API_KEY environment variable set"
+            ),
+            model="gpt-4-turbo-preview",
+        )(highlights)
+    )
 
     typer.echo("Writing questions to markdown...")
+
     for question in questions:
         write_qa_prompt_to_md(save_dir=output_dir, highlight=question)
 

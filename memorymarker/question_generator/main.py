@@ -1,3 +1,4 @@
+import asyncio
 import os
 from dataclasses import dataclass
 from typing import TYPE_CHECKING, Sequence
@@ -8,7 +9,6 @@ from memorymarker.document_providers.contextualized_highlight import (
     ContextualizedHighlight,
 )
 from memorymarker.document_providers.omnivore import Omnivore
-from memorymarker.question_generator.baseline_pipeline import BaselinePipeline
 from memorymarker.question_generator.example_repo_airtable import (
     AirtableExampleRepo,
     PipelineHighlightIdentity,
@@ -70,7 +70,7 @@ def _select_highlights_from_omnivore(
     return selected_highlights
 
 
-if __name__ == "__main__":
+async def main():
     repository = AirtableExampleRepo()
     selected_highlights = _select_highlights_from_omnivore(
         search_terms={
@@ -99,16 +99,20 @@ if __name__ == "__main__":
                     "OPENAI_API_KEY", "No OPENAI_API_KEY environment variable set"
                 ),
                 model="gpt-4-turbo-preview",
-            ),
-            BaselinePipeline(
-                openai_api_key=os.getenv(
-                    "OPENAI_API_KEY", "No OPENAI_API_KEY environment variable set"
-                ),
-                model="gpt-4-turbo-preview",
-                _name="gpt-4-basic",
-            ),
+            )
+            # BaselinePipeline(
+            #     openai_api_key=os.getenv(
+            #         "OPENAI_API_KEY", "No OPENAI_API_KEY environment variable set"
+            #     ),
+            #     model="gpt-4-turbo-preview",
+            #     _name="gpt-4-basic",
+            # ),
         ],
     ).filter(lambda pair: pair.__hash__() not in old_example_hashes)
 
-    new_responses = Iter(run_pipelines(new_highlights)).flatten()
+    new_responses = await run_pipelines(new_highlights)
     update_repository(new_responses, repository=repository)
+
+
+if __name__ == "__main__":
+    asyncio.run(main())
