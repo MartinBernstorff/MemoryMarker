@@ -2,6 +2,20 @@
 
 
 
+## v0.7.0 (2024-03-23)
+
+### Feature
+
+* feat: speed up remote calls with local cache (#72)
+
+- [ ] I have considered whether this PR needs review, and requested a review if necessary.
+
+Fixes issue #
+
+# Notes for reviewers
+Reviewers can skip X, but should pay attention to Y. ([`7fcb3ed`](https://github.com/MartinBernstorff/MemoryMarker/commit/7fcb3edf854bb81722f36f2f28ef13b43924cd50))
+
+
 ## v0.6.0 (2024-03-23)
 
 ### Feature
