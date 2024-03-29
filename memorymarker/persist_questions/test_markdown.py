@@ -5,10 +5,10 @@ import pytest
 import memorymarker.persist_questions.markdown as markdown
 from memorymarker.question_generator.qa_responses import QAPrompt
 
-from ..document_providers.contextualized_highlight import ContextualizedHighlight
+from ..document_providers.contextualized_highlight import HighlightDTO
 
 
-class FakeHydratedHighlight(ContextualizedHighlight):
+class FakeHydratedHighlight(HighlightDTO):
     source_doc_title: str = "The Hitchhiker's Guide to the Galaxy"
     source_doc_uri: str = (
         "https://en.wikipedia.org/wiki/The_Hitchhiker%27s_Guide_to_the_Galaxy"

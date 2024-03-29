@@ -2,17 +2,30 @@ from dataclasses import dataclass
 from typing import TYPE_CHECKING, Sequence
 
 if TYPE_CHECKING:
-    from memorymarker.document_providers.contextualized_highlight import (
-        ContextualizedHighlight,
-    )
+    import datetime as dt
+
     from memorymarker.question_generator.qa_responses import QAPrompt
 
 
 @dataclass(frozen=True)
+class SourceDocument:
+    title: str
+    uri: str
+
+
+@dataclass(frozen=True)
 class ReasonedHighlight:
-    pipeline_name: str
-    highlight: "ContextualizedHighlight"
-    reasoning_prompt: str
-    reasoning: str
-    qa_string: str
+    source_document: SourceDocument
+
+    updated_at: "dt.datetime"
+    prefix: str
+    highlighted_text: str
+    suffix: str
+
+    pipeline_name: str | None
+
+    reasoning_prompt: str | None
+    reasoning: str | None
+
+    qa_string: str | None
     question_answer_pairs: Sequence["QAPrompt"]

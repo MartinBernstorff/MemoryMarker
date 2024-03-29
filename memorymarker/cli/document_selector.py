@@ -5,10 +5,10 @@ import questionary
 if TYPE_CHECKING:
     from iterpy.iter import Iter
 
-    from ..document_providers.Document import Document
+    from ..document_providers.omnivore_document import OmnivoreDocument
 
 
-def select_documents(docs: "Iter[Document]") -> "Iter[Document]":
+def select_documents(docs: "Iter[OmnivoreDocument]") -> "Iter[OmnivoreDocument]":
     doc_titles = docs.map(lambda d: d.title).to_list()
     selected_doc_names = questionary.checkbox(
         message="Select documents", choices=doc_titles
