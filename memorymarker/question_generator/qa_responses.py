@@ -4,15 +4,13 @@ from typing import TYPE_CHECKING, Sequence
 import pydantic
 from pydantic import BaseModel, Field
 
-from memorymarker.document_providers.contextualized_highlight import HighlightDTO
-
 if TYPE_CHECKING:
-    from memorymarker.document_providers.contextualized_highlight import HighlightDTO
+    from memorymarker.question_generator.reasoned_highlight import ReasonedHighlight
 
 
 @dataclass(frozen=True)
 class QAPrompt:
-    hydrated_highlight: "HighlightDTO"
+    hydrated_highlight: "ReasonedHighlight"
     question: str
     answer: str
     title: str
@@ -31,12 +29,12 @@ Most questions should start with "When X", e.g. "When working on software", to d
 """
     )
 
-    def to_qaprompt(self, hydrated_highlight: "HighlightDTO") -> QAPrompt:
+    def to_qaprompt(self, hydrated_highlight: "ReasonedHighlight") -> QAPrompt:
         return QAPrompt(
             hydrated_highlight=hydrated_highlight,
             question=self.question,
             answer="",
-            title=hydrated_highlight.source_doc_title,
+            title=hydrated_highlight.source_document.title,
         )
 
 

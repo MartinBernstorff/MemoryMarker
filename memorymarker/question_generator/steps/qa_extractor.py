@@ -23,6 +23,7 @@ class QuestionExtractionStep(FlowStep):
         )  # type: ignore
 
         return ReasonedHighlight(
+            source_document=highlight.source_document,
             qa_string=highlight.qa_string,
             highlight=highlight.highlight,
             reasoning=highlight.reasoning,

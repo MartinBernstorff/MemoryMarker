@@ -22,10 +22,14 @@ class ReasonedHighlight:
     highlighted_text: str
     suffix: str
 
-    pipeline_name: str | None
+    pipeline_name: str
 
-    reasoning_prompt: str | None
-    reasoning: str | None
+    reasoning_prompt: str
+    reasoning: str
 
-    qa_string: str | None
+    qa_string: str
     question_answer_pairs: Sequence["QAPrompt"]
+
+    @property
+    def context(self) -> str:
+        return f"{self.prefix}{self.highlighted_text}{self.suffix}"

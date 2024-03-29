@@ -4,7 +4,7 @@ from typing import Mapping
 from iterpy.iter import Iter
 from omnivoreql import OmnivoreQL
 
-from memorymarker.document_providers.Document import OmnivoreDocument
+from memorymarker.document_providers.omnivore_document import OmnivoreDocument
 
 from .base import DocumentProvider
 
