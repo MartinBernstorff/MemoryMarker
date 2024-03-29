@@ -2,6 +2,40 @@
 
 
 
+## v0.8.0 (2024-03-29)
+
+### Feature
+
+* feat: add more examples (#79)
+
+- [ ] I have considered whether this PR needs review, and requested a review if necessary.
+
+Fixes issue #
+
+# Notes for reviewers
+Reviewers can skip X, but should pay attention to Y. ([`e81cf3a`](https://github.com/MartinBernstorff/MemoryMarker/commit/e81cf3a33f4b827fb55c12f4925f2ebfde6c2941))
+
+### Refactor
+
+* refactor: working docker image (#78)
+
+- [ ] I have considered whether this PR needs review, and requested a review if necessary.
+
+Fixes issue #
+
+# Notes for reviewers
+Reviewers can skip X, but should pay attention to Y. ([`fe44df5`](https://github.com/MartinBernstorff/MemoryMarker/commit/fe44df528f0b5056b48cd45a8b4a33e2d955448d))
+
+* refactor: simplify reasoned highlight (#77)
+
+- [ ] I have considered whether this PR needs review, and requested a review if necessary.
+
+Fixes issue #
+
+# Notes for reviewers
+Reviewers can skip X, but should pay attention to Y. ([`46281b6`](https://github.com/MartinBernstorff/MemoryMarker/commit/46281b6221d6ad9dfdf692a4a5f93c0a34f597fe))
+
+
 ## v0.7.0 (2024-03-23)
 
 ### Feature
