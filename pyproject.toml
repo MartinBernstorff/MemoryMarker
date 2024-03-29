@@ -15,7 +15,6 @@ dependencies = [
     "pytz>=2024.1",
     "questionary>=2.0.1",
     "typer>=0.9.0",
-    "attrs>=23.2.0",
 ]
 authors = [{ name = "Martin Bernstorff", email = "martinbernstorff@gmail.com" }]
 classifiers = ["Programming Language :: Python :: 3.12"]
