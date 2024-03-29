@@ -99,15 +99,15 @@ def typer_cli(
 
     if only_new:
         if not last_run_timestamp:
-            typer.echo("No last run timestamp found, exiting")
-            last_run_timestamper.update_timestamp()
-            return
+            typer.echo(
+                "No last run timestamp found, generating questions for all highlights"
+            )
+            last_run_timestamp = dt.datetime(1970, 1, 1, tzinfo=pytz.UTC)
 
         typer.echo(
             f"Last run at UTC {last_run_timestamp.strftime('%Y-%m-%d %H:%M:%S')}"
         )
         highlights = highlights.filter(lambda _: _.updated_at > last_run_timestamp)
-        last_run_timestamper.update_timestamp()
 
         if highlights.count() == 0:
             typer.echo("No new highlights since last run")
@@ -123,9 +123,6 @@ def typer_cli(
     questions = asyncio.run(
         QuestionFlow(
             _name="gpt-4-basic",
-            openai_api_key=os.getenv(
-                "OPENAI_API_KEY", "No OPENAI_API_KEY environment variable set"
-            ),
             steps=[
                 ReasoningStep(completer=gpt_4_completer),
                 QuestionGenerationStep(completer=gpt_4_completer),
@@ -137,15 +134,15 @@ def typer_cli(
                     )
                 ),
             ],
-            model="gpt-4-turbo-preview",
-        )(highlights)
+        )(highlights[0:max_n])
     )
 
     typer.echo("Writing questions to markdown...")
 
-    for question in questions:
+    for question in questions[0:max_n]:
         write_qa_prompt_to_md(save_dir=output_dir, highlight=question)
 
+    last_run_timestamper.update_timestamp()
     if run_every:
         typer.echo(f"Running every {run_every} seconds")
         time.sleep(run_every)

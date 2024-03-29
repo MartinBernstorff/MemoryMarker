@@ -18,7 +18,7 @@ def q_to_markdown(prompt: "QAPrompt") -> str:
     return f"""Q) {prompt.question}
 
 > [!NOTE]- Highlight
-> {highlight.prefix or ""}=={highlight.highlighted_text}=={highlight.suffix.strip()}
+> {highlight.prefix + " " or ""}=={highlight.highlighted_text}=={highlight.suffix.strip() + " " or ""}
 > [Link]({highlight.source_document.uri})
 \n"""
 

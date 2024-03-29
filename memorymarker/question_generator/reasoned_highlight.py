@@ -1,12 +1,10 @@
+import datetime as dt  # noqa: TCH003
 from dataclasses import dataclass
-from typing import TYPE_CHECKING, Sequence
+from typing import Sequence
 
 from openai import BaseModel
 
-if TYPE_CHECKING:
-    import datetime as dt
-
-    from memorymarker.question_generator.qa_responses import QAPrompt
+from memorymarker.question_generator.qa_responses import QAPrompt  # noqa: TCH001
 
 
 @dataclass(frozen=True)
@@ -18,7 +16,7 @@ class SourceDocument:
 class ReasonedHighlight(BaseModel):
     source_document: SourceDocument
 
-    updated_at: "dt.datetime"
+    updated_at: dt.datetime
     prefix: str
     highlighted_text: str
     suffix: str
@@ -29,7 +27,7 @@ class ReasonedHighlight(BaseModel):
     reasoning: str
 
     qa_string: str
-    question_answer_pairs: Sequence["QAPrompt"]
+    question_answer_pairs: Sequence[QAPrompt]
 
     @property
     def context(self) -> str:

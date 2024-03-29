@@ -9,6 +9,10 @@ from memorymarker.question_generator.reasoned_highlight import (
 )
 
 
+def empty_string_if_none(value: str | None) -> str:
+    return value or ""
+
+
 class OmnivoreDocument(BaseModel):
     title: str
     uri: str
@@ -32,8 +36,8 @@ class OmnivoreDocument(BaseModel):
             qa_string="",
             question_answer_pairs=[],
             highlighted_text=highlight["quote"],
-            prefix=highlight["prefix"],
-            suffix=highlight["suffix"],
+            prefix=empty_string_if_none(highlight["prefix"]),
+            suffix=empty_string_if_none(highlight["suffix"]),
             updated_at=highlight["updatedAt"],  # type: ignore # Will be recast on init.
         )
 

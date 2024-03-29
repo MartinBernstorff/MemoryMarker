@@ -1,4 +1,3 @@
-from abc import ABC
 from dataclasses import dataclass
 from typing import TYPE_CHECKING, Sequence
 
@@ -10,7 +9,7 @@ if TYPE_CHECKING:
 
 
 @dataclass
-class QuestionFlow(ABC):
+class QuestionFlow:
     _name: str
     steps: Sequence["FlowStep"]
 
