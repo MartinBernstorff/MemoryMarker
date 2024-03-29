@@ -29,12 +29,12 @@ Most questions should start with "When X", e.g. "When working on software", to d
 """
     )
 
-    def to_qaprompt(self, hydrated_highlight: "ReasonedHighlight") -> QAPrompt:
+    def to_qaprompt(self, reasoned_highlight: "ReasonedHighlight") -> QAPrompt:
         return QAPrompt(
-            hydrated_highlight=hydrated_highlight,
+            hydrated_highlight=reasoned_highlight,
             question=self.question,
             answer="",
-            title=hydrated_highlight.source_document.title,
+            title=reasoned_highlight.source_document.title,
         )
 
 

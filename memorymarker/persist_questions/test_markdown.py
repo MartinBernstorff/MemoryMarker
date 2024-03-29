@@ -1,4 +1,5 @@
 import datetime as dt
+from typing import Sequence
 
 import pytest
 
@@ -11,9 +12,9 @@ from memorymarker.question_generator.reasoned_highlight import (
 
 
 class FakeHydratedHighlight(ReasonedHighlight):
-    source_document = SourceDocument(
+    source_document: SourceDocument = SourceDocument(
         title="The Hitchhiker's Guide to the Galaxy",
-        uri="https://en.wikipedia.org/wiki/The_Hitchhiker%27s_Guide_to_the_Galaxy",
+        uri="https://en.wikipedia.org/wiki/The_Hitchhiker%27s_Guide_to_the_Galaxy#meaning_of_life",
     )
 
     updated_at: dt.datetime = dt.datetime.now()
@@ -22,7 +23,14 @@ class FakeHydratedHighlight(ReasonedHighlight):
     highlighted_text: str = "42"
     suffix: str = ""
 
-    question_answer_pairs = ()
+    question_answer_pairs: Sequence[QAPrompt] = []
+
+    pipeline_name: str = "fake_pipeline"
+
+    reasoning_prompt: str = ""
+    reasoning: str = ""
+
+    qa_string: str = ""
 
 
 @pytest.fixture(scope="module")

@@ -1,6 +1,10 @@
 from dataclasses import dataclass
 from typing import TYPE_CHECKING, Sequence
 
+import attrs
+from attrs import define
+from openai import BaseModel
+
 if TYPE_CHECKING:
     import datetime as dt
 
@@ -13,8 +17,7 @@ class SourceDocument:
     uri: str
 
 
-@dataclass(frozen=True)
-class ReasonedHighlight:
+class ReasonedHighlight(BaseModel):
     source_document: SourceDocument
 
     updated_at: "dt.datetime"
@@ -33,3 +36,13 @@ class ReasonedHighlight:
     @property
     def context(self) -> str:
         return f"{self.prefix}{self.highlighted_text}{self.suffix}"
+
+
+@define
+class C:
+    test: str
+
+
+if __name__ == "__main__":
+    test_class = C(test="Testing")
+    two = attrs.evolve(test_class, test2="Testing2")

@@ -19,6 +19,7 @@ anyio==3.7.1
     # via openai
 attrs==23.2.0
     # via aiohttp
+    # via memorymarker
 backoff==2.2.1
     # via gql
 beautifulsoup4==4.12.3
