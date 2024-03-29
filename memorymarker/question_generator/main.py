@@ -83,15 +83,12 @@ async def main():
     repository = AirtableExampleRepo()
     selected_highlights = _select_highlights_from_omnivore(
         search_terms={
-            # "gratitude and relatedness",
-            # "Registry Schema",
-            # "often referred to as fine-tuning",
-            # "drenge og mænd ikke har nogen værdi",
-            # "Underutilized Data Dependencies",
-            # "The quality of a model",
-            # "Break down what you want your application",
-            # "Dependency injection is not effective if",
-            "The essence of writing code then is to internalize the problem domain"
+            "often referred to as fine-tuning",
+            "drenge og mænd ikke har nogen værdi",
+            "The quality of a model",
+            "Dependency injection is not effective if",
+            "The essence of writing code then is to internalize the problem domain",
+            "stack is a data structure that contains a collection of elements where you can add and delete elements from just one end ",
         }
     )
 
