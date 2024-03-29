@@ -6,9 +6,7 @@ import requests
 from bs4 import BeautifulSoup, NavigableString, Tag
 from joblib import Memory
 
-from memorymarker.document_providers.contextualized_highlight import (
-    ContextualizedHighlight,
-)
+from memorymarker.question_generator.reasoned_highlight import ReasonedHighlight
 
 if TYPE_CHECKING:
     from memorymarker.document_providers.base import OrphanHighlight
@@ -77,8 +75,8 @@ class HighlightHydrator:
 
     def hydrate_highlights(
         self, highlights: Sequence["OrphanHighlight"]
-    ) -> Sequence[ContextualizedHighlight | None]:
-        hydrated_highlights: list[ContextualizedHighlight | None] = []
+    ) -> Sequence["ReasonedHighlight | None"]:
+        hydrated_highlights: list[ReasonedHighlight | None] = []
         for highlight in highlights:
             try:
                 page = urlopen(highlight.uri)
@@ -92,10 +90,8 @@ class HighlightHydrator:
                 soup=soup, highlight=highlight.highlight
             )
             hydrated_highlights.append(
-                ContextualizedHighlight(
+                ReasonedHighlight(
                     highlighted_text=highlight.highlight,
-                    source_doc_uri=highlight.uri,
-                    source_doc_title=highlight.title,
                     prefix=context[:100],
                     suffix=context[-100:],
                 )  # type: ignore

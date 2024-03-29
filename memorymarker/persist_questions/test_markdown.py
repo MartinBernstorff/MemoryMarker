@@ -1,24 +1,36 @@
 import datetime as dt
+from typing import Sequence
 
 import pytest
 
 import memorymarker.persist_questions.markdown as markdown
 from memorymarker.question_generator.qa_responses import QAPrompt
+from memorymarker.question_generator.reasoned_highlight import (
+    ReasonedHighlight,
+    SourceDocument,
+)
 
-from ..document_providers.contextualized_highlight import ContextualizedHighlight
 
-
-class FakeHydratedHighlight(ContextualizedHighlight):
-    source_doc_title: str = "The Hitchhiker's Guide to the Galaxy"
-    source_doc_uri: str = (
-        "https://en.wikipedia.org/wiki/The_Hitchhiker%27s_Guide_to_the_Galaxy"
+class FakeHydratedHighlight(ReasonedHighlight):
+    source_document: SourceDocument = SourceDocument(
+        title="The Hitchhiker's Guide to the Galaxy",
+        uri="https://en.wikipedia.org/wiki/The_Hitchhiker%27s_Guide_to_the_Galaxy#meaning_of_life",
     )
-    source_highlight_uri: str | None = "https://en.wikipedia.org/wiki/The_Hitchhiker%27s_Guide_to_the_Galaxy#meaning_of_life"
+
     updated_at: dt.datetime = dt.datetime.now()
 
-    prefix: str | None = ""
+    prefix: str = ""
     highlighted_text: str = "42"
-    suffix: str | None = ""
+    suffix: str = ""
+
+    question_answer_pairs: Sequence[QAPrompt] = []
+
+    pipeline_name: str = "fake_pipeline"
+
+    reasoning_prompt: str = ""
+    reasoning: str = ""
+
+    qa_string: str = ""
 
 
 @pytest.fixture(scope="module")

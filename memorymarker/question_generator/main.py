@@ -4,10 +4,8 @@ from dataclasses import dataclass
 from typing import TYPE_CHECKING, Sequence
 
 from iterpy.iter import Iter
+from joblib import Memory
 
-from memorymarker.document_providers.contextualized_highlight import (
-    ContextualizedHighlight,
-)
 from memorymarker.document_providers.omnivore import Omnivore
 from memorymarker.question_generator.completers.openai_completer import (
     OpenAICompleter,
@@ -26,13 +24,7 @@ from memorymarker.question_generator.steps.qa_generation import QuestionGenerati
 from memorymarker.question_generator.steps.reasoning import ReasoningStep
 
 if TYPE_CHECKING:
-    from memorymarker.document_providers.contextualized_highlight import (
-        ContextualizedHighlight,
-    )
-
-from joblib import Memory
-
-from memorymarker.question_generator.reasoned_highlight import ReasonedHighlight
+    from memorymarker.question_generator.reasoned_highlight import ReasonedHighlight
 
 omnivore_cache = Memory(".cache/omnivore")
 
@@ -44,27 +36,16 @@ class HighlightWithPipeline(PipelineHighlightIdentity):
 
     def __hash__(self) -> int:
         return self.pipeline_highlight_id(
-            self.pipeline.name, self.highlight.highlight.highlighted_text
+            self.pipeline.name, self.highlight.highlighted_text
         )
 
 
 def _generate_highlight_pipeline_pairs(
-    selected_highlights: Iter["ContextualizedHighlight"],
-    pipelines: Sequence["QuestionFlow"],
+    selected_highlights: Iter["ReasonedHighlight"], pipelines: Sequence["QuestionFlow"]
 ) -> Iter[HighlightWithPipeline]:
     return Iter(
         [
-            HighlightWithPipeline(
-                highlight=ReasonedHighlight(
-                    pipeline_name=pipeline.name,
-                    highlight=highlight,
-                    reasoning_prompt="",
-                    reasoning="",
-                    qa_string="",
-                    question_answer_pairs=[],
-                ),
-                pipeline=pipeline,
-            )
+            HighlightWithPipeline(highlight=highlight, pipeline=pipeline)
             for pipeline in pipelines
             for highlight in selected_highlights.to_list()
         ]
@@ -74,7 +55,7 @@ def _generate_highlight_pipeline_pairs(
 @omnivore_cache.cache()  # type: ignore
 def _select_highlights_from_omnivore(
     search_terms: set[str],
-) -> Iter["ContextualizedHighlight"]:
+) -> Iter["ReasonedHighlight"]:
     highlights = (
         Omnivore(
             api_key=os.getenv("OMNIVORE_API_KEY", "No OMNIVORE_API_KEY in environment")

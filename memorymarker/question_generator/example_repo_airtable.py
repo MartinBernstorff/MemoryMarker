@@ -67,8 +67,8 @@ def update_repository(
         for qa_pair in example.question_answer_pairs:
             repository.create(
                 QATableRow(
-                    Highlight=example.highlight.highlighted_text,
-                    Context=example.highlight.context,
+                    Highlight=example.highlighted_text,
+                    Context=example.context,
                     Question=qa_pair.question,
                     Answer=qa_pair.answer,
                     Pipeline=example.pipeline_name,
