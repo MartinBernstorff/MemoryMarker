@@ -4,19 +4,13 @@ from typing import TYPE_CHECKING, Sequence
 import pydantic
 from pydantic import BaseModel, Field
 
-from memorymarker.document_providers.contextualized_highlight import (
-    ContextualizedHighlight,
-)
-
 if TYPE_CHECKING:
-    from memorymarker.document_providers.contextualized_highlight import (
-        ContextualizedHighlight,
-    )
+    from memorymarker.question_generator.reasoned_highlight import ReasonedHighlight
 
 
 @dataclass(frozen=True)
 class QAPrompt:
-    hydrated_highlight: "ContextualizedHighlight"
+    hydrated_highlight: "ReasonedHighlight"
     question: str
     answer: str
     title: str
@@ -34,13 +28,24 @@ class QAPromptResponseModel(BaseModel):
 Most questions should start with "When X", e.g. "When working on software", to define the context of the question.
 """
     )
+    answer: str = Field(
+        description="""A brief answer to the question. Must be:
+* Concise, one sentence.
+* Answerable without the highlight. The question should include any needed context for an expert to accurately answer it. Do not refer to the speaker or the highlight.
+* Focused on one point, i.e. never contains "and"
+* Specific, i.e. it must be answerable with a brief answer
+* Focused on reflection, e.g. comparing options or explaining, rather than defining
 
-    def to_qaprompt(self, hydrated_highlight: "ContextualizedHighlight") -> QAPrompt:
+Most questions should start with "When X", e.g. "When working on software", to define the context of the question.
+"""
+    )
+
+    def to_qaprompt(self, reasoned_highlight: "ReasonedHighlight") -> QAPrompt:
         return QAPrompt(
-            hydrated_highlight=hydrated_highlight,
+            hydrated_highlight=reasoned_highlight,
             question=self.question,
             answer="",
-            title=hydrated_highlight.source_doc_title,
+            title=reasoned_highlight.source_document.title,
         )
 
 

@@ -1,11 +1,11 @@
 from dataclasses import dataclass
 from typing import TYPE_CHECKING
 
-from memorymarker.question_generator.reasoned_highlight import ReasonedHighlight
 from memorymarker.question_generator.steps.step import FlowStep
 
 if TYPE_CHECKING:
     from memorymarker.question_generator.completers.openai_completer import Completer
+    from memorymarker.question_generator.reasoned_highlight import ReasonedHighlight
 
 
 @dataclass(frozen=True)
@@ -26,9 +26,9 @@ Your goals are to:
 The entire response should be at most 20 words. First, think step by step about why the person has highlighted this text. Then, write a question that, when reflected upon, produces maximum learning.
 
 
-                    A student has highlighted the following text from a document titled "{highlight.highlight.source_doc_title}":
+                    A student has highlighted the following text from a document titled "{highlight.source_document.title}":
 
-{highlight.highlight.highlighted_text}
+{highlight.highlighted_text}
 
 The student found it important because:
 
@@ -43,12 +43,7 @@ A. 42
 """
 
         response = await self.completer(prompt)
+        highlight.qa_string = response
+        highlight.reasoning_prompt = prompt
 
-        return ReasonedHighlight(
-            qa_string=response,
-            highlight=highlight.highlight,
-            reasoning=highlight.reasoning,
-            reasoning_prompt=prompt,
-            question_answer_pairs=highlight.question_answer_pairs,
-            pipeline_name=highlight.pipeline_name,
-        )
+        return highlight

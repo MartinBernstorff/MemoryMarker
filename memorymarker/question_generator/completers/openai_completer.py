@@ -1,15 +1,11 @@
 from dataclasses import dataclass
-from typing import Literal
+from typing import TYPE_CHECKING, Literal, Protocol
 
 import instructor
 from openai import AsyncOpenAI
 from openai.types.chat.chat_completion_user_message_param import (
     ChatCompletionUserMessageParam,
 )
-
-OPENAI_MODELS = Literal["gpt-4-turbo-preview", "gpt-4-1106-preview", "gpt-3.5-turbo"]
-
-from typing import TYPE_CHECKING, Protocol
 
 if TYPE_CHECKING:
     import pydantic
@@ -18,6 +14,9 @@ if TYPE_CHECKING:
 class Completer(Protocol):
     async def __call__(self, prompt: str) -> str:
         ...
+
+
+OPENAI_MODELS = Literal["gpt-4-turbo-preview", "gpt-4-1106-preview", "gpt-3.5-turbo"]
 
 
 @dataclass

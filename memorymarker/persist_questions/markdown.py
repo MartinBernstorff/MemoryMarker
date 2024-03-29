@@ -18,8 +18,8 @@ def q_to_markdown(prompt: "QAPrompt") -> str:
     return f"""Q) {prompt.question}
 
 > [!NOTE]- Highlight
-> {highlight.prefix or ""}=={highlight.highlighted_text}=={highlight.suffix.strip() if highlight.suffix is not None else ""}
-> [Link]({highlight.source_highlight_uri})
+> {highlight.prefix + " " or ""}=={highlight.highlighted_text}=={highlight.suffix.strip() + " " or ""}
+> [Link]({highlight.source_document.uri})
 \n"""
 
 
@@ -36,7 +36,5 @@ def write_qa_prompt_to_md(highlight: "ReasonedHighlight", save_dir: "Path") -> N
     )
 
     write_md(
-        contents=contents,
-        file_title=highlight.highlight.source_doc_title,
-        save_dir=save_dir,
+        contents=contents, file_title=highlight.source_document.title, save_dir=save_dir
     )
