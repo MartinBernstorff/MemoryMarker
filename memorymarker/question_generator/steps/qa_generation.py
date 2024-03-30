@@ -28,8 +28,6 @@ The entire response should be at most 20 words. First, think step by step about 
 
 {highlighted_text}
 
-The student found it important because:
-
 {reasoning}
 
 Please generate one or more question/answer pairs to reinforce the student's understanding of the concept.
@@ -47,7 +45,11 @@ A. 42
         prompt = self.prompt.format(
             document_title=highlight.source_document.title,
             highlighted_text=highlight.highlighted_text,
-            reasoning=highlight.reasoning,
+            reasoning=f"""The student found it important because:
+
+{highlight.reasoning}"""
+            if highlight.reasoning
+            else "",
         )
 
         response = await self.completer(prompt)

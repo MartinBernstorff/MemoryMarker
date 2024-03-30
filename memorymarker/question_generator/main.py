@@ -23,7 +23,6 @@ from memorymarker.question_generator.pipeline_runner import run_pipelines
 from memorymarker.question_generator.qa_responses import QAResponses
 from memorymarker.question_generator.steps.qa_extractor import QuestionExtractionStep
 from memorymarker.question_generator.steps.qa_generation import QuestionGenerationStep
-from memorymarker.question_generator.steps.reasoning import ReasoningStep
 
 if TYPE_CHECKING:
     from memorymarker.question_generator.reasoned_highlight import ReasonedHighlight
@@ -102,9 +101,9 @@ async def main():
         selected_highlights,
         [
             QuestionFlow(
-                _name="reasoned_pipeline",
+                _name="base_pipeline",
                 steps=(
-                    ReasoningStep(completer=gpt_4_completer),
+                    # ReasoningStep(completer=gpt_4_completer),
                     QuestionGenerationStep(completer=gpt_4_completer),
                     QuestionExtractionStep(
                         completer=OpenAIModelCompleter(
