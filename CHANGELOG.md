@@ -2,6 +2,20 @@
 
 
 
+## v0.10.0 (2024-03-30)
+
+### Feature
+
+* feat(#76): generate flow ID based on step inputs (#89)
+
+- [ ] I have considered whether this PR needs review, and requested a review if necessary.
+
+Fixes issue #
+
+# Notes for reviewers
+Reviewers can skip X, but should pay attention to Y. ([`2d37a92`](https://github.com/MartinBernstorff/MemoryMarker/commit/2d37a9215e9388679e4cb9e4dc5bbdc3e49201d5))
+
+
 ## v0.9.0 (2024-03-30)
 
 ### Feature
