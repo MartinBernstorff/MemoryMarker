@@ -2,6 +2,21 @@
 
 
 
+## v0.9.0 (2024-03-30)
+
+### Feature
+
+* feat: update copier (#80)
+
+- [ ] I have considered whether this PR needs review, and requested a
+review if necessary.
+
+Fixes issue #
+
+# Notes for reviewers
+Reviewers can skip X, but should pay attention to Y. ([`1deb441`](https://github.com/MartinBernstorff/MemoryMarker/commit/1deb441b2f2ea1de36cd8f20c47384ea9f2cf4dd))
+
+
 ## v0.8.0 (2024-03-29)
 
 ### Feature
