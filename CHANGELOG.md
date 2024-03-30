@@ -2,6 +2,20 @@
 
 
 
+## v0.12.0 (2024-03-30)
+
+### Feature
+
+* feat(#85): remove q) on markdown output (#96)
+
+- [ ] I have considered whether this PR needs review, and requested a review if necessary.
+
+Fixes issue #
+
+# Notes for reviewers
+Reviewers can skip X, but should pay attention to Y. ([`4d1fab3`](https://github.com/MartinBernstorff/MemoryMarker/commit/4d1fab3de76834ddbc76d3f262543a4772cb0e9c))
+
+
 ## v0.11.0 (2024-03-30)
 
 ### Feature
