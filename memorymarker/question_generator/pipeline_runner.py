@@ -1,3 +1,4 @@
+import logging
 from typing import TYPE_CHECKING, Mapping, Sequence
 
 from iterpy.iter import Iter
@@ -19,14 +20,14 @@ async def run_pipeline(
 
 
 async def run_pipelines(
-    pairs: "Iter[HighlightWithPipeline]",
+    pairs: Iter["HighlightWithPipeline"],
 ) -> Iter["ReasonedHighlight"]:
     pipelinename2pipeline = {pair.pipeline.name: pair.pipeline for pair in pairs}
     pipelines_with_highlights = pairs.groupby(lambda _: _.pipeline.name)
 
-    examples: Sequence["ReasonedHighlight"] = []
+    examples: Sequence[ReasonedHighlight] = []
     for pipeline_name, pairs_instance in pipelines_with_highlights:
-        print(f"Running pipeline {pipeline_name}")
+        logging.info(f"Running pipeline {pipeline_name}")
         for pair in pairs_instance:
             examples.extend(
                 await run_pipeline(
