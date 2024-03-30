@@ -49,7 +49,7 @@ Most questions should start with "When X", e.g. "When working on software", to d
         return QAPrompt(
             hydrated_highlight=reasoned_highlight,
             question=self.question,
-            answer="",
+            answer=self.answer,
             title=reasoned_highlight.source_document.title,
         )
 
