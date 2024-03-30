@@ -11,10 +11,11 @@ import coloredlogs
 import pytz
 import typer
 from dotenv import load_dotenv
+from iterpy.iter import Iter
 
 from memorymarker.cli.document_selector import select_documents
 from memorymarker.document_providers.omnivore import Omnivore
-from memorymarker.persist_questions.markdown import write_qa_prompt_to_md
+from memorymarker.persist_questions.markdown import highlight_group_to_file
 from memorymarker.question_generator.completers.openai_completer import (
     OpenAICompleter,
     OpenAIModelCompleter,
@@ -141,8 +142,11 @@ def typer_cli(
 
     logging.info("Writing questions to markdown...")
 
-    for question in questions[0:max_n]:
-        write_qa_prompt_to_md(save_dir=output_dir, highlight=question)
+    highlight_groups = Iter(questions[0:max_n]).groupby(
+        lambda _: _.source_document.title
+    )
+    for group in highlight_groups:
+        highlight_group_to_file(output_dir, group)
 
     last_run_timestamper.update_timestamp()
     if run_every:
