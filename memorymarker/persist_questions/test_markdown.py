@@ -19,11 +19,18 @@ class FakeHydratedHighlight(ReasonedHighlight):
 
     updated_at: dt.datetime = dt.datetime.now()
 
-    prefix: str = ""
-    highlighted_text: str = "42"
-    suffix: str = ""
+    prefix: str = "What is the answer to the ultimate question of life, the universe, and everything?"
+    highlighted_text: str = "42."
+    suffix: str = "Of course, this was a very simple question for the supercomputer Deep Thought, the second greatest computer of all time, the greatest being the Earth itself.\n\nDeep Thought was created to answer the ultimate question of life, the universe, and everything. It took Deep Thought 7½ million years to compute and check the answer, which turns out to be 42."
 
-    question_answer_pairs: Sequence[QAPrompt] = []
+    question_answer_pairs: Sequence[QAPrompt] = [
+        QAPrompt(
+            question="What is the meaning of life?",
+            answer="42",
+            hydrated_highlight=None,
+            title="The Hitchhiker's Guide to the Galaxy",
+        )
+    ]
 
     pipeline_name: str = "fake_pipeline"
 
@@ -31,6 +38,12 @@ class FakeHydratedHighlight(ReasonedHighlight):
     reasoning: str = ""
 
     qa_string: str = ""
+
+
+@pytest.mark.parametrize(("highlight"), [FakeHydratedHighlight()])
+def test_highlight_to_md(highlight: FakeHydratedHighlight, snapshot) -> None:  # noqa: ANN001
+    input_md = highlight.to_markdown()
+    assert snapshot == input_md
 
 
 @pytest.fixture(scope="module")
@@ -44,7 +57,7 @@ def question() -> QAPrompt:
 
 
 def test_single_q_to_markdown(question: QAPrompt, snapshot) -> None:  # noqa: ANN001
-    input_md = markdown.q_to_markdown(question)
+    input_md = question.to_markdown()
     assert snapshot == input_md
 
 

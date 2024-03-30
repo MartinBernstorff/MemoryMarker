@@ -49,7 +49,7 @@ class OpenAICompleter:
         if not completion_str:
             raise ValueError(f"Completion was not a string: {completion_str}")
 
-        return completion_str
+        return completion_str  # type: ignore
 
 
 class ModelCompleter(Protocol):
