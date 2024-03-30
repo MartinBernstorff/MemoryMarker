@@ -1,3 +1,4 @@
+import asyncio
 from dataclasses import dataclass
 from typing import TYPE_CHECKING
 
@@ -13,12 +14,20 @@ class QuestionFlow:
     _name: str
     steps: tuple["FlowStep"]
 
+    async def _process_item(
+        self, highlight: "ReasonedHighlight"
+    ) -> "ReasonedHighlight":
+        result = highlight
+        for step in self.steps:
+            result = await step(highlight)
+        return result
+
     async def __call__(
         self, highlights: "Iter[ReasonedHighlight]"
     ) -> "Iter[ReasonedHighlight]":
-        results: list[ReasonedHighlight] = highlights.to_list()
-        for step in self.steps:
-            results = [await step(highlight) for highlight in results]
+        results = await asyncio.gather(
+            *[self._process_item(highlight) for highlight in highlights]
+        )
 
         return Iter(results)
 
