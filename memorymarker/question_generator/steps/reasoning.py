@@ -22,6 +22,9 @@ Think through why the student should be interested in this concept, and what the
 Ask "Why is that?" at the beginning of each bullet point.
 """
 
+    def identity(self) -> str:
+        return f"{self.__class__.__name__}_{self.completer.identity()}"
+
     async def __call__(self, highlight: "ReasonedHighlight") -> "ReasonedHighlight":
         prompt = self.prompt.format(
             document_title=highlight.source_document.title,

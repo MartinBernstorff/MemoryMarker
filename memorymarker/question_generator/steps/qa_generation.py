@@ -40,6 +40,9 @@ Q. What is the meaning of life?
 A. 42
 """
 
+    def identity(self) -> str:
+        return f"{self.__class__.__name__}_{self.completer.identity()}"
+
     async def __call__(self, highlight: "ReasonedHighlight") -> "ReasonedHighlight":
         prompt = self.prompt.format(
             document_title=highlight.source_document.title,
