@@ -7,6 +7,9 @@ on:
 
 jobs:
   release:
+    permissions:
+      contents: write
+      packages: write
     runs-on: ubuntu-latest
     concurrency: docker-publish
     steps:

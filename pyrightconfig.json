@@ -5,9 +5,9 @@
     ],
     "pythonPlatform": "Darwin",
     "reportMissingTypeStubs": false,
-    "reportUntypedFunctionDecorator": false,
     "reportMissingParameterType": false, // Covered by ruff ANN
     "reportUnknownParameterType": false, // Covered by ruff ANN
-    "reportUnusedImport": "none", // Covered by ruff F401
+    "reportUntypedFunctionDecorator": false,
+    "reportUnusedImport": "none", // Covered by ruff
     "typeCheckingMode": "strict"
 }

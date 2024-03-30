@@ -4,17 +4,17 @@ requires-python = ">=3.12"
 name = "memorymarker"
 description = "memorymarker"
 dependencies = [
-    "beautifulsoup4>=4.12.3",
-    "instructor>=0.6.2",
-    "iterpy>=1.6.0",
-    "joblib>=1.3.2",
-    "omnivoreql>=0.2.1",
-    "openai>=1.13.3",
-    "pydantic>=2.6.2",
-    "python-dotenv>=1.0.1",
-    "pytz>=2024.1",
-    "questionary>=2.0.1",
-    "typer>=0.9.0",
+  "beautifulsoup4>=4.12.3",
+  "instructor>=0.6.2",
+  "iterpy>=1.6.0",
+  "joblib>=1.3.2",
+  "omnivoreql>=0.2.1",
+  "openai>=1.13.3",
+  "pydantic>=2.6.2",
+  "python-dotenv>=1.0.1",
+  "pytz>=2024.1",
+  "questionary>=2.0.1",
+  "typer>=0.9.0",
 ]
 authors = [{ name = "Martin Bernstorff", email = "martinbernstorff@gmail.com" }]
 classifiers = ["Programming Language :: Python :: 3.12"]
@@ -28,18 +28,18 @@ content-type = "text/markdown"
 
 [tool]
 rye = { dev-dependencies = [
-    "diff-cover==8.0.3",
-    "pyright==1.1.350",
-    "pytest>=7.4.0",
-    "pytest-cov==4.1.0",
-    "pytest-xdist==3.5.0",
-    "pytest-sugar==1.0.0",
-    "ruff==0.2.2",
-    "pytest-asyncio>=0.23.5",
-    "pytest-testmon>=2.1.0",
-    "syrupy>=4.6.1",
-    "pytest-dotenv>=0.5.2",
-    "pyairtable>=2.3.0.post1",
+  "diff-cover==8.0.3",
+  "pyright==1.1.350",
+  "pytest>=7.4.0",
+  "pytest-cov==4.1.0",
+  "pytest-xdist==3.5.0",
+  "pytest-sugar==1.0.0",
+  "ruff==0.2.2",
+  "pytest-asyncio>=0.23.5",
+  "pytest-testmon>=2.1.0",
+  "syrupy>=4.6.1",
+  "pytest-dotenv>=0.5.2",
+  "pyairtable>=2.3.0.post1",
 ] }
 
 [project.urls]
