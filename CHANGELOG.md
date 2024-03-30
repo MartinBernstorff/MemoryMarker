@@ -2,6 +2,15 @@
 
 
 
+## v0.14.1 (2024-03-30)
+
+### Fix
+
+* fix(#100): add pipeline metadata when evaluating models (#103)
+
+Fixes #100 ([`8542f07`](https://github.com/MartinBernstorff/MemoryMarker/commit/8542f07ac9bae7817e4e1e2b97fc3379dc36d114))
+
+
 ## v0.14.0 (2024-03-30)
 
 ### Feature
