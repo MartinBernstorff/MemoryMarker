@@ -101,7 +101,7 @@ async def main():
         [
             QuestionFlow(
                 _name="reasoned_pipeline",
-                steps=[
+                steps=(
                     ReasoningStep(completer=gpt_4_completer),
                     QuestionGenerationStep(completer=gpt_4_completer),
                     QuestionExtractionStep(
@@ -111,7 +111,7 @@ async def main():
                             response_model=QAResponses,  # type: ignore
                         )
                     ),
-                ],
+                ),
             )
         ],
     ).filter(lambda pair: pair.__hash__() not in old_example_hashes)

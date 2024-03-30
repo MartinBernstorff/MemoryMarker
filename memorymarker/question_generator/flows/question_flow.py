@@ -8,10 +8,10 @@ if TYPE_CHECKING:
     from memorymarker.question_generator.steps.step import FlowStep
 
 
-@dataclass
+@dataclass(frozen=True)
 class QuestionFlow:
     _name: str
-    steps: Sequence["FlowStep"]
+    steps: tuple["FlowStep"]
 
     async def __call__(
         self, highlights: "Iter[ReasonedHighlight]"
@@ -24,4 +24,4 @@ class QuestionFlow:
 
     @property
     def name(self) -> str:
-        return self._name
+        return f"{self._name}_{hash(self)}"

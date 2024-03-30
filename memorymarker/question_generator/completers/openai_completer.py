@@ -24,6 +24,9 @@ class OpenAICompleter:
     api_key: str
     model: OPENAI_MODELS
 
+    def __hash__(self) -> int:
+        return hash(self.model)
+
     def __post_init__(self):
         self.client = instructor.patch(AsyncOpenAI(api_key=self.api_key))
         self.completer = self.client.chat.completions
@@ -56,6 +59,9 @@ class OpenAIModelCompleter(ModelCompleter):
     api_key: str
     model: OPENAI_MODELS
     response_model: "pydantic.BaseModel"
+
+    def __hash__(self) -> int:
+        return hash((self.model, self.response_model))
 
     def __post_init__(self):
         self.client = instructor.patch(AsyncOpenAI(api_key=self.api_key))
