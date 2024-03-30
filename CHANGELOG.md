@@ -2,6 +2,20 @@
 
 
 
+## v0.10.2 (2024-03-30)
+
+### Fix
+
+* fix: dependable hashes between process runs (#93)
+
+- [ ] I have considered whether this PR needs review, and requested a review if necessary.
+
+Fixes issue #
+
+# Notes for reviewers
+Reviewers can skip X, but should pay attention to Y. ([`0ced7cb`](https://github.com/MartinBernstorff/MemoryMarker/commit/0ced7cb82d4ccbe5703f918c6b392582c24d03b9))
+
+
 ## v0.10.1 (2024-03-30)
 
 ### Performance
