@@ -20,6 +20,8 @@ class QuestionFlow:
         result = highlight
         for step in self.steps:
             result = await step(highlight)
+
+        result.pipeline_name = self.name
         return result
 
     async def __call__(
