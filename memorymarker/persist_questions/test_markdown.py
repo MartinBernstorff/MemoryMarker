@@ -71,4 +71,4 @@ def test_single_q_to_markdown(question: QAPrompt, snapshot) -> None:  # noqa: AN
     ],
 )
 def test_clean_filename(input_filename: str, expect_filename: str) -> None:
-    assert markdown._clean_filename(input_filename) == expect_filename
+    assert markdown.clean_filename(input_filename) == expect_filename
