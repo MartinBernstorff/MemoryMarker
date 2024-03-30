@@ -7,6 +7,7 @@
     "reportMissingTypeStubs": false,
     "reportMissingParameterType": false, // Covered by ruff ANN
     "reportUnknownParameterType": false, // Covered by ruff ANN
+    "reportPrivateUsage": false, // Covered by Ruff PLC
     "reportUntypedFunctionDecorator": false,
     "reportUnusedImport": "none", // Covered by ruff
     "typeCheckingMode": "strict"

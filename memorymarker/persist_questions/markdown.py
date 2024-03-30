@@ -8,9 +8,11 @@ if TYPE_CHECKING:
     from memorymarker.question_generator.reasoned_highlight import ReasonedHighlight
 
 
-def clean_filename(filename: str) -> str:
+def _clean_filename(filename: str) -> str:
     # This will replace not allowed symbols with an underscore.
-    return re.sub(r"[^A-Za-z]", "_", filename)
+    without_illegal = re.sub(r"[^A-Za-z\s]", " ", filename)
+    without_duplicate_spaces = re.sub(r"\s{2,}", ", ", without_illegal)
+    return without_duplicate_spaces
 
 
 def q_to_markdown(prompt: "QAPrompt") -> str:
@@ -23,18 +25,13 @@ def q_to_markdown(prompt: "QAPrompt") -> str:
 \n"""
 
 
-def write_md(contents: str, file_title: str, save_dir: "Path") -> None:
-    """Write markdown to file. Append if exists"""
-    with (save_dir / f"{clean_filename(file_title)}.md").open(mode="a") as f:
-        f.write(contents + "\n")
-
-
 def write_qa_prompt_to_md(highlight: "ReasonedHighlight", save_dir: "Path") -> None:
     """Write markdown to file. Append if exists"""
     contents = "/n".join(
         [q_to_markdown(prompt) for prompt in highlight.question_answer_pairs]
     )
 
-    write_md(
-        contents=contents, file_title=highlight.source_document.title, save_dir=save_dir
-    )
+    with (save_dir / f"{_clean_filename(highlight.source_document.title)}.md").open(
+        mode="a"
+    ) as f:
+        f.write(contents + "\n")
