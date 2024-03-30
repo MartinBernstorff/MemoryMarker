@@ -10,7 +10,7 @@ if TYPE_CHECKING:
 
 
 class FlowStep(Protocol):
-    def __hash__(self) -> int:
+    def identity(self) -> str:
         ...
 
     async def __call__(self, highlight: "ReasonedHighlight") -> "ReasonedHighlight":

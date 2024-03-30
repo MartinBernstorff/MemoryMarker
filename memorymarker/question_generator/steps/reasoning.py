@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 from typing import TYPE_CHECKING
 
+from memorymarker.question_generator.completers.openai_completer import OpenAICompleter
 from memorymarker.question_generator.steps.step import FlowStep
 
 if TYPE_CHECKING:
@@ -21,6 +22,9 @@ Think through why the student should be interested in this concept, and what the
 
 Ask "Why is that?" at the beginning of each bullet point.
 """
+
+    def identity(self) -> str:
+        return f"{self.__class__.__name__}_{self.completer.identity()}"
 
     async def __call__(self, highlight: "ReasonedHighlight") -> "ReasonedHighlight":
         prompt = self.prompt.format(

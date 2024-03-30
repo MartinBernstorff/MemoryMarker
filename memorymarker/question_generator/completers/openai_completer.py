@@ -12,6 +12,9 @@ if TYPE_CHECKING:
 
 
 class Completer(Protocol):
+    def identity(self) -> str:
+        ...
+
     async def __call__(self, prompt: str) -> str:
         ...
 
@@ -24,8 +27,8 @@ class OpenAICompleter:
     api_key: str
     model: OPENAI_MODELS
 
-    def __hash__(self) -> int:
-        return hash(self.model)
+    def identity(self) -> str:
+        return f"{self.__class__.__name__}_{self.model}"
 
     def __post_init__(self):
         self.client = instructor.patch(AsyncOpenAI(api_key=self.api_key))
@@ -50,6 +53,9 @@ class OpenAICompleter:
 
 
 class ModelCompleter(Protocol):
+    def identity(self) -> str:
+        ...
+
     async def __call__(self, prompt: str) -> "pydantic.BaseModel":
         ...
 
@@ -60,8 +66,8 @@ class OpenAIModelCompleter(ModelCompleter):
     model: OPENAI_MODELS
     response_model: "pydantic.BaseModel"
 
-    def __hash__(self) -> int:
-        return hash((self.model, self.response_model))
+    def identity(self) -> str:
+        return f"{self.__class__.__name__}_{self.model}"
 
     def __post_init__(self):
         self.client = instructor.patch(AsyncOpenAI(api_key=self.api_key))

@@ -15,6 +15,9 @@ if TYPE_CHECKING:
 class QuestionExtractionStep(FlowStep):
     completer: "ModelCompleter"
 
+    def identity(self) -> str:
+        return f"{self.__class__.__name__}_{self.completer.identity()}"
+
     async def __call__(
         self, reasoned_highlight: "ReasonedHighlight"
     ) -> "ReasonedHighlight":

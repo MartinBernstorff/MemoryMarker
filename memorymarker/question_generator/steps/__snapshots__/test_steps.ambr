@@ -1,0 +1,10 @@
+# serializer version: 1
+# name: test_step_hashes_are_constant[step0]
+  'ReasoningStep_OpenAICompleter_gpt-4-turbo-preview'
+# ---
+# name: test_step_hashes_are_constant[step1]
+  'QuestionGenerationStep_OpenAICompleter_gpt-4-turbo-preview'
+# ---
+# name: test_step_hashes_are_constant[step2]
+  'QuestionExtractionStep_OpenAIModelCompleter_gpt-4-turbo-preview'
+# ---

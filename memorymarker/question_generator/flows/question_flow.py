@@ -33,4 +33,5 @@ class QuestionFlow:
 
     @property
     def name(self) -> str:
-        return f"{self._name}_{hash(self)}"
+        step_identites = "_".join(step.identity() for step in self.steps)
+        return f"{self._name}_{step_identites}"
