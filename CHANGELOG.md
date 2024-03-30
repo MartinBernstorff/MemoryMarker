@@ -2,6 +2,20 @@
 
 
 
+## v0.10.1 (2024-03-30)
+
+### Performance
+
+* perf(#81): improve async calls (#92)
+
+- [ ] I have considered whether this PR needs review, and requested a review if necessary.
+
+Fixes issue #
+
+# Notes for reviewers
+Reviewers can skip X, but should pay attention to Y. ([`442895f`](https://github.com/MartinBernstorff/MemoryMarker/commit/442895f0d27517e4a611220defef19272848c453))
+
+
 ## v0.10.0 (2024-03-30)
 
 ### Feature
