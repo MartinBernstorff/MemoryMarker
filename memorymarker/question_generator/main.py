@@ -1,8 +1,10 @@
 import asyncio
+import logging
 import os
 from dataclasses import dataclass
 from typing import TYPE_CHECKING, Sequence
 
+import coloredlogs
 from iterpy.iter import Iter
 from joblib import Memory
 
@@ -32,16 +34,16 @@ omnivore_cache = Memory(".cache/omnivore")
 @dataclass(frozen=True)
 class HighlightWithPipeline(PipelineHighlightIdentity):
     highlight: "ReasonedHighlight"
-    pipeline: "QuestionFlow"
+    pipeline: QuestionFlow
 
-    def __hash__(self) -> int:
+    def identity(self) -> int:
         return self.pipeline_highlight_id(
             self.pipeline.name, self.highlight.highlighted_text
         )
 
 
 def _generate_highlight_pipeline_pairs(
-    selected_highlights: Iter["ReasonedHighlight"], pipelines: Sequence["QuestionFlow"]
+    selected_highlights: Iter["ReasonedHighlight"], pipelines: Sequence[QuestionFlow]
 ) -> Iter[HighlightWithPipeline]:
     return Iter(
         [
@@ -114,11 +116,17 @@ async def main():
                 ),
             )
         ],
-    ).filter(lambda pair: pair.__hash__() not in old_example_hashes)
+    ).filter(lambda pair: pair.identity() not in old_example_hashes)
 
     new_responses = await run_pipelines(new_highlights)
     update_repository(new_responses, repository=repository)
 
 
 if __name__ == "__main__":
+    coloredlogs.install(  # type: ignore
+        level=logging.INFO,
+        format="%(asctime)s [%(levelname)s] %(name)s: %(message)s",
+        datefmt="%Y/%m/%d %H:%M:%S",
+        file_name="tester.log",
+    )
     asyncio.run(main())

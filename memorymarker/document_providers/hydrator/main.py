@@ -1,3 +1,4 @@
+import logging
 import re
 from typing import TYPE_CHECKING, Callable, Sequence
 from urllib.request import urlopen
@@ -35,7 +36,7 @@ class ContextParser:
         highlight_selection = soup.find(text=re.compile(highlight))
 
         if highlight_selection is None:
-            print(f"Could not find highlight {highlight} in {soup.title}")
+            logging.info(f"Could not find highlight {highlight} in {soup.title}")
             return ""
 
         highlight_container: Tag = highlight_selection.parent.parent  # type: ignore
@@ -75,13 +76,13 @@ class HighlightHydrator:
 
     def hydrate_highlights(
         self, highlights: Sequence["OrphanHighlight"]
-    ) -> Sequence["ReasonedHighlight | None"]:
+    ) -> Sequence[ReasonedHighlight | None]:
         hydrated_highlights: list[ReasonedHighlight | None] = []
         for highlight in highlights:
             try:
                 page = urlopen(highlight.uri)
             except Exception:
-                print(f"Could not open {highlight.uri}")
+                logging.info(f"Could not open {highlight.uri}")
                 hydrated_highlights.append(None)
                 continue
 

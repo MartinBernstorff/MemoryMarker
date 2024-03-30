@@ -1,11 +1,13 @@
 import asyncio
 import datetime as dt
+import logging
 import os
 import time
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Callable
 
+import coloredlogs
 import pytz
 import typer
 from dotenv import load_dotenv
@@ -84,7 +86,7 @@ def typer_cli(
     last_run_timestamper = TimestampHandler(output_dir / ".memorymarker")
     last_run_timestamp = last_run_timestamper.get_timestamp()
 
-    typer.echo("Fetching documents")
+    logging.info("Fetching documents")
     documents = (
         Omnivore(omnivore_api_key)
         .get_documents()
@@ -94,29 +96,29 @@ def typer_cli(
     if select:
         documents = select_documents(documents)
 
-    typer.echo("Processing to highlights")
+    logging.info("Processing to highlights")
     highlights = documents.map(lambda _: _.get_highlights()).flatten()
 
     if only_new:
         if not last_run_timestamp:
-            typer.echo(
+            logging.info(
                 "No last run timestamp found, generating questions for all highlights"
             )
             last_run_timestamp = dt.datetime(1970, 1, 1, tzinfo=pytz.UTC)
 
-        typer.echo(
+        logging.info(
             f"Last run at UTC {last_run_timestamp.strftime('%Y-%m-%d %H:%M:%S')}"
         )
         highlights = highlights.filter(lambda _: _.updated_at > last_run_timestamp)
 
         if highlights.count() == 0:
-            typer.echo("No new highlights since last run")
+            logging.info("No new highlights since last run")
             if not run_every:
                 return
 
-    typer.echo(f"Received {highlights.count()} new highlights")
+    logging.info(f"Received {highlights.count()} new highlights")
 
-    typer.echo("Generating questions from highlights...")
+    logging.info("Generating questions from highlights...")
     gpt_4_completer = OpenAICompleter(
         api_key=openai_api_key, model="gpt-4-turbo-preview"
     )
@@ -137,16 +139,16 @@ def typer_cli(
         )(highlights[0:max_n])
     )
 
-    typer.echo("Writing questions to markdown...")
+    logging.info("Writing questions to markdown...")
 
     for question in questions[0:max_n]:
         write_qa_prompt_to_md(save_dir=output_dir, highlight=question)
 
     last_run_timestamper.update_timestamp()
     if run_every:
-        typer.echo(f"Running every {run_every} seconds")
+        logging.info(f"Running every {run_every} seconds")
         time.sleep(run_every)
-        typer.echo("Running again")
+        logging.info("Running again")
         typer_cli(
             omnivore_api_key=omnivore_api_key,
             output_dir=output_dir,
@@ -159,4 +161,11 @@ def typer_cli(
 
 if __name__ == "__main__":
     load_dotenv()
+    logging.basicConfig(
+        level=logging.INFO,
+        format="%(asctime)s [%(levelname)s] %(name)s: %(message)s",
+        datefmt="%Y/&m/%d %H:%M:%S",
+        filename="main.log",
+    )
+    coloredlogs.install(level="DEBUG")  # type: ignore
     app()

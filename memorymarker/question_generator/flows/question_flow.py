@@ -23,8 +23,8 @@ class QuestionFlow:
         return result
 
     async def __call__(
-        self, highlights: "Iter[ReasonedHighlight]"
-    ) -> "Iter[ReasonedHighlight]":
+        self, highlights: Iter["ReasonedHighlight"]
+    ) -> Iter["ReasonedHighlight"]:
         results = await asyncio.gather(
             *[self._process_item(highlight) for highlight in highlights]
         )

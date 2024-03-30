@@ -1,3 +1,4 @@
+import logging
 import os
 from dataclasses import dataclass
 from typing import TYPE_CHECKING, Sequence
@@ -55,7 +56,7 @@ class AirtableExampleRepo:
                 "Answer",
             ]:
                 try:
-                    print(row[possibly_missing_field])  # type: ignore
+                    logging.info(row[possibly_missing_field])  # type: ignore
                 except KeyError:
                     row["fields"][possibly_missing_field] = ""
 

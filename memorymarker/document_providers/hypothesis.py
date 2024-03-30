@@ -1,5 +1,6 @@
 import datetime as dt
 import json
+import logging
 import os
 import re
 
@@ -80,7 +81,7 @@ class HypothesisHighlightGetter:
             except KeyError:
                 errors.append(row)
 
-        print(f"n Errors: {len(errors)}")
+        logging.info(f"n Errors: {len(errors)}")
 
         return tuple(highlights)
 

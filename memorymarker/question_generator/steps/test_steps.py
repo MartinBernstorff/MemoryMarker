@@ -1,6 +1,6 @@
 import os
 from dataclasses import dataclass, field
-from typing import TYPE_CHECKING, Type
+from typing import TYPE_CHECKING
 
 import pytest
 
@@ -26,7 +26,7 @@ def gpt_4_completer() -> OpenAICompleter:
 
 @dataclass
 class Step:
-    step: Type["FlowStep"]
+    step: type["FlowStep"]
     completer: OpenAICompleter | OpenAIModelCompleter = field(
         default_factory=gpt_4_completer
     )
