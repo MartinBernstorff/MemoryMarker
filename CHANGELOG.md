@@ -2,6 +2,31 @@
 
 
 
+## v0.11.0 (2024-03-30)
+
+### Feature
+
+* feat(#87): only replace disallowed characters in output filename (#95)
+
+- [ ] I have considered whether this PR needs review, and requested a review if necessary.
+
+Fixes issue #
+
+# Notes for reviewers
+Reviewers can skip X, but should pay attention to Y. ([`5f8e167`](https://github.com/MartinBernstorff/MemoryMarker/commit/5f8e167d160cf6e8ab411b95bf661352c1a51f5c))
+
+### Unknown
+
+* debug(#91): convert all echo and print statements to log (#94)
+
+- [ ] I have considered whether this PR needs review, and requested a review if necessary.
+
+Fixes issue #
+
+# Notes for reviewers
+Reviewers can skip X, but should pay attention to Y. ([`377d097`](https://github.com/MartinBernstorff/MemoryMarker/commit/377d09774bd18974260193c13d73b8f82210535c))
+
+
 ## v0.10.2 (2024-03-30)
 
 ### Fix
