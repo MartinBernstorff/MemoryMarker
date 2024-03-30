@@ -10,10 +10,15 @@ if TYPE_CHECKING:
 
 @dataclass(frozen=True)
 class QAPrompt:
-    hydrated_highlight: "ReasonedHighlight"
+    hydrated_highlight: "ReasonedHighlight | None"
     question: str
     answer: str
     title: str
+
+    def to_markdown(self) -> str:
+        return f"""{self.question}
+{self.answer}
+"""
 
 
 class QAPromptResponseModel(BaseModel):
