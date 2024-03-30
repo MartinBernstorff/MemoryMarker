@@ -1,7 +1,6 @@
 from dataclasses import dataclass
 from typing import TYPE_CHECKING
 
-from memorymarker.question_generator.completers.openai_completer import OpenAICompleter
 from memorymarker.question_generator.steps.step import FlowStep
 
 if TYPE_CHECKING:
