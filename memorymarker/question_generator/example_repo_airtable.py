@@ -35,9 +35,11 @@ class AirtableExampleRepo:
     table_id: str = "tbldyD9Dk8VddUuRf"
 
     def __post_init__(self):
-        self.client = Api(
-            os.getenv("AIRTABLE_PAT", "No AIRTABLE_PAT environment variable set")
-        )
+        api_key = os.getenv("AIRTABLE_PAT", None)
+        if api_key is None:
+            raise ValueError("AIRTABLE_PAT environment variable not set")
+
+        self.client = Api(api_key=api_key)
         self.table = self.client.base(self.base_id).table(self.table_id)
 
     def create(self, entity: QATableRow) -> None:

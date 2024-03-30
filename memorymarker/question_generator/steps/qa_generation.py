@@ -11,9 +11,7 @@ if TYPE_CHECKING:
 @dataclass(frozen=True)
 class QuestionGenerationStep(FlowStep):
     completer: "Completer"
-
-    async def __call__(self, highlight: "ReasonedHighlight") -> "ReasonedHighlight":
-        prompt = f"""You are a teacher creating spaced repetition prompts to reinforce knowledge from a student.
+    prompt = """You are a teacher creating spaced repetition prompts to reinforce knowledge from a student.
 
 Your goals are to:
 * Create perspective: The questions should relate concepts to one another, comparing alternate solutions to a given problem if possible.
@@ -26,13 +24,13 @@ Your goals are to:
 The entire response should be at most 20 words. First, think step by step about why the person has highlighted this text. Then, write a question that, when reflected upon, produces maximum learning.
 
 
-                    A student has highlighted the following text from a document titled "{highlight.source_document.title}":
+                    A student has highlighted the following text from a document titled "{document_title}":
 
-{highlight.highlighted_text}
+{highlighted_text}
 
 The student found it important because:
 
-{highlight.reasoning}
+{reasoning}
 
 Please generate one or more question/answer pairs to reinforce the student's understanding of the concept.
 
@@ -41,6 +39,13 @@ They should be formatted like:
 Q. What is the meaning of life?
 A. 42
 """
+
+    async def __call__(self, highlight: "ReasonedHighlight") -> "ReasonedHighlight":
+        prompt = self.prompt.format(
+            document_title=highlight.source_document.title,
+            highlighted_text=highlight.highlighted_text,
+            reasoning=highlight.reasoning,
+        )
 
         response = await self.completer(prompt)
         highlight.qa_string = response
