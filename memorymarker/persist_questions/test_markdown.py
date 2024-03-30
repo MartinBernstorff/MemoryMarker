@@ -48,7 +48,14 @@ def test_single_q_to_markdown(question: QAPrompt, snapshot) -> None:  # noqa: AN
     assert snapshot == input_md
 
 
-def test_clean_filename():
-    filename = "Wikipedia · Powerhouse of the cell - Testing"
-    result = markdown.clean_filename(filename)
-    assert result == "Wikipedia___Powerhouse_of_the_cell___Testing"
+@pytest.mark.parametrize(
+    ("input_filename", "expect_filename"),
+    [
+        (
+            "Wikipedia · Powerhouse of the cell - Testing",
+            "Wikipedia, Powerhouse of the cell, Testing",
+        )
+    ],
+)
+def test_clean_filename(input_filename: str, expect_filename: str) -> None:
+    assert markdown._clean_filename(input_filename) == expect_filename
