@@ -2,6 +2,20 @@
 
 
 
+## v0.13.0 (2024-03-30)
+
+### Feature
+
+* feat(#83): prepend highlights with a separator on each sync (#98)
+
+- [ ] I have considered whether this PR needs review, and requested a review if necessary.
+
+Fixes issue #
+
+# Notes for reviewers
+Reviewers can skip X, but should pay attention to Y. ([`b9995ff`](https://github.com/MartinBernstorff/MemoryMarker/commit/b9995ff157cf10d352e60efe57dd611bdceed3ee))
+
+
 ## v0.12.0 (2024-03-30)
 
 ### Feature
