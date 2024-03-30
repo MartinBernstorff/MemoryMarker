@@ -2,6 +2,26 @@
 
 
 
+## v0.14.0 (2024-03-30)
+
+### Feature
+
+* feat(#84): generate an answer as well (#102)
+
+Fixes #84 ([`a91a28c`](https://github.com/MartinBernstorff/MemoryMarker/commit/a91a28c2d684a4da30b3134fe07e43fa7dbd869d))
+
+### Unknown
+
+* dev: remove pr template (#97)
+
+- [ ] I have considered whether this PR needs review, and requested a review if necessary.
+
+Fixes issue #
+
+# Notes for reviewers
+Reviewers can skip X, but should pay attention to Y. ([`3ce2245`](https://github.com/MartinBernstorff/MemoryMarker/commit/3ce2245b1509505ac93ef6e19eab688f65d7d1cd))
+
+
 ## v0.13.0 (2024-03-30)
 
 ### Feature
