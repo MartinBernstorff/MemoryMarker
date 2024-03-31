@@ -16,8 +16,10 @@ from iterpy.iter import Iter
 from memorymarker.cli.document_selector import select_documents
 from memorymarker.document_providers.omnivore import Omnivore
 from memorymarker.persist_questions.markdown import highlight_group_to_file
+from memorymarker.question_generator.completers.anthropic_completer import (
+    AnthropicCompleter,
+)
 from memorymarker.question_generator.completers.openai_completer import (
-    OpenAICompleter,
     OpenAIModelCompleter,
 )
 from memorymarker.question_generator.flows.question_flow import QuestionFlow
@@ -60,8 +62,8 @@ def typer_cli(
     omnivore_api_key: str = typer.Option(
         None, help="Omnivore API key", envvar="OMNIVORE_API_KEY"
     ),
-    openai_api_key: str = typer.Option(
-        None, help="OpenAI API key", envvar="OPENAI_API_KEY"
+    anthropic_api_key: str = typer.Option(
+        None, help="Anthropic API key", envvar="ANTHROPIC_API_KEY"
     ),
     output_dir: Path = typer.Argument(  # noqa: B008 # type: ignore
         Path("questions"),
@@ -120,23 +122,23 @@ def typer_cli(
     logging.info(f"Received {highlights.count()} new highlights")
 
     logging.info("Generating questions from highlights...")
-    gpt_4_completer = OpenAICompleter(
-        api_key=openai_api_key, model="gpt-4-turbo-preview"
+    base_completer = AnthropicCompleter(
+        api_key=anthropic_api_key, model="claude-3-opus-20240229"
     )
     questions = asyncio.run(
         QuestionFlow(
-            _name="gpt-4-basic",
-            steps=[
-                ReasoningStep(completer=gpt_4_completer),
-                QuestionGenerationStep(completer=gpt_4_completer),
+            _name="simplified_reasoning",
+            steps=(
+                ReasoningStep(completer=base_completer),
+                QuestionGenerationStep(completer=base_completer),
                 QuestionExtractionStep(
                     completer=OpenAIModelCompleter(
-                        api_key=openai_api_key,
+                        api_key=os.getenv("OPENAI_API_KEY", "No OPENAI_API"),
                         model="gpt-3.5-turbo",
                         response_model=QAResponses,  # type: ignore
                     )
                 ),
-            ],
+            ),
         )(highlights[0:max_n])
     )
 
