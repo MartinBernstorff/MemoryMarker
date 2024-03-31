@@ -62,6 +62,9 @@ def typer_cli(
     omnivore_api_key: str = typer.Option(
         None, help="Omnivore API key", envvar="OMNIVORE_API_KEY"
     ),
+    openai_api_key: str = typer.Option(
+        None, help="Anthropic API key", envvar="OPENAI_API_KEY"
+    ),
     anthropic_api_key: str = typer.Option(
         None, help="Anthropic API key", envvar="ANTHROPIC_API_KEY"
     ),
@@ -133,7 +136,7 @@ def typer_cli(
                 QuestionGenerationStep(completer=base_completer),
                 QuestionExtractionStep(
                     completer=OpenAIModelCompleter(
-                        api_key=os.getenv("OPENAI_API_KEY", "No OPENAI_API"),
+                        api_key=openai_api_key,
                         model="gpt-3.5-turbo",
                         response_model=QAResponses,  # type: ignore
                     )
