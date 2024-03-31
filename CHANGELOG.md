@@ -2,6 +2,13 @@
 
 
 
+## v0.17.0 (2024-03-31)
+
+### Feature
+
+* feat: echo and update package version (#119) ([`ba778b6`](https://github.com/MartinBernstorff/MemoryMarker/commit/ba778b6541b6d6c4027c0f37a7cd54f1371acce3))
+
+
 ## v0.16.0 (2024-03-31)
 
 ### Feature
