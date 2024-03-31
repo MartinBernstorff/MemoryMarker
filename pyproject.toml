@@ -16,6 +16,7 @@ dependencies = [
     "questionary>=2.0.1",
     "typer>=0.9.0",
     "coloredlogs>=15.0.1",
+    "anthropic>=0.21.3",
 ]
 authors = [{ name = "Martin Bernstorff", email = "martinbernstorff@gmail.com" }]
 classifiers = ["Programming Language :: Python :: 3.12"]

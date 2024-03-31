@@ -11,26 +11,20 @@ if TYPE_CHECKING:
     import pydantic
 
 
-class Completer(Protocol):
-    def identity(self) -> str:
-        ...
-
-    async def __call__(self, prompt: str) -> str:
-        ...
-
-
 OPENAI_MODELS = Literal["gpt-4-turbo-preview", "gpt-4-1106-preview", "gpt-3.5-turbo"]
 
 
 @dataclass
 class OpenAICompleter:
-    api_key: str
+    api_key: str | None
     model: OPENAI_MODELS
 
     def identity(self) -> str:
         return f"{self.__class__.__name__}_{self.model}"
 
     def __post_init__(self):
+        if self.api_key is None:
+            raise ValueError("OpenAI API key is required.")
         self.client = instructor.patch(AsyncOpenAI(api_key=self.api_key))
         self.completer = self.client.chat.completions
 
@@ -62,7 +56,7 @@ class ModelCompleter(Protocol):
 
 @dataclass
 class OpenAIModelCompleter(ModelCompleter):
-    api_key: str
+    api_key: str | None
     model: OPENAI_MODELS
     response_model: "pydantic.BaseModel"
 
@@ -70,6 +64,9 @@ class OpenAIModelCompleter(ModelCompleter):
         return f"{self.__class__.__name__}_{self.model}"
 
     def __post_init__(self):
+        if self.api_key is None:
+            raise ValueError("OpenAI API key is required.")
+
         self.client = instructor.patch(AsyncOpenAI(api_key=self.api_key))
         self.completer = self.client.chat.completions
 
