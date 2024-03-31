@@ -22,7 +22,7 @@ class AnthropicCompleter(Completer):
         if self.api_key is None:
             raise ValueError("API key is required")
 
-        self.client = anthropic.AsyncAnthropic(api_key=self.api_key)
+        self.client = anthropic.AsyncAnthropic(api_key=self.api_key, max_retries=100)
 
     async def __call__(self, prompt: str) -> str:
         completion = await self.client.messages.create(

@@ -8,7 +8,7 @@ if TYPE_CHECKING:
     from memorymarker.question_generator.reasoned_highlight import ReasonedHighlight
     from memorymarker.question_generator.steps.step import FlowStep
 
-sem = asyncio.Semaphore(3)
+sem = asyncio.Semaphore(4)
 
 
 @dataclass(frozen=True)
@@ -20,10 +20,10 @@ class QuestionFlow:
         self, highlight: "ReasonedHighlight"
     ) -> "ReasonedHighlight":
         result = highlight
-        for step in self.steps:
-            async with sem:
+        async with sem:
+            for step in self.steps:
                 result = await step(highlight)
-            result.pipeline_name = self.name
+        result.pipeline_name = self.name
         return result
 
     async def __call__(
