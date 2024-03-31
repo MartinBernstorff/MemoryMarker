@@ -9,8 +9,10 @@ from iterpy.iter import Iter
 from joblib import Memory
 
 from memorymarker.document_providers.omnivore import Omnivore
+from memorymarker.question_generator.completers.anthropic_completer import (
+    AnthropicCompleter,
+)
 from memorymarker.question_generator.completers.openai_completer import (
-    OpenAICompleter,
     OpenAIModelCompleter,
 )
 from memorymarker.question_generator.example_repo_airtable import (
@@ -89,14 +91,14 @@ async def main():
         Iter(repository.get_existing_examples()).map(lambda _: _.__hash__()).to_list()
     )
 
-    # anthropic_api_key = os.getenv("ANTHROPIC_API_KEY", None)
-    # base_completer = AnthropicCompleter(
-    #     api_key=anthropic_api_key, model="claude-3-opus-20240229"
-    # )
-    openai_api_key = os.getenv("OPENAI_API_KEY", None)
-    base_completer = OpenAICompleter(
-        api_key=openai_api_key, model="gpt-4-turbo-preview"
+    anthropic_api_key = os.getenv("ANTHROPIC_API_KEY", None)
+    base_completer = AnthropicCompleter(
+        api_key=anthropic_api_key, model="claude-3-opus-20240229"
     )
+    # openai_api_key = os.getenv("OPENAI_API_KEY", None)
+    # base_completer = OpenAICompleter(
+    #     api_key=openai_api_key, model="gpt-4-turbo-preview"
+    # )
     new_highlights = _generate_highlight_pipeline_pairs(
         selected_highlights,
         [

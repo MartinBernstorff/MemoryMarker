@@ -15,7 +15,7 @@ class ReasoningStep(FlowStep):
 
 Content: {context}
 
-Think through the point made in the content. Think step by step, gradually drilling down into the logic of the argument. Each step should consist of a general point, and 3 or fewer bullet points breaking down the point.
+Think through the point made in the content. Think step by step.
 """
 
     def identity(self) -> str:
