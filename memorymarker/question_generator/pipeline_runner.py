@@ -17,9 +17,7 @@ async def run_pipeline(
     highlights: Sequence["ReasonedHighlight"],
 ) -> Iter["ReasonedHighlight"]:
     pipeline = pipelinename2pipeline[pipeline_name]
-
-    async with sem:
-        prompts = await pipeline(Iter(highlights))
+    prompts = await pipeline(Iter(highlights))
     return prompts
 
 
