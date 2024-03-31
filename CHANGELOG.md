@@ -2,6 +2,13 @@
 
 
 
+## v0.17.1 (2024-03-31)
+
+### Performance
+
+* perf: move rate-limiting to QuestionFlow (#122) ([`f4dbdb2`](https://github.com/MartinBernstorff/MemoryMarker/commit/f4dbdb2ff77639794ffca56e10d2d3b039eb0b89))
+
+
 ## v0.17.0 (2024-03-31)
 
 ### Feature
