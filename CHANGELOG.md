@@ -2,6 +2,13 @@
 
 
 
+## v0.18.0 (2024-03-31)
+
+### Feature
+
+* feat: auto-bump .toml version (#123) ([`f05a437`](https://github.com/MartinBernstorff/MemoryMarker/commit/f05a43780f3c4108aef1780078264bc729108abb))
+
+
 ## v0.17.1 (2024-03-31)
 
 ### Performance
