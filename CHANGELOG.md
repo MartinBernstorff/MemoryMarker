@@ -2,6 +2,15 @@
 
 
 
+## v0.19.0 (2024-03-31)
+
+### Feature
+
+* feat(#124): update anthropic_completer.py, question_flow.py and pipeline_runner.py replace semaphores with max_retries = 100 (#125)
+
+Fixes #124 ([`badd8b9`](https://github.com/MartinBernstorff/MemoryMarker/commit/badd8b9a4c732b9a977e5580345f0262f93b5765))
+
+
 ## v0.18.0 (2024-03-31)
 
 ### Feature
