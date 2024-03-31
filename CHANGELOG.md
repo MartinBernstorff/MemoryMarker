@@ -2,6 +2,19 @@
 
 
 
+## v0.16.0 (2024-03-31)
+
+### Feature
+
+* feat: upgrade to new pipeline (#118) ([`f91493a`](https://github.com/MartinBernstorff/MemoryMarker/commit/f91493ada0fd1b677dc4702be454542a99115097))
+
+### Unknown
+
+* experiment(#109): only keep the reasoning, not the quote, when generating questions (#117)
+
+Fixes #109 ([`9fc42d8`](https://github.com/MartinBernstorff/MemoryMarker/commit/9fc42d80dd54e7336c2c56c55a09564efa734a32))
+
+
 ## v0.15.1 (2024-03-31)
 
 ### Performance
