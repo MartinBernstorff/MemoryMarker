@@ -125,6 +125,7 @@ pydantic-core==2.16.3
 pygments==2.17.2
     # via diff-cover
     # via rich
+pyinstrument==4.6.2
 pyright==1.1.350
 pytest==7.4.4
     # via pytest-asyncio
