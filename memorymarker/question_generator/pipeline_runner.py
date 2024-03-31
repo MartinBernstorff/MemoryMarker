@@ -8,8 +8,6 @@ if TYPE_CHECKING:
     from memorymarker.question_generator.main import HighlightWithPipeline
     from memorymarker.question_generator.reasoned_highlight import ReasonedHighlight
 
-sem = asyncio.Semaphore(3)
-
 
 async def run_pipeline(
     pipeline_name: str,
