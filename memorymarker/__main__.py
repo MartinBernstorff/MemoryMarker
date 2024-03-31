@@ -30,6 +30,8 @@ from memorymarker.question_generator.steps.reasoning import ReasoningStep
 
 app = typer.Typer(no_args_is_help=True)
 
+from importlib.metadata import version
+
 
 def get_api_key_from_env(env_var: str) -> str | None:
     return os.getenv(env_var, None)
@@ -92,6 +94,7 @@ def typer_cli(
     last_run_timestamper = TimestampHandler(output_dir / ".memorymarker")
     last_run_timestamp = last_run_timestamper.get_timestamp()
 
+    logging.info(f"MemoryMarker version {version('memorymarker')}")
     logging.info("Fetching documents")
     documents = (
         Omnivore(omnivore_api_key)
