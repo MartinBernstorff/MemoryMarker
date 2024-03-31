@@ -14,7 +14,10 @@ aiosignal==1.3.1
     # via aiohttp
 annotated-types==0.6.0
     # via pydantic
+anthropic==0.21.3
+    # via memorymarker
 anyio==3.7.1
+    # via anthropic
     # via httpx
     # via openai
 attrs==23.2.0
@@ -40,14 +43,19 @@ coverage==7.4.3
     # via pytest-testmon
 diff-cover==8.0.3
 distro==1.9.0
+    # via anthropic
     # via openai
 docstring-parser==0.15
     # via instructor
 execnet==2.0.2
     # via pytest-xdist
+filelock==3.13.3
+    # via huggingface-hub
 frozenlist==1.4.1
     # via aiohttp
     # via aiosignal
+fsspec==2024.3.1
+    # via huggingface-hub
 gql==3.4.1
     # via omnivoreql
 graphql-core==3.2.3
@@ -57,7 +65,10 @@ h11==0.14.0
 httpcore==1.0.4
     # via httpx
 httpx==0.27.0
+    # via anthropic
     # via openai
+huggingface-hub==0.22.2
+    # via tokenizers
 humanfriendly==10.0
     # via coloredlogs
 idna==3.6
@@ -94,6 +105,7 @@ openai==1.13.3
     # via instructor
     # via memorymarker
 packaging==23.2
+    # via huggingface-hub
     # via pytest
     # via pytest-sugar
 pluggy==1.4.0
@@ -103,6 +115,7 @@ prompt-toolkit==3.0.36
     # via questionary
 pyairtable==2.3.0.post1
 pydantic==2.6.2
+    # via anthropic
     # via instructor
     # via memorymarker
     # via openai
@@ -132,9 +145,12 @@ python-dotenv==1.0.1
     # via pytest-dotenv
 pytz==2024.1
     # via memorymarker
+pyyaml==6.0.1
+    # via huggingface-hub
 questionary==2.0.1
     # via memorymarker
 requests==2.31.0
+    # via huggingface-hub
     # via pyairtable
     # via requests-toolbelt
 requests-toolbelt==1.0.0
@@ -145,6 +161,7 @@ ruff==0.2.2
 setuptools==69.1.1
     # via nodeenv
 sniffio==1.3.0
+    # via anthropic
     # via anyio
     # via httpx
     # via openai
@@ -155,12 +172,17 @@ tenacity==8.2.3
     # via instructor
 termcolor==2.4.0
     # via pytest-sugar
+tokenizers==0.15.2
+    # via anthropic
 tqdm==4.66.2
+    # via huggingface-hub
     # via openai
 typer==0.9.0
     # via instructor
     # via memorymarker
 typing-extensions==4.9.0
+    # via anthropic
+    # via huggingface-hub
     # via openai
     # via pyairtable
     # via pydantic

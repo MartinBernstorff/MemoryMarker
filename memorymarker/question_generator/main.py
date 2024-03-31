@@ -9,8 +9,10 @@ from iterpy.iter import Iter
 from joblib import Memory
 
 from memorymarker.document_providers.omnivore import Omnivore
+from memorymarker.question_generator.completers.anthropic_completer import (
+    AnthropicCompleter,
+)
 from memorymarker.question_generator.completers.openai_completer import (
-    OpenAICompleter,
     OpenAIModelCompleter,
 )
 from memorymarker.question_generator.example_repo_airtable import (
@@ -75,17 +77,9 @@ def _select_highlights_from_omnivore(
 
 
 async def main():
-    openai_api_key = os.getenv(
-        "OPENAI_API_KEY", "No OPENAI_API_KEY environment variable set"
-    )
-    gpt_4_completer = OpenAICompleter(
-        api_key=openai_api_key, model="gpt-4-turbo-preview"
-    )
-
     repository = AirtableExampleRepo()
     selected_highlights = _select_highlights_from_omnivore(
         search_terms={
-            "often referred to as fine-tuning",
             "drenge og mænd ikke har nogen værdi",
             "The quality of a model",
             "Dependency injection is not effective if",
@@ -93,23 +87,30 @@ async def main():
             "stack is a data structure that contains a collection of elements where you can add and delete elements from just one end ",
         }
     )
-
     old_example_hashes = (
         Iter(repository.get_existing_examples()).map(lambda _: _.__hash__()).to_list()
     )
 
+    anthropic_api_key = os.getenv("ANTHROPIC_API_KEY", None)
+    base_completer = AnthropicCompleter(
+        api_key=anthropic_api_key, model="claude-3-opus-20240229"
+    )
+    # openai_api_key = os.getenv("OPENAI_API_KEY", None)
+    # base_completer = OpenAICompleter(
+    #     api_key=openai_api_key, model="gpt-4-turbo-preview"
+    # )
     new_highlights = _generate_highlight_pipeline_pairs(
         selected_highlights,
         [
             QuestionFlow(
-                _name="reasoned_pipeline",
+                _name="simplified_reasoning",
                 steps=(
-                    ReasoningStep(completer=gpt_4_completer),
-                    QuestionGenerationStep(completer=gpt_4_completer),
+                    ReasoningStep(completer=base_completer),
+                    QuestionGenerationStep(completer=base_completer),
                     QuestionExtractionStep(
                         completer=OpenAIModelCompleter(
-                            api_key=openai_api_key,
-                            model="gpt-4-turbo-preview",
+                            api_key=os.getenv("OPENAI_API_KEY", "No OPENAI_API"),
+                            model="gpt-3.5-turbo",
                             response_model=QAResponses,  # type: ignore
                         )
                     ),
