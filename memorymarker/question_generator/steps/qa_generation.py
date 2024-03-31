@@ -20,8 +20,6 @@ class QuestionGenerationStep(FlowStep):
 
 Document: "{document_title}"
 
-Highlight: {highlighted_text}
-
 {reasoning}
 
 Please generate between {lower_bound} and {upper_bound} question/answer pairs to reinforce understanding of the concept.
@@ -38,7 +36,6 @@ A. 42
     async def __call__(self, highlight: "ReasonedHighlight") -> "ReasonedHighlight":
         prompt = self.prompt.format(
             document_title=highlight.source_document.title,
-            highlighted_text=highlight.highlighted_text,
             reasoning=f"""{highlight.reasoning}""" if highlight.reasoning else "",
             lower_bound=self.n_questions[0],
             upper_bound=self.n_questions[1],
