@@ -2,6 +2,13 @@
 
 
 
+## v0.15.1 (2024-03-31)
+
+### Performance
+
+* perf: profile and speed up (#115) ([`f8b91e1`](https://github.com/MartinBernstorff/MemoryMarker/commit/f8b91e1644e66e91cb6eb2f3a57f9e588db9b369))
+
+
 ## v0.15.0 (2024-03-31)
 
 ### Feature
