@@ -2,6 +2,27 @@
 
 
 
+## v0.15.0 (2024-03-31)
+
+### Feature
+
+* feat(#83): prepend highlights with a separator on each sync (#114)
+
+feat(#83): prepend highlights with a separator on each sync
+
+Fixes #83
+
+feat(#101): remove reasoning step
+
+Fixes #101
+
+update main.py
+
+update 9 files and create 2 files update 8 files
+
+update main.py and reasoning.py ([`bfb6294`](https://github.com/MartinBernstorff/MemoryMarker/commit/bfb6294bb9482c5d869a91af4c43af7daa271ab5))
+
+
 ## v0.14.1 (2024-03-30)
 
 ### Fix
