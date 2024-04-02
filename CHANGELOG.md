@@ -2,6 +2,13 @@
 
 
 
+## v0.19.1 (2024-04-02)
+
+### Fix
+
+* fix: suffix files with `.md` (#129) ([`6e6d57e`](https://github.com/MartinBernstorff/MemoryMarker/commit/6e6d57e346cd4fd4b529606146d4069c02d8c9a5))
+
+
 ## v0.19.0 (2024-03-31)
 
 ### Feature
