@@ -18,7 +18,7 @@ def clean_filename(filename: str) -> str:
 def highlight_group_to_file(
     output_dir: "Path", group: tuple[str, Sequence["ReasonedHighlight"]]
 ) -> None:
-    save_path = output_dir / clean_filename(group[0])
+    save_path = output_dir / f"{clean_filename(group[0])}.md"
 
     with save_path.open(mode="a") as f:
         for highlight in group[1]:
