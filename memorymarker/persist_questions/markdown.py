@@ -5,7 +5,7 @@ from typing import TYPE_CHECKING, Sequence
 if TYPE_CHECKING:
     from pathlib import Path
 
-    from memorymarker.question_generator.reasoned_highlight import ReasonedHighlight
+    from memorymarker.question_generator.reasoned_highlight import Highlights
 
 
 def clean_filename(filename: str) -> str:
@@ -16,7 +16,7 @@ def clean_filename(filename: str) -> str:
 
 
 def highlight_group_to_file(
-    output_dir: "Path", group: tuple[str, Sequence["ReasonedHighlight"]]
+    output_dir: "Path", group: tuple[str, Sequence["Highlights"]]
 ) -> None:
     save_path = output_dir / f"{clean_filename(group[0])}.md"
 

@@ -6,19 +6,19 @@ if TYPE_CHECKING:
     from memorymarker.question_generator.completers.openai_completer import (
         ModelCompleter,
     )
-    from memorymarker.question_generator.reasoned_highlight import ReasonedHighlight
+    from memorymarker.question_generator.reasoned_highlight import Highlights
 
 
 class FlowStep(Protocol):
     def identity(self) -> str:
         ...
 
-    async def __call__(self, highlight: "ReasonedHighlight") -> "ReasonedHighlight":
+    async def __call__(self, highlight: "Highlights") -> "Highlights":
         ...
 
 
 class ResponseModelStep:
     model_completer: "ModelCompleter"
 
-    async def __call__(self, highlight: "ReasonedHighlight") -> "pydantic.BaseModel":
+    async def __call__(self, highlight: "Highlights") -> "pydantic.BaseModel":
         ...

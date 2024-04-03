@@ -8,7 +8,7 @@ if TYPE_CHECKING:
         ModelCompleter,
     )
     from memorymarker.question_generator.qa_responses import QAResponses
-    from memorymarker.question_generator.reasoned_highlight import ReasonedHighlight
+    from memorymarker.question_generator.reasoned_highlight import Highlights
 
 
 @dataclass(frozen=True)
@@ -18,9 +18,7 @@ class QuestionExtractionStep(FlowStep):
     def identity(self) -> str:
         return f"{self.__class__.__name__}_{self.completer.identity()}"
 
-    async def __call__(
-        self, reasoned_highlight: "ReasonedHighlight"
-    ) -> "ReasonedHighlight":
+    async def __call__(self, reasoned_highlight: "Highlights") -> "Highlights":
         responses: QAResponses = await self.completer(
             f"""Extract:
 {reasoned_highlight.qa_string}
