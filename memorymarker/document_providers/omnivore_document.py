@@ -4,7 +4,7 @@ from iterpy.iter import Iter
 from pydantic import BaseModel
 
 from memorymarker.question_generator.reasoned_highlight import (
-    ReasonedHighlight,
+    Highlights,
     SourceDocument,
 )
 
@@ -19,13 +19,11 @@ class OmnivoreDocument(BaseModel):
     slug: str
     highlights: Sequence[Mapping[str, Any]]
 
-    def _parse_highlight(
-        self, highlight: Mapping[str, str]
-    ) -> ReasonedHighlight | None:
+    def _parse_highlight(self, highlight: Mapping[str, str]) -> Highlights | None:
         if "quote" not in highlight or highlight["quote"] is None:  # type: ignore
             return None
 
-        return ReasonedHighlight(
+        return Highlights(
             source_document=SourceDocument(
                 title=self.title,
                 uri=f"https://omnivore.app/me/{self.slug}#{highlight["id"]}",
@@ -41,6 +39,6 @@ class OmnivoreDocument(BaseModel):
             updated_at=highlight["updatedAt"],  # type: ignore # Will be recast on init.
         )
 
-    def get_highlights(self) -> Iter[ReasonedHighlight]:
+    def get_highlights(self) -> Iter[Highlights]:
         highlights = Iter(self.highlights).map(self._parse_highlight)
         return highlights.filter(lambda _: _ is not None)  # type: ignore

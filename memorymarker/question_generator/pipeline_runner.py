@@ -6,22 +6,20 @@ from iterpy.iter import Iter
 if TYPE_CHECKING:
     from memorymarker.question_generator.flows.question_flow import QuestionFlow
     from memorymarker.question_generator.main import HighlightWithPipeline
-    from memorymarker.question_generator.reasoned_highlight import ReasonedHighlight
+    from memorymarker.question_generator.reasoned_highlight import Highlights
 
 
 async def run_pipeline(
     pipeline_name: str,
     pipelinename2pipeline: Mapping[str, "QuestionFlow"],
-    highlights: Sequence["ReasonedHighlight"],
-) -> Iter["ReasonedHighlight"]:
+    highlights: Sequence["Highlights"],
+) -> Iter["Highlights"]:
     pipeline = pipelinename2pipeline[pipeline_name]
     prompts = await pipeline(Iter(highlights))
     return prompts
 
 
-async def run_pipelines(
-    pairs: Iter["HighlightWithPipeline"],
-) -> Iter["ReasonedHighlight"]:
+async def run_pipelines(pairs: Iter["HighlightWithPipeline"]) -> Iter["Highlights"]:
     pipelinename2pipeline = {pair.pipeline.name: pair.pipeline for pair in pairs}
     pipelines_with_highlights = pairs.groupby(lambda _: _.pipeline.name)
 

@@ -18,7 +18,7 @@ def to_markdown_quote(text: str) -> str:
     return "\n".join(lines)
 
 
-class ReasonedHighlight(BaseModel):
+class Highlights(BaseModel):
     source_document: SourceDocument
 
     updated_at: dt.datetime

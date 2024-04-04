@@ -23,6 +23,7 @@ from memorymarker.question_generator.completers.openai_completer import (
     OpenAIModelCompleter,
 )
 from memorymarker.question_generator.flows.question_flow import QuestionFlow
+from memorymarker.question_generator.main import chunk_highlights
 from memorymarker.question_generator.qa_responses import QAResponses
 from memorymarker.question_generator.steps.qa_extractor import QuestionExtractionStep
 from memorymarker.question_generator.steps.qa_generation import QuestionGenerationStep
@@ -131,12 +132,17 @@ def typer_cli(
     base_completer = AnthropicCompleter(
         api_key=anthropic_api_key, model="claude-3-opus-20240229"
     )
+    chunked_highlights = (
+        highlights.groupby(lambda _: _.source_document.title)
+        .map(lambda _: chunk_highlights(_, 5))
+        .flatten()
+    )
     questions = asyncio.run(
         QuestionFlow(
             _name="simplified_reasoning",
             steps=(
                 ReasoningStep(completer=base_completer),
-                QuestionGenerationStep(completer=base_completer),
+                QuestionGenerationStep(completer=base_completer, n_questions=(1, 5)),
                 QuestionExtractionStep(
                     completer=OpenAIModelCompleter(
                         api_key=openai_api_key,
@@ -145,7 +151,7 @@ def typer_cli(
                     )
                 ),
             ),
-        )(highlights[0:max_n])
+        )(chunked_highlights[0:max_n])
     )
 
     logging.info("Writing questions to markdown...")

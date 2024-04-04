@@ -5,12 +5,12 @@ import pydantic
 from pydantic import BaseModel
 
 if TYPE_CHECKING:
-    from memorymarker.question_generator.reasoned_highlight import ReasonedHighlight
+    from memorymarker.question_generator.reasoned_highlight import Highlights
 
 
 @dataclass(frozen=True)
 class QAPrompt:
-    hydrated_highlight: "ReasonedHighlight | None"
+    hydrated_highlight: "Highlights | None"
     question: str
     answer: str
     title: str
@@ -25,7 +25,7 @@ class QAPromptResponseModel(BaseModel):
     question: str
     answer: str
 
-    def to_qaprompt(self, reasoned_highlight: "ReasonedHighlight") -> QAPrompt:
+    def to_qaprompt(self, reasoned_highlight: "Highlights") -> QAPrompt:
         return QAPrompt(
             hydrated_highlight=reasoned_highlight,
             question=self.question,

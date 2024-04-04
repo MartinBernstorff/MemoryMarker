@@ -7,7 +7,7 @@ if TYPE_CHECKING:
 
     from iterpy.iter import Iter
 
-    from memorymarker.question_generator.reasoned_highlight import ReasonedHighlight
+    from memorymarker.question_generator.reasoned_highlight import Highlights
 
     from .omnivore_document import OmnivoreDocument
 
@@ -30,5 +30,5 @@ class HighlightManager(Protocol):
 
     def get_highlights_since_update(
         self, date: "dt.datetime"
-    ) -> Sequence["ReasonedHighlight"]:
+    ) -> Sequence["Highlights"]:
         ...

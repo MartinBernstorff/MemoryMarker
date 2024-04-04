@@ -6,12 +6,12 @@ import pytest
 import memorymarker.persist_questions.markdown as markdown
 from memorymarker.question_generator.qa_responses import QAPrompt
 from memorymarker.question_generator.reasoned_highlight import (
-    ReasonedHighlight,
+    Highlights,
     SourceDocument,
 )
 
 
-class FakeHydratedHighlight(ReasonedHighlight):
+class FakeHydratedHighlight(Highlights):
     source_document: SourceDocument = SourceDocument(
         title="The Hitchhiker's Guide to the Galaxy",
         uri="https://en.wikipedia.org/wiki/The_Hitchhiker%27s_Guide_to_the_Galaxy#meaning_of_life",

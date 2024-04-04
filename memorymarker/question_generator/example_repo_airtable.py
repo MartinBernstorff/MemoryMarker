@@ -9,7 +9,7 @@ from pydantic import BaseModel
 if TYPE_CHECKING:
     from iterpy.iter import Iter
 
-    from memorymarker.question_generator.reasoned_highlight import ReasonedHighlight
+    from memorymarker.question_generator.reasoned_highlight import Highlights
 
 
 class PipelineHighlightIdentity:
@@ -64,7 +64,7 @@ class AirtableExampleRepo:
 
 
 def update_repository(
-    new_responses: "Iter[ReasonedHighlight]", repository: AirtableExampleRepo
+    new_responses: "Iter[Highlights]", repository: AirtableExampleRepo
 ):
     for example in new_responses:
         for qa_pair in example.question_answer_pairs:
