@@ -2,6 +2,13 @@
 
 
 
+## v0.21.0 (2024-04-04)
+
+### Feature
+
+* feat: update markdown output format (#134) ([`11f2c66`](https://github.com/MartinBernstorff/MemoryMarker/commit/11f2c665d0cfbc9cc893ebc4b823513698a64abc))
+
+
 ## v0.20.0 (2024-04-04)
 
 ### Feature
