@@ -23,6 +23,6 @@ def highlight_group_to_file(
     with save_path.open(mode="a") as f:
         for highlight in group[1]:
             f.write(highlight.to_markdown())
-        f.write("\n---\n")
+        f.write("\n---")
 
     logging.info(f"Wrote {group[0]}")
