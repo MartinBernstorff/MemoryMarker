@@ -77,8 +77,8 @@ def chunk_highlights(
 
     for i in range(0, len(group[1]), 5):
         subset: Sequence["Highlights"] = group[1][i : i + chunk_size]
-        combined_text = "\n\n---n\n".join(
-            f"{_.prefix} <HIGHLIGHT>{_.highlighted_text}</HIGHLIGHT> {_.suffix}"
+        combined_text = "\n---".join(
+            f"> {_.prefix}<HIGHLIGHT>{_.highlighted_text}</HIGHLIGHT>{_.suffix}"
             for _ in subset
         )
         new_highlight = subset[-1]

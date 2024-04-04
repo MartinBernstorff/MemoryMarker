@@ -19,9 +19,9 @@ class FakeHydratedHighlight(Highlights):
 
     updated_at: dt.datetime = dt.datetime.now()
 
-    prefix: str = "What is the answer to the ultimate question of life, the universe, and everything?"
+    prefix: str = "What is the answer to the ultimate question of life, the universe, and everything? "
     highlighted_text: str = "42."
-    suffix: str = "Of course, this was a very simple question for the supercomputer Deep Thought, the second greatest computer of all time, the greatest being the Earth itself.\n\nDeep Thought was created to answer the ultimate question of life, the universe, and everything. It took Deep Thought 7½ million years to compute and check the answer, which turns out to be 42."
+    suffix: str = " Of course, this was a very simple question for the supercomputer Deep Thought, the second greatest computer of all time, the greatest being the Earth itself.\n\nDeep Thought was created to answer the ultimate question of life, the universe, and everything. It took Deep Thought 7½ million years to compute and check the answer, which turns out to be 42."
 
     question_answer_pairs: Sequence[QAPrompt] = [
         QAPrompt(
