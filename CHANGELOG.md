@@ -2,6 +2,15 @@
 
 
 
+## v0.20.0 (2024-04-04)
+
+### Feature
+
+* feat(#132): process highlights in groups (#133)
+
+Fixes #132 ([`cde04e4`](https://github.com/MartinBernstorff/MemoryMarker/commit/cde04e4a351865695e2f2048631f4838b14bb5bf))
+
+
 ## v0.19.1 (2024-04-02)
 
 ### Fix
