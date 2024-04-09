@@ -2,6 +2,13 @@
 
 
 
+## v0.22.0 (2024-04-09)
+
+### Feature
+
+* feat: add wikilinks to question output (#135) ([`710d1db`](https://github.com/MartinBernstorff/MemoryMarker/commit/710d1db6cc3ebc59a39756c0f9ee511773514092))
+
+
 ## v0.21.0 (2024-04-04)
 
 ### Feature
