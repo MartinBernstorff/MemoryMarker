@@ -20,6 +20,7 @@ from memorymarker.question_generator.completers.anthropic_completer import (
     AnthropicCompleter,
 )
 from memorymarker.question_generator.completers.openai_completer import (
+    OpenAICompleter,
     OpenAIModelCompleter,
 )
 from memorymarker.question_generator.flows.question_flow import QuestionFlow
@@ -27,6 +28,9 @@ from memorymarker.question_generator.main import chunk_highlights
 from memorymarker.question_generator.qa_responses import QAResponses
 from memorymarker.question_generator.steps.qa_extractor import QuestionExtractionStep
 from memorymarker.question_generator.steps.qa_generation import QuestionGenerationStep
+from memorymarker.question_generator.steps.question_wikilinker import (
+    QuestionWikilinkerStep,
+)
 from memorymarker.question_generator.steps.reasoning import ReasoningStep
 
 app = typer.Typer(no_args_is_help=True)
@@ -148,6 +152,12 @@ def typer_cli(
                         api_key=openai_api_key,
                         model="gpt-3.5-turbo",
                         response_model=QAResponses,  # type: ignore
+                    )
+                ),
+                QuestionWikilinkerStep(
+                    completer=OpenAICompleter(
+                        api_key=os.getenv("OPENAI_API_KEY", "No OPENAI_API"),
+                        model="gpt-4-turbo-preview",
                     )
                 ),
             ),

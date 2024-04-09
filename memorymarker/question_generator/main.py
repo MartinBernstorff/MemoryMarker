@@ -13,6 +13,7 @@ from memorymarker.question_generator.completers.anthropic_completer import (
     AnthropicCompleter,
 )
 from memorymarker.question_generator.completers.openai_completer import (
+    OpenAICompleter,
     OpenAIModelCompleter,
 )
 from memorymarker.question_generator.example_repo_airtable import (
@@ -25,6 +26,9 @@ from memorymarker.question_generator.pipeline_runner import run_pipelines
 from memorymarker.question_generator.qa_responses import QAResponses
 from memorymarker.question_generator.steps.qa_extractor import QuestionExtractionStep
 from memorymarker.question_generator.steps.qa_generation import QuestionGenerationStep
+from memorymarker.question_generator.steps.question_wikilinker import (
+    QuestionWikilinkerStep,
+)
 from memorymarker.question_generator.steps.reasoning import ReasoningStep
 
 if TYPE_CHECKING:
@@ -100,7 +104,7 @@ async def main():
     #     "stack is a data structure that contains a collection of elements where you can add and delete elements from just one end ",
     #     "A semaphore manages an internal counter",
     # }
-    document_titles = {"Singly Linked List", "Jeg har set mit køns smerte"}
+    document_titles = {"Singly Linked List"}
     input_highlights = _select_highlights_from_omnivore()
     selected_highlights = input_highlights.filter(
         lambda _: any(title in _.source_document.title for title in document_titles)
@@ -126,7 +130,7 @@ async def main():
         grouped_highlights,
         [
             QuestionFlow(
-                _name="chunked_reasoning",
+                _name="chunked_reasoning_with_wikilinks",
                 steps=(
                     ReasoningStep(completer=base_completer),
                     QuestionGenerationStep(
@@ -137,6 +141,12 @@ async def main():
                             api_key=os.getenv("OPENAI_API_KEY", "No OPENAI_API"),
                             model="gpt-3.5-turbo",
                             response_model=QAResponses,  # type: ignore
+                        )
+                    ),
+                    QuestionWikilinkerStep(
+                        completer=OpenAICompleter(
+                            api_key=os.getenv("OPENAI_API_KEY", "No OPENAI_API"),
+                            model="gpt-4-turbo-preview",
                         )
                     ),
                 ),

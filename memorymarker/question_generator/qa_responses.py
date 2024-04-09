@@ -8,7 +8,7 @@ if TYPE_CHECKING:
     from memorymarker.question_generator.reasoned_highlight import Highlights
 
 
-@dataclass(frozen=True)
+@dataclass
 class QAPrompt:
     hydrated_highlight: "Highlights | None"
     question: str
@@ -32,6 +32,10 @@ class QAPromptResponseModel(BaseModel):
             answer=self.answer,
             title=reasoned_highlight.source_document.title,
         )
+
+
+class QuestionResponseModel(BaseModel):
+    question: str
 
 
 class QAResponses(pydantic.BaseModel):
