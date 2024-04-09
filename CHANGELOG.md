@@ -2,6 +2,13 @@
 
 
 
+## v0.22.1 (2024-04-09)
+
+### Fix
+
+* fix: do not quote the divider in highlights (#138) ([`2383be3`](https://github.com/MartinBernstorff/MemoryMarker/commit/2383be3ba4226a581899999bdce124b51ff6a987))
+
+
 ## v0.22.0 (2024-04-09)
 
 ### Feature
