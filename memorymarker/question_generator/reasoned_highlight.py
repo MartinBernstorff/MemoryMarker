@@ -13,11 +13,6 @@ class SourceDocument:
     uri: str
 
 
-def to_markdown_quote(text: str) -> str:
-    lines = [f"> {line}" for line in text.splitlines()]
-    return "\n".join(lines)
-
-
 class Highlights(BaseModel):
     source_document: SourceDocument
 
