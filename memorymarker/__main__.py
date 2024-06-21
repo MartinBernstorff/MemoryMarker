@@ -78,7 +78,9 @@ def typer_cli(
         dir_okay=True,
         writable=True,
     ),
-    max_n: int = typer.Argument(1, help="Maximum number of questions in total"),
+    max_n: int = typer.Argument(
+        100, help="Maximum number of questions in total", envvar="MAX_N"
+    ),
     only_new: bool = typer.Option(
         True, help="Only generate questions from highlights since last run"
     ),
@@ -109,6 +111,9 @@ def typer_cli(
         logging.info("No new highlights since last run")
         return
     logging.info(f"Received {highlights.count()} new highlights")
+    logging.info(
+        f"max_n is set to {max_n}, so processing {min(max_n, highlights.count())} highlights"
+    )
 
     # Chunk highlights for better reasoning and fewer duplicate questions
     logging.info("Generating questions from highlights...")
