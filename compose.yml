@@ -2,6 +2,10 @@ services:
   memorymarker:
     image: ghcr.io/martinbernstorff/memorymarker:latest
     container_name: memorymarker
+    environment:
+      - OMNIVORE_API_KEY=${OMNIVORE_API_KEY}
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
     volumes:
       - "/Users/au484925/Library/Mobile Documents/iCloud~md~obsidian/Documents/life-lessons/Highlights:/output"
     # restart: unless-stopped

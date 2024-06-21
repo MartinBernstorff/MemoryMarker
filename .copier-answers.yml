@@ -7,6 +7,6 @@ github_username: MartinBernstorff
 package_name: memorymarker
 project_name: memorymarker
 project_slug: memorymarker
-python_version: '3.12'
+python_version: '3.11'
 release_docker_image: true
 release_package: true

@@ -1,3 +1,4 @@
+import os
 from dataclasses import dataclass
 from typing import Any, Mapping, Sequence
 
@@ -30,7 +31,7 @@ class OmnivoreDocument(BaseModel):
         return Highlights(
             source_document=SourceDocument(
                 title=self.title,
-                uri=f"https://omnivore.app/me/{self.slug}#{highlight["id"]}",
+                uri=f"https://omnivore.app/me/{self.slug}#{highlight['id']}",
             ),
             pipeline_name="",
             reasoning_prompt="",
@@ -65,7 +66,7 @@ class Omnivore(DocumentProvider):
 
     def get_documents(self) -> Iter[OmnivoreDocument]:
         documents = (
-            Iter(self.client.get_articles(limit=1000)["search"]["edges"])
+            Iter(self.client.get_articles(limit=100)["search"]["edges"])
             .map(lambda a: a["node"])
             .map(self._parse_doc)
             .flatten()

@@ -18,26 +18,13 @@ A Docker image for Omnivore is continuously built and pushed to [ghcr.io/martinb
 
 1. Install [Docker](https://docs.docker.com/get-docker/) or [Orbstack](https://orbstack.dev/)
 
-2. Update the api keys in the compose file and run the container:
+2. Update the api keys in the `.env` file
+
+3. Run the container:
 
 ```bash
-docker compose up -d
+docker compose up
 ```
-
-You can install `memorymarker` via [pip] from [PyPI]:
-
-```bash
-pip install memorymarker
-```
-
-[pip]: https://pip.pypa.io/en/stable/installing/
-[PyPI]: https://pypi.org/project/memorymarker/
-
-## Usage
-
-TODO: Add minimal usage example
-
-To see more examples, see the [documentation].
 
 # 📖 Documentation
 

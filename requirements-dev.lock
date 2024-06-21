@@ -18,6 +18,7 @@ anthropic==0.21.3
     # via memorymarker
 anyio==3.7.1
     # via anthropic
+    # via gql
     # via httpx
     # via openai
 attrs==23.2.0
@@ -56,7 +57,7 @@ frozenlist==1.4.1
     # via aiosignal
 fsspec==2024.3.1
     # via huggingface-hub
-gql==3.4.1
+gql==3.5.0
     # via omnivoreql
 graphql-core==3.2.3
     # via gql
@@ -99,7 +100,7 @@ multidict==6.0.5
     # via yarl
 nodeenv==1.8.0
     # via pyright
-omnivoreql==0.2.1
+omnivoreql==0.3.3
     # via memorymarker
 openai==1.13.3
     # via instructor
@@ -126,7 +127,7 @@ pygments==2.17.2
     # via diff-cover
     # via rich
 pyinstrument==4.6.2
-pyright==1.1.350
+pyright==1.1.368
 pytest==7.4.4
     # via pytest-asyncio
     # via pytest-cov
@@ -143,6 +144,7 @@ pytest-testmon==2.1.0
 pytest-xdist==3.5.0
 python-dotenv==1.0.1
     # via memorymarker
+    # via omnivoreql
     # via pytest-dotenv
 pytz==2024.1
     # via memorymarker

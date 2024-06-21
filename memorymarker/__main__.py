@@ -13,6 +13,7 @@ from iterpy.iter import Iter
 
 from memorymarker.document_providers.omnivore import Omnivore
 from memorymarker.persister.markdown import highlight_group_to_file
+from memorymarker.question_generator.chunker import chunk_highlights
 from memorymarker.question_generator.completers.anthropic_completer import (
     AnthropicCompleter,
 )
@@ -21,7 +22,6 @@ from memorymarker.question_generator.completers.openai_completer import (
     OpenAIModelCompleter,
 )
 from memorymarker.question_generator.flows.question_flow import QuestionFlow
-from memorymarker.question_generator.main import chunk_highlights
 from memorymarker.question_generator.qa_responses import QAResponses
 from memorymarker.question_generator.steps.qa_extractor import QuestionExtractor
 from memorymarker.question_generator.steps.qa_generation import QuestionGenerator
@@ -62,13 +62,13 @@ class TimestampRepository:
 
 @app.command()  # type: ignore
 def typer_cli(
-    omnivore_api_key: str = typer.Option(
+    omnivore_api_key: str = typer.Argument(
         None, help="Omnivore API key", envvar="OMNIVORE_API_KEY"
     ),
-    openai_api_key: str = typer.Option(
+    openai_api_key: str = typer.Argument(
         None, help="OpenAI API key", envvar="OPENAI_API_KEY"
     ),
-    anthropic_api_key: str = typer.Option(
+    anthropic_api_key: str = typer.Argument(
         None, help="Anthropic API key", envvar="ANTHROPIC_API_KEY"
     ),
     output_dir: Path = typer.Argument(  # noqa: B008 # type: ignore
