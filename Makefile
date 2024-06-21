@@ -54,6 +54,7 @@ docker-smoketest:
 
 	cp .env .env.smoketest
 	echo "MAX_N=1" >> .env.smoketest
+	echo "LOG_LEVEL=DEBUG" >> .env.smoketest
 
 	docker build . -t ghcr.io/martinbernstorff/memorymarker:latest
 	docker compose -f compose.smoketest.yml --env-file .env.smoketest up
