@@ -3,7 +3,7 @@ from typing import Sequence
 
 import pytest
 
-import memorymarker.persist_questions.markdown as markdown
+import memorymarker.persister.markdown as markdown
 from memorymarker.question_generator.qa_responses import QAPrompt
 from memorymarker.question_generator.reasoned_highlight import (
     Highlights,
