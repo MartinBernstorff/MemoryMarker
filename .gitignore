@@ -170,3 +170,4 @@ profile.html
 
 *.smoketest*
 compose.yml
+smoketest_output
