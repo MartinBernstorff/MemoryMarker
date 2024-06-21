@@ -84,7 +84,22 @@ def typer_cli(
     only_new: bool = typer.Option(
         True, help="Only generate questions from highlights since last run"
     ),
+    log_level: str = typer.Option(
+        "INFO",
+        help="Log level",
+        case_sensitive=False,
+        show_default=True,
+        envvar="LOG_LEVEL",
+    ),
 ) -> None:
+    logging.basicConfig(
+        level=logging.INFO,
+        format="%(asctime)s [%(levelname)s] %(name)s: %(message)s",
+        datefmt="%Y/&m/%d %H:%M:%S",
+        filename="main.log",
+    )
+    coloredlogs.install(level=log_level)  # type: ignore
+
     output_dir.mkdir(exist_ok=True, parents=True)
 
     logging.info(f"MemoryMarker version {version('memorymarker')}")
@@ -152,21 +167,12 @@ def typer_cli(
 
     # Write to disk
     logging.info("Writing questions to markdown...")
-    (
-        Iter(questions)
-        .groupby(lambda _: _.source_document.title)
-        .map(lambda _: highlight_group_to_file(output_dir, _))
-    )
+    for group in questions.groupby(lambda _: _.source_document.title):
+        highlight_group_to_file(output_dir, group)
+
     last_run_timestamper.update_timestamp()
 
 
 if __name__ == "__main__":
     load_dotenv()
-    logging.basicConfig(
-        level=logging.INFO,
-        format="%(asctime)s [%(levelname)s] %(name)s: %(message)s",
-        datefmt="%Y/&m/%d %H:%M:%S",
-        filename="main.log",
-    )
-    coloredlogs.install(level="DEBUG")  # type: ignore
     app()

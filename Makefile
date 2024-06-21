@@ -50,8 +50,7 @@ docker_ci: ## Run all checks in docker
 
 docker-smoketest:
 	cp compose.sample.yml compose.smoketest.yml
-	perl -pi -e 's#YOUR_OUTPUT_DIR#./output#' compose.smoketest.yml
-	mkdir -p smoketest_output
+	perl -pi -e 's#YOUR_OUTPUT_DIR#./smoketest_output#' compose.smoketest.yml
 
 	cp .env .env.smoketest
 	echo "MAX_N=1" >> .env.smoketest
