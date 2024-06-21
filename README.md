@@ -4,7 +4,7 @@
 
 Highlighting does not aid memory. Questions do. But they take time. MemoryMarker turns your highlights into questions, so you can maintain traction at speed.
 
-Specifically, it takes highlights from [Omnivore](https://www.omnivore.app/) and turns them into markdown questions.
+Specifically, it takes highlights from [Omnivore](https://www.omnivore.app/) and writes them as question/answer pairs to markdown files.
 
 <!-- end short-description -->
 
