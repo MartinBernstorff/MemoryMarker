@@ -1,6 +1,6 @@
 <a href="https://github.com/martinbernstorff/memorymarker"><img src="https://github.com/martinbernstorff/memorymarker/blob/main/docs/_static/icon.png?raw=true" width="100" align="right"/></a>
 
-# memorymarker
+# ✏️ MemoryMarker
 
 <!-- start short-description -->
 
@@ -8,23 +8,47 @@ Highlighting does not aid memory. Questions do. But they take time. MemoryMarker
 
 Specifically, it takes highlights from [Omnivore](https://www.omnivore.app/) and turns them into markdown questions.
 
-To supercharge this, you can even ingest these questions into [Anki](https://apps.ankiweb.net/) using [Memium](https://github.com/MartinBernstorff/Memium).
-
 <!-- end short-description -->
+
+---
+
+> <HIGHLIGHT>If we wanted to delete a node with two children, say, `6`, we replace the node with its **in-order successor.**</HIGHLIGHT>
+
+> <HIGHLIGHT>If the given tree is a balanced binary tree, the height will be in log nlog\\ n, for reasons that are very similar to what we discussed in merge sort. However, it is a possibility that in the worst case, the tree provided is either left-skewed or right-skewed. In that case, the height of the tree will be in O(n)O(n) and the total work done for all the operations described above is O(n)O(n).</HIGHLIGHT>
+
+---
+
+> Q. When deleting a node with two children from a [[Min-heap]], what should replace the node?
+
+> A. The in-order successor; i.e. the node smallest value which is greater than the deleted node. For a binary tree, that is the smallest value in the deleted node's right subtree.
+
+---
+
+To supercharge this and remember the answers, you can ingest these questions into [Anki](https://apps.ankiweb.net/) using [Memium](https://github.com/MartinBernstorff/Memium).
 
 ## Setup
 
-A Docker image for Omnivore is continuously built and pushed to [ghcr.io/martinbernstorff/memorymarker](https://github.com/martinbernstorff/memorymarker/pkgs/container/memorymarker).
-
 1. Install [Docker](https://docs.docker.com/get-docker/) or [Orbstack](https://orbstack.dev/)
 
-2. Update the api keys in the `.env` file
+2. Copy the `.env.sample` file to `.env` and update the api keys
 
-3. Run the container:
+3. Copy the `compose.sample.yml` file to `compose.yml` and update the output directory
+
+4. Run the container:
 
 ```bash
 docker compose up
 ```
+
+## Contributing
+
+1. This project usees [`rye`](https://rye.astral.sh/) for environment management. Once it is installed, set up your virtual environment using `rye sync`.
+
+2. Make your changes.
+
+3. When ready to lint, test, see the `makefile` for commands.
+
+4. Update the `.env` and `compose.yml` files.
 
 # 📖 Documentation
 
