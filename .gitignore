@@ -169,3 +169,4 @@ omnivore_cache/
 profile.html
 
 *.smoketest*
+compose.yml
