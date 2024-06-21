@@ -2,10 +2,8 @@ import asyncio
 import datetime as dt
 import logging
 import os
-import time
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Callable
 
 import coloredlogs
 import pytz
@@ -13,9 +11,9 @@ import typer
 from dotenv import load_dotenv
 from iterpy.iter import Iter
 
-from memorymarker.cli.document_selector import select_documents
 from memorymarker.document_providers.omnivore import Omnivore
-from memorymarker.persist_questions.markdown import highlight_group_to_file
+from memorymarker.persister.markdown import highlight_group_to_file
+from memorymarker.question_generator.chunker import chunk_highlights
 from memorymarker.question_generator.completers.anthropic_completer import (
     AnthropicCompleter,
 )
@@ -24,14 +22,11 @@ from memorymarker.question_generator.completers.openai_completer import (
     OpenAIModelCompleter,
 )
 from memorymarker.question_generator.flows.question_flow import QuestionFlow
-from memorymarker.question_generator.main import chunk_highlights
 from memorymarker.question_generator.qa_responses import QAResponses
-from memorymarker.question_generator.steps.qa_extractor import QuestionExtractionStep
-from memorymarker.question_generator.steps.qa_generation import QuestionGenerationStep
-from memorymarker.question_generator.steps.question_wikilinker import (
-    QuestionWikilinkerStep,
-)
-from memorymarker.question_generator.steps.reasoning import ReasoningStep
+from memorymarker.question_generator.steps.qa_extractor import QuestionExtractor
+from memorymarker.question_generator.steps.qa_generation import QuestionGenerator
+from memorymarker.question_generator.steps.question_wikilinker import QuestionWikilinker
+from memorymarker.question_generator.steps.reasoning import Reasoning
 
 app = typer.Typer(no_args_is_help=True)
 
@@ -43,7 +38,9 @@ def get_api_key_from_env(env_var: str) -> str | None:
 
 
 @dataclass(frozen=True)
-class TimestampHandler:
+class TimestampRepository:
+    """Writes and gets a timestamp for syncing."""
+
     filepath: Path
 
     def update_timestamp(self) -> None:
@@ -52,54 +49,61 @@ class TimestampHandler:
 
         self.filepath.write_text(dt.datetime.now(pytz.UTC).isoformat())
 
-    def get_timestamp(self) -> dt.datetime | None:
+    def get_timestamp(self) -> dt.datetime:
+        """Returns the last run timestamp or a value far in the past if it doesn't exist."""
         try:
             return dt.datetime.fromisoformat(self.filepath.read_text())
         except FileNotFoundError:
-            return None
-
-
-def sleep_and_run(sleep_time: int, run_func: Callable[[], None]) -> None:
-    time.sleep(sleep_time)
-    run_func()
+            logging.info(
+                "No last run timestamp found, generating questions for all highlights"
+            )
+            return dt.datetime(1970, 1, 1, tzinfo=pytz.UTC)
 
 
 @app.command()  # type: ignore
 def typer_cli(
-    omnivore_api_key: str = typer.Option(
-        None, help="Omnivore API key", envvar="OMNIVORE_API_KEY"
+    omnivore_api_key: str = typer.Argument(
+        help="Omnivore API key", envvar="OMNIVORE_API_KEY"
     ),
-    openai_api_key: str = typer.Option(
-        None, help="Anthropic API key", envvar="OPENAI_API_KEY"
+    openai_api_key: str = typer.Argument(
+        help="OpenAI API key", envvar="OPENAI_API_KEY"
     ),
-    anthropic_api_key: str = typer.Option(
-        None, help="Anthropic API key", envvar="ANTHROPIC_API_KEY"
+    anthropic_api_key: str = typer.Argument(
+        help="Anthropic API key", envvar="ANTHROPIC_API_KEY"
     ),
     output_dir: Path = typer.Argument(  # noqa: B008 # type: ignore
-        Path("questions"),
+        Path("/output"),
         help="Directory to save the generated questions to",
         file_okay=False,
         dir_okay=True,
         writable=True,
     ),
-    run_every: int = typer.Option(
-        None, help="How often to run the script in seconds", envvar="RUN_EVERY"
-    ),
     max_n: int = typer.Argument(
-        1, help="Maximum number of questions to generate from highlights"
+        help="Maximum number of questions in total", envvar="MAX_N"
     ),
     only_new: bool = typer.Option(
         True, help="Only generate questions from highlights since last run"
     ),
-    select: bool = typer.Option(
-        False, help="Prompt to select which documents to generate questions from"
+    log_level: str = typer.Option(
+        "INFO",
+        help="Log level",
+        case_sensitive=False,
+        show_default=True,
+        envvar="LOG_LEVEL",
     ),
 ) -> None:
+    logging.basicConfig(
+        level=logging.INFO,
+        format="%(asctime)s [%(levelname)s] %(name)s: %(message)s",
+        datefmt="%Y/&m/%d %H:%M:%S",
+        filename="main.log",
+    )
+    coloredlogs.install(level=log_level)  # type: ignore
+
     output_dir.mkdir(exist_ok=True, parents=True)
-    last_run_timestamper = TimestampHandler(output_dir / ".memorymarker")
-    last_run_timestamp = last_run_timestamper.get_timestamp()
 
     logging.info(f"MemoryMarker version {version('memorymarker')}")
+
     logging.info("Fetching documents")
     documents = (
         Omnivore(omnivore_api_key)
@@ -107,54 +111,51 @@ def typer_cli(
         .filter(lambda _: len(_.highlights) > 0)
     )
 
-    if select:
-        documents = select_documents(documents)
-
-    logging.info("Processing to highlights")
+    # Extract highlights from documents
     highlights = documents.map(lambda _: _.get_highlights()).flatten()
+    last_run_timestamper = TimestampRepository(output_dir / ".memorymarker")
 
     if only_new:
-        if not last_run_timestamp:
-            logging.info(
-                "No last run timestamp found, generating questions for all highlights"
-            )
-            last_run_timestamp = dt.datetime(1970, 1, 1, tzinfo=pytz.UTC)
-
+        last_run_timestamp = last_run_timestamper.get_timestamp()
         logging.info(
             f"Last run at UTC {last_run_timestamp.strftime('%Y-%m-%d %H:%M:%S')}"
         )
         highlights = highlights.filter(lambda _: _.updated_at > last_run_timestamp)
 
-        if highlights.count() == 0:
-            logging.info("No new highlights since last run")
-            if not run_every:
-                return
-
+    if highlights.count() == 0:
+        logging.info("No new highlights since last run")
+        return
     logging.info(f"Received {highlights.count()} new highlights")
-
-    logging.info("Generating questions from highlights...")
-    base_completer = AnthropicCompleter(
-        api_key=anthropic_api_key, model="claude-3-opus-20240229"
+    logging.info(
+        f"max_n is set to {max_n}, so processing {min(max_n, highlights.count())} highlights"
     )
+
+    # Chunk highlights for better reasoning and fewer duplicate questions
+    logging.info("Generating questions from highlights...")
     chunked_highlights = (
         highlights.groupby(lambda _: _.source_document.title)
         .map(lambda _: chunk_highlights(_, 5))
         .flatten()
     )
+
+    # Generate questions
+    base_completer = AnthropicCompleter(
+        api_key=anthropic_api_key, model="claude-3-opus-20240229"
+    )
     questions = asyncio.run(
         QuestionFlow(
-            _name="simplified_reasoning",
+            name="simplified_reasoning",
             steps=(
-                ReasoningStep(completer=base_completer),
-                QuestionGenerationStep(completer=base_completer, n_questions=(1, 5)),
-                QuestionExtractionStep(
+                Reasoning(completer=base_completer),
+                QuestionGenerator(completer=base_completer, n_questions=(1, 5)),
+                QuestionExtractor(
                     completer=OpenAIModelCompleter(
                         api_key=openai_api_key,
                         model="gpt-3.5-turbo",
                         response_model=QAResponses,  # type: ignore
                     )
                 ),
-                QuestionWikilinkerStep(
+                QuestionWikilinker(
                     completer=OpenAICompleter(
                         api_key=os.getenv("OPENAI_API_KEY", "No OPENAI_API"),
                         model="gpt-4-turbo-preview",
@@ -164,36 +165,14 @@ def typer_cli(
         )(chunked_highlights[0:max_n])
     )
 
+    # Write to disk
     logging.info("Writing questions to markdown...")
-
-    highlight_groups = Iter(questions[0:max_n]).groupby(
-        lambda _: _.source_document.title
-    )
-    for group in highlight_groups:
+    for group in questions.groupby(lambda _: _.source_document.title):
         highlight_group_to_file(output_dir, group)
 
     last_run_timestamper.update_timestamp()
-    if run_every:
-        logging.info(f"Running every {run_every} seconds")
-        time.sleep(run_every)
-        logging.info("Running again")
-        typer_cli(
-            omnivore_api_key=omnivore_api_key,
-            output_dir=output_dir,
-            run_every=run_every,
-            max_n=max_n,
-            only_new=only_new,
-            select=select,
-        )
 
 
 if __name__ == "__main__":
     load_dotenv()
-    logging.basicConfig(
-        level=logging.INFO,
-        format="%(asctime)s [%(levelname)s] %(name)s: %(message)s",
-        datefmt="%Y/&m/%d %H:%M:%S",
-        filename="main.log",
-    )
-    coloredlogs.install(level="DEBUG")  # type: ignore
     app()

@@ -11,7 +11,7 @@ if TYPE_CHECKING:
 
 
 @dataclass(frozen=True)
-class QuestionWikilinkerStep(FlowStep):
+class QuestionWikilinker(FlowStep):
     completer: "Completer"
     prompt = """In the following, identify the important, domain-specific terms. Then, capitalise them, and surround them with wikilinks. There can be more than one important term. Identify terms as you would in a wikipedia article.
 

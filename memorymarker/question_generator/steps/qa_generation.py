@@ -9,7 +9,7 @@ if TYPE_CHECKING:
 
 
 @dataclass(frozen=True)
-class QuestionGenerationStep(FlowStep):
+class QuestionGenerator(FlowStep):
     completer: "Completer"
     n_questions: tuple[int, int]
     prompt = """You are generating interesting questions. The questions should:

@@ -9,7 +9,7 @@ if TYPE_CHECKING:
 
 
 @dataclass(frozen=True)
-class ReasoningStep(FlowStep):
+class Reasoning(FlowStep):
     completer: "Completer"
     prompt = """Document title: {document_title}
 

@@ -10,7 +10,13 @@ jobs:
       - name: Checkout (GitHub)
         uses: actions/checkout@v4
 
+      - name: Get environment variables
+        run: |
+          echo "OMNIVORE_API_KEY=${{ secrets.OMNIVORE_API_KEY }}" >> .env
+          echo "OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }}" >> .env
+          echo "ANTHROPIC_API_KEY=${{ secrets.ANTHROPIC_API_KEY }}" >> .env
+
       - name: Run integration test
         shell: bash
         run: |
-          docker build -t memorymarker -f Dockerfile .
+          make docker-smoketest
