@@ -1,5 +1,3 @@
-<a href="https://github.com/martinbernstorff/memorymarker"><img src="https://github.com/martinbernstorff/memorymarker/blob/main/docs/_static/icon.png?raw=true" width="100" align="right"/></a>
-
 # ✏️ MemoryMarker
 
 <!-- start short-description -->
