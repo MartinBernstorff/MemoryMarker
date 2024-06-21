@@ -40,13 +40,13 @@ docker compose up
 
 ## Contributing
 
-1. This project usees [`rye`](https://rye.astral.sh/) for environment management. Once it is installed, set up your virtual environment using `rye sync`.
+1. We use [`rye`](https://rye.astral.sh/) for environment management. Once it is installed, set up your virtual environment using `rye sync`.
 
 2. Make your changes.
 
-3. When ready to lint, test, see the `makefile` for commands.
+3. Update the `.env` file with your API keys so you can run tests, or run them on CI only.
 
-4. Update the `.env` and `compose.yml` files.
+4. When ready to lint, test, see the `makefile` for commands. 
 
 # 📖 Documentation
 
