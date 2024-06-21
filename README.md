@@ -12,13 +12,13 @@ Specifically, it takes highlights from [Omnivore](https://www.omnivore.app/) and
 
 > <HIGHLIGHT>If we wanted to delete a node with two children, say, `6`, we replace the node with its **in-order successor.**</HIGHLIGHT>
 
-> <HIGHLIGHT>If the given tree is a balanced binary tree, the height will be in log nlog\\ n, for reasons that are very similar to what we discussed in merge sort. However, it is a possibility that in the worst case, the tree provided is either left-skewed or right-skewed. In that case, the height of the tree will be in O(n)O(n) and the total work done for all the operations described above is O(n)O(n).</HIGHLIGHT>
+> <HIGHLIGHT>If the given tree is a balanced binary tree, the height will be in log nlog\\ n, for reasons that are very similar to what we discussed in merge sort. However, it is a possibility that in the worst case, the tree provided is either left-skewed or right-skewed. In that case, the height of the tree will be in O(n) and the total work done for all the operations described above is O(n).</HIGHLIGHT>
 
 ---
 
 > Q. When deleting a node with two children from a [[Min-heap]], what should replace the node?
 
-> A. The in-order successor; i.e. the node smallest value which is greater than the deleted node. For a binary tree, that is the smallest value in the deleted node's right subtree.
+> A. The in-order successor; i.e. the node with the smallest value which is greater than the deleted node. For a binary tree, that is the smallest value in the deleted node's right subtree.
 
 ---
 
