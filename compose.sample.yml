@@ -9,3 +9,4 @@ services:
       - OPENAI_API_KEY=${OPENAI_API_KEY}
       - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
       - MAX_N=${MAX_N}
+      - LOG_LEVEL=${LOG_LEVEL}
