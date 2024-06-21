@@ -2,25 +2,27 @@
 
 # memorymarker
 
-[![PyPI](https://img.shields.io/pypi/v/memorymarker.svg)][pypi status]
-[![Python Version](https://img.shields.io/pypi/pyversions/memorymarker)][pypi status]
-[![documentation](https://github.com/martinbernstorff/memorymarker/actions/workflows/documentation.yml/badge.svg)][documentation]
-[![Tests](https://github.com/martinbernstorff/memorymarker/actions/workflows/tests.yml/badge.svg)][tests]
-[![Black](https://img.shields.io/badge/code%20style-black-000000.svg)][black]
-
-[pypi status]: https://pypi.org/project/memorymarker/
-[documentation]: https://martinbernstorff.github.io/memorymarker/
-[tests]: https://github.com/martinbernstorff/memorymarker/actions?workflow=Tests
-[black]: https://github.com/psf/black
-
-
 <!-- start short-description -->
 
-TODO: Figure out github actions and add description
+Highlighting does not aid memory. Questions do. But they take time. MemoryMarker turns your highlights into questions, so you can maintain traction at speed.
+
+Specifically, it takes highlights from [Omnivore](https://www.omnivore.app/) and turns them into markdown questions.
+
+To supercharge this, you can even ingest these questions into [Anki](https://apps.ankiweb.net/) using [Memium](https://github.com/MartinBernstorff/Memium).
 
 <!-- end short-description -->
 
-## Installation
+## Setup
+
+A Docker image for Omnivore is continuously built and pushed to [ghcr.io/martinbernstorff/memorymarker](https://github.com/martinbernstorff/memorymarker/pkgs/container/memorymarker).
+
+1. Install [Docker](https://docs.docker.com/get-docker/) or [Orbstack](https://orbstack.dev/)
+
+2. Update the api keys in the compose file and run the container:
+
+```bash
+docker compose up -d
+```
 
 You can install `memorymarker` via [pip] from [PyPI]:
 
@@ -39,24 +41,23 @@ To see more examples, see the [documentation].
 
 # 📖 Documentation
 
-| Documentation         |                                                          |
-| --------------------- | -------------------------------------------------------- |
+| Documentation          |                                                          |
+| ---------------------- | -------------------------------------------------------- |
 | 🔧 **[Installation]**  | Installation instructions on how to install this package |
 | 📖 **[Documentation]** | A minimal and developing documentation                   |
 | 👩‍💻 **[Tutorials]**     | Tutorials for using this package                         |
 | 🎛️ **[API Reference]** | API reference for this package                           |
 | 📚 **[FAQ]**           | Frequently asked questions                               |
 
-
 # 💬 Where to ask questions
 
-| Type                           |                        |
-| ------------------------------ | ---------------------- |
+| Type                            |                        |
+| ------------------------------- | ---------------------- |
 | 📚 **FAQ**                      | [FAQ]                  |
 | 🚨 **Bug Reports**              | [GitHub Issue Tracker] |
 | 🎁 **Feature Requests & Ideas** | [GitHub Issue Tracker] |
 | 👩‍💻 **Usage Questions**          | [GitHub Discussions]   |
-| 🗯 **General Discussion**       | [GitHub Discussions]   |
+| 🗯 **General Discussion**        | [GitHub Discussions]   |
 
 [Documentation]: https://martinbernstorff.github.io/memorymarker/index.html
 [Installation]: https://martinbernstorff.github.io/memorymarker/installation.html
@@ -65,5 +66,3 @@ To see more examples, see the [documentation].
 [FAQ]: https://martinbernstorff.github.io/memorymarker/faq.html
 [github issue tracker]: https://github.com/martinbernstorff/memorymarker/issues
 [github discussions]: https://github.com/martinbernstorff/memorymarker/discussions
-
-

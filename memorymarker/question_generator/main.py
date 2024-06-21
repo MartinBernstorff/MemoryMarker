@@ -24,12 +24,10 @@ from memorymarker.question_generator.example_repo_airtable import (
 from memorymarker.question_generator.flows.question_flow import QuestionFlow
 from memorymarker.question_generator.pipeline_runner import run_pipelines
 from memorymarker.question_generator.qa_responses import QAResponses
-from memorymarker.question_generator.steps.qa_extractor import QuestionExtractionStep
-from memorymarker.question_generator.steps.qa_generation import QuestionGenerationStep
-from memorymarker.question_generator.steps.question_wikilinker import (
-    QuestionWikilinkerStep,
-)
-from memorymarker.question_generator.steps.reasoning import ReasoningStep
+from memorymarker.question_generator.steps.qa_extractor import QuestionExtractor
+from memorymarker.question_generator.steps.qa_generation import QuestionGenerator
+from memorymarker.question_generator.steps.question_wikilinker import QuestionWikilinker
+from memorymarker.question_generator.steps.reasoning import Reasoning
 
 if TYPE_CHECKING:
     from memorymarker.question_generator.reasoned_highlight import Highlights
@@ -44,7 +42,7 @@ class HighlightWithPipeline(PipelineHighlightIdentity):
 
     def identity(self) -> int:
         return self.pipeline_highlight_id(
-            self.pipeline.name, self.highlight.highlighted_text
+            self.pipeline.identity, self.highlight.highlighted_text
         )
 
 
@@ -130,20 +128,18 @@ async def main():
         grouped_highlights,
         [
             QuestionFlow(
-                _name="chunked_reasoning_with_wikilinks",
+                name="chunked_reasoning_with_wikilinks",
                 steps=(
-                    ReasoningStep(completer=base_completer),
-                    QuestionGenerationStep(
-                        completer=base_completer, n_questions=(1, 5)
-                    ),
-                    QuestionExtractionStep(
+                    Reasoning(completer=base_completer),
+                    QuestionGenerator(completer=base_completer, n_questions=(1, 5)),
+                    QuestionExtractor(
                         completer=OpenAIModelCompleter(
                             api_key=os.getenv("OPENAI_API_KEY", "No OPENAI_API"),
                             model="gpt-3.5-turbo",
                             response_model=QAResponses,  # type: ignore
                         )
                     ),
-                    QuestionWikilinkerStep(
+                    QuestionWikilinker(
                         completer=OpenAICompleter(
                             api_key=os.getenv("OPENAI_API_KEY", "No OPENAI_API"),
                             model="gpt-4-turbo-preview",

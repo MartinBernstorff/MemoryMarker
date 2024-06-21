@@ -1,0 +1,11 @@
+services:
+  memorymarker:
+    image: ghcr.io/martinbernstorff/memorymarker:latest
+    container_name: memorymarker
+    volumes:
+      - YOUR_OUTPUT_DIR:/output
+    environment:
+      - OMNIVORE_API_KEY=YOUR_API_KEY
+      - OPENAI_API_KEY=YOUR_API_KEY
+      - ANTHROPIC_API_KEY=YOUR_API_KEY
+    restart: unless-stopped

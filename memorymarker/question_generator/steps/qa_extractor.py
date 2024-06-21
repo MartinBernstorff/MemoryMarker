@@ -12,7 +12,7 @@ if TYPE_CHECKING:
 
 
 @dataclass(frozen=True)
-class QuestionExtractionStep(FlowStep):
+class QuestionExtractor(FlowStep):
     completer: "ModelCompleter"
 
     def identity(self) -> str:

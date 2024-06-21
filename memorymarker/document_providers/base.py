@@ -9,11 +9,13 @@ if TYPE_CHECKING:
 
     from memorymarker.question_generator.reasoned_highlight import Highlights
 
-    from .omnivore_document import OmnivoreDocument
+    from .omnivore import OmnivoreDocument
 
 
 @dataclass(frozen=True)
 class OrphanHighlight:
+    """Highlight without a source document"""
+
     highlight: str
     uri: str
     title: str

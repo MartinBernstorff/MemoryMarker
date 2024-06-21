@@ -13,7 +13,7 @@ sem = asyncio.Semaphore(4)
 
 @dataclass(frozen=True)
 class QuestionFlow:
-    _name: str
+    name: str
     steps: tuple["FlowStep"]
 
     async def _process_item(self, highlight: "Highlights") -> "Highlights":
@@ -21,7 +21,7 @@ class QuestionFlow:
         async with sem:
             for step in self.steps:
                 result = await step(highlight)
-        result.pipeline_name = self.name
+        result.pipeline_name = self.identity
         return result
 
     async def __call__(self, highlights: Iter["Highlights"]) -> Iter["Highlights"]:
@@ -32,6 +32,6 @@ class QuestionFlow:
         return Iter(results)
 
     @property
-    def name(self) -> str:
+    def identity(self) -> str:
         step_identites = "_".join(step.identity() for step in self.steps)
-        return f"{self._name}_{step_identites}"
+        return f"{self.name}_{step_identites}"

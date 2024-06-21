@@ -1,0 +1,7 @@
+services:
+  memorymarker:
+    image: ghcr.io/martinbernstorff/memorymarker:latest
+    container_name: memorymarker
+    volumes:
+      - "/Users/au484925/Library/Mobile Documents/iCloud~md~obsidian/Documents/life-lessons/Highlights:/output"
+    # restart: unless-stopped

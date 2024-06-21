@@ -20,8 +20,8 @@ async def run_pipeline(
 
 
 async def run_pipelines(pairs: Iter["HighlightWithPipeline"]) -> Iter["Highlights"]:
-    pipelinename2pipeline = {pair.pipeline.name: pair.pipeline for pair in pairs}
-    pipelines_with_highlights = pairs.groupby(lambda _: _.pipeline.name)
+    pipelinename2pipeline = {pair.pipeline.identity: pair.pipeline for pair in pairs}
+    pipelines_with_highlights = pairs.groupby(lambda _: _.pipeline.identity)
 
     examples = await asyncio.gather(
         *[

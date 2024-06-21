@@ -9,7 +9,7 @@ ENV RYE_INSTALL_OPTION="--yes"
 ENV RYE_TOOLCHAIN="/usr/local/bin/python"
 ENV RYE_VERSION=0.26.0
 
-RUN curl -sSf https://rye-up.com/get > /tmp/get-rye.sh
+RUN curl -sSf https://rye.astral.sh/get > /tmp/get-rye.sh
 RUN bash /tmp/get-rye.sh
 RUN rm /tmp/get-rye.sh
 RUN echo 'source "$HOME/.rye/env"' >> ~/.bashrc
@@ -20,3 +20,4 @@ RUN rye config --set default.dependency-operator="~="
 
 COPY . /app
 RUN make quicksync
+ENTRYPOINT ["python", "-m", "memorymarker"]
