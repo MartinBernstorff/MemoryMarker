@@ -63,13 +63,13 @@ class TimestampRepository:
 @app.command()  # type: ignore
 def typer_cli(
     omnivore_api_key: str = typer.Argument(
-        None, help="Omnivore API key", envvar="OMNIVORE_API_KEY"
+        help="Omnivore API key", envvar="OMNIVORE_API_KEY"
     ),
     openai_api_key: str = typer.Argument(
-        None, help="OpenAI API key", envvar="OPENAI_API_KEY"
+        help="OpenAI API key", envvar="OPENAI_API_KEY"
     ),
     anthropic_api_key: str = typer.Argument(
-        None, help="Anthropic API key", envvar="ANTHROPIC_API_KEY"
+        help="Anthropic API key", envvar="ANTHROPIC_API_KEY"
     ),
     output_dir: Path = typer.Argument(  # noqa: B008 # type: ignore
         Path("/output"),
@@ -79,7 +79,7 @@ def typer_cli(
         writable=True,
     ),
     max_n: int = typer.Argument(
-        100, help="Maximum number of questions in total", envvar="MAX_N"
+        help="Maximum number of questions in total", envvar="MAX_N"
     ),
     only_new: bool = typer.Option(
         True, help="Only generate questions from highlights since last run"

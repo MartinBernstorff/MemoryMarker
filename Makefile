@@ -51,10 +51,11 @@ docker_ci: ## Run all checks in docker
 docker-smoketest:
 	cp compose.sample.yml compose.smoketest.yml
 	sed -i '' 's|YOUR_OUTPUT_DIR|./output|g' compose.smoketest.yml
-	mkdir -p output
 
 	cp .env .env.smoketest
 	echo "MAX_N=1" >> .env.smoketest
+
+	mkdir -p output
 
 	docker build . -t ghcr.io/martinbernstorff/memorymarker:latest
 	docker compose -f compose.smoketest.yml --env-file .env.smoketest up

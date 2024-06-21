@@ -6,6 +6,7 @@ services:
       - OMNIVORE_API_KEY=${OMNIVORE_API_KEY}
       - OPENAI_API_KEY=${OPENAI_API_KEY}
       - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
+      - MAX_N=${MAX_N}
     volumes:
       - "/Users/au484925/Library/Mobile Documents/iCloud~md~obsidian/Documents/life-lessons/Highlights:/output"
     # restart: unless-stopped
